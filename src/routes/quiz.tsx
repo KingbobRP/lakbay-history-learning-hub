@@ -46,7 +46,7 @@ function QuizCenter() {
 }
 
 function Quiz({ term, onBack }: { term: number; onBack: () => void }) {
-  const qs = quizzes[term];
+  const qs = quizzes[term] ?? [];
   const { recordScore } = useProgress();
   const [answers, setAnswers] = useState<(number | null)[]>(() => qs.map(() => null));
   const [submitted, setSubmitted] = useState(false);
@@ -60,7 +60,7 @@ function Quiz({ term, onBack }: { term: number; onBack: () => void }) {
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       <button onClick={onBack} className="min-h-11 font-sans text-sm text-muted-foreground hover:text-primary">← All quizzes</button>
       <p className="eyebrow mt-4">Term {term} Quiz</p>
-      <h1 className="mt-2 text-3xl text-ink sm:text-4xl">{terms[term - 1].title}</h1>
+      <h1 className="mt-2 text-3xl text-ink sm:text-4xl">{terms[term - 1]?.title}</h1>
       {submitted ? (
         <div className="mt-6 border border-ink bg-card p-6" role="status">
           <p className="eyebrow">Your score</p>

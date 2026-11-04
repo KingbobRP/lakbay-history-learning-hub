@@ -6,8 +6,9 @@ import { searchLessons } from "@/routes/search";
 describe("Historia rules", () => {
   it("every quiz has exactly 10 questions with valid answers", () => {
     for (const t of [1, 2, 3]) {
-      expect(quizzes[t]).toHaveLength(10);
-      quizzes[t].forEach((q) => expect(q.choices[q.answer]).toBeDefined());
+      const qz = quizzes[t] ?? [];
+      expect(qz).toHaveLength(10);
+      qz.forEach((q) => expect(q.choices[q.answer]).toBeDefined());
     }
   });
   it("scores correct answers", () => {
