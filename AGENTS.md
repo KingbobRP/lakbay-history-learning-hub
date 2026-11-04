@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Course content (lessons, timeline, quizzes) lives in src/lib/historia-data.ts; student progress is stored in browser localStorage via src/lib/progress.ts — no backend needed.
