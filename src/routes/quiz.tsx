@@ -29,11 +29,11 @@ function QuizCenter() {
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
         <p className="eyebrow">Pagsusulit</p>
         <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Quiz Center</h1>
-        <p className="mt-3 text-muted-foreground">Choose a term. Each quiz has 10 multiple-choice questions.</p>
+        <p className="mt-3 text-muted-foreground">Pumili ng termino. Bawat pagsusulit ay may 10 tanong na multiple choice, agarang puna, at paliwanag.</p>
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {terms.map((t) => (
             <button key={t.id} onClick={() => navigate({ search: { term: t.id } })} className="border border-border bg-card p-5 text-left hover:border-primary">
-              <p className="eyebrow">Term {t.id}</p>
+              <p className="eyebrow">Termino {t.id}</p>
               <p className="mt-2 font-display text-xl text-ink">{t.title}</p>
               <p className="mt-3 font-sans text-sm text-muted-foreground">{progress.scores[t.id] ? `Best score: ${progress.scores[t.id]?.best}/10` : "Not yet taken"}</p>
             </button>
@@ -59,14 +59,14 @@ function Quiz({ term, onBack }: { term: number; onBack: () => void }) {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
       <button onClick={onBack} className="min-h-11 font-sans text-sm text-muted-foreground hover:text-primary">← All quizzes</button>
-      <p className="eyebrow mt-4">Term {term} Quiz</p>
+      <p className="eyebrow mt-4">Termino {term} · Pagsusulit</p>
       <h1 className="mt-2 text-3xl text-ink sm:text-4xl">{terms[term - 1]?.title}</h1>
       {submitted ? (
         <div className="mt-6 border border-ink bg-card p-6" role="status">
           <p className="eyebrow">Your score</p>
           <p className="mt-1 font-display text-5xl text-ink" data-testid="score">{score}/10</p>
-          <p className="mt-2 text-muted-foreground">{score >= 8 ? "Mahusay! Excellent understanding." : score >= 5 ? "Magaling — review the explanations below." : "Keep studying — revisit this term's lessons."}</p>
-          <button onClick={retake} className="mt-4 min-h-11 rounded-sm bg-primary px-5 font-sans text-sm font-medium text-primary-foreground">Retake quiz</button>
+          <p className="mt-2 text-muted-foreground">{score >= 8 ? "Mahusay! Malalim ang iyong pag-unawa." : score >= 5 ? "Magaling — balikan ang mga paliwanag sa ibaba." : "Ipagpatuloy ang pag-aaral — balikan ang mga aralin ng terminong ito."}</p>
+          <button onClick={retake} className="mt-4 min-h-11 rounded-sm bg-primary px-5 font-sans text-sm font-medium text-primary-foreground">Ulitin ang pagsusulit</button>
         </div>
       ) : (
         <p className="mt-3 font-sans text-sm text-muted-foreground">{answered} of 10 answered</p>
@@ -96,7 +96,7 @@ function Quiz({ term, onBack }: { term: number; onBack: () => void }) {
               </div>
               {picked !== null && (
                 <p className={`mt-3 font-sans text-sm ${picked === q.answer ? "text-success" : "text-destructive"}`}>
-                  <strong>{picked === q.answer ? "Correct." : `Incorrect — the answer is ${String.fromCharCode(65 + q.answer)}.`}</strong> <span className="text-foreground">{q.explain}</span>
+                  <strong>{picked === q.answer ? "Tama." : `Mali — ang tamang sagot ay ${String.fromCharCode(65 + q.answer)}.`}</strong> <span className="text-foreground">{q.explain}</span>
                 </p>
               )}
             </li>

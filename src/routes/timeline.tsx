@@ -5,7 +5,7 @@ export const Route = createFileRoute("/timeline")({
   head: () => ({
     meta: [
       { title: "Historical Timeline — Historia" },
-      { name: "description", content: "A chronological timeline of Philippine history from prehistory to EDSA 1986." },
+      { name: "description", content: "Kronolohikal na timeline ng kasaysayang Pilipino na nakaugnay sa mga aralin ng Baitang 11." },
       { property: "og:title", content: "Historical Timeline — Historia" },
       { property: "og:description", content: "Key dates and events in Philippine history." },
     ],
@@ -18,11 +18,11 @@ function Timeline() {
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Talaan ng Panahon</p>
       <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Historical Timeline</h1>
-      <p className="mt-3 max-w-2xl text-muted-foreground">Fourteen milestones in the making of the Filipino nation.</p>
-      <ol className="relative mt-12 border-l-2 border-ink/70 pl-6 sm:pl-10">
+      <p className="mt-3 max-w-2xl text-muted-foreground">Mahahalagang yugto sa pagbuo ng kamalayan at lipunang Pilipino — bawat isa ay nakaugnay sa isang aralin.</p>
+      <ol className="relative mt-12 border-l-2 border-primary/60 pl-6 sm:pl-10">
         {timeline.map((e) => (
           <li key={e.year + e.title} className="relative mb-12">
-            <span className="absolute -left-[33px] top-2 h-4 w-4 rounded-full border-2 border-ink bg-accent sm:-left-[49px]" aria-hidden />
+            <span className="absolute -left-[33px] top-2 h-4 w-4 rounded-full border-2 border-primary bg-accent sm:-left-[49px]" aria-hidden />
             <p className="font-display text-2xl text-primary">{e.year}</p>
             <h2 className="mt-1 text-xl text-ink">{e.title}</h2>
             <p className="mt-2 leading-relaxed">{e.text}</p>
@@ -32,7 +32,7 @@ function Timeline() {
                 <figcaption className="mt-2 font-sans text-xs text-muted-foreground">{e.caption}</figcaption>
               </figure>
             )}
-            {e.lesson && <Link to="/lessons/$lessonId" params={{ lessonId: e.lesson }} className="mt-3 inline-flex min-h-11 items-center font-sans text-sm text-primary underline underline-offset-4">Read the lesson →</Link>}
+            {e.lesson && <Link to="/lessons/$lessonId" params={{ lessonId: e.lesson }} className="mt-3 inline-flex min-h-11 items-center font-sans text-sm text-primary underline underline-offset-4">Basahin ang kaugnay na aralin →</Link>}
           </li>
         ))}
       </ol>

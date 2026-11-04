@@ -62,6 +62,7 @@
   --border: #D9CFBB;
   --input: #D9CFBB;
   --ring: #B49A5A;
+  --gold-deep: #7D6633;
 }
 
 @layer base {
@@ -83,7 +84,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--gold-deep);
   font-weight: 600;
 }
 @utility photo {
