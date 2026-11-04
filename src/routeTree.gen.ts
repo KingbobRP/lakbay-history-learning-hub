@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as LessonsLessonIdRouteImport } from './routes/lessons.$lessonId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TimelineRoute = TimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LessonsLessonIdRoute = LessonsLessonIdRouteImport.update({
+  id: '/lessons/$lessonId',
+  path: '/lessons/$lessonId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/progress': typeof ProgressRoute
+  '/quiz': typeof QuizRoute
+  '/search': typeof SearchRoute
+  '/timeline': typeof TimelineRoute
+  '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/progress': typeof ProgressRoute
+  '/quiz': typeof QuizRoute
+  '/search': typeof SearchRoute
+  '/timeline': typeof TimelineRoute
+  '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/progress': typeof ProgressRoute
+  '/quiz': typeof QuizRoute
+  '/search': typeof SearchRoute
+  '/timeline': typeof TimelineRoute
+  '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/progress'
+    | '/quiz'
+    | '/search'
+    | '/timeline'
+    | '/lessons/$lessonId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/progress'
+    | '/quiz'
+    | '/search'
+    | '/timeline'
+    | '/lessons/$lessonId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/progress'
+    | '/quiz'
+    | '/search'
+    | '/timeline'
+    | '/lessons/$lessonId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ProgressRoute: typeof ProgressRoute
+  QuizRoute: typeof QuizRoute
+  SearchRoute: typeof SearchRoute
+  TimelineRoute: typeof TimelineRoute
+  LessonsLessonIdRoute: typeof LessonsLessonIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/timeline': {
+      id: '/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lessons/$lessonId': {
+      id: '/lessons/$lessonId'
+      path: '/lessons/$lessonId'
+      fullPath: '/lessons/$lessonId'
+      preLoaderRoute: typeof LessonsLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ProgressRoute: ProgressRoute,
+  QuizRoute: QuizRoute,
+  SearchRoute: SearchRoute,
+  TimelineRoute: TimelineRoute,
+  LessonsLessonIdRoute: LessonsLessonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
