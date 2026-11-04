@@ -14,14 +14,16 @@ describe("Historia rules", () => {
   it("scores correct answers", () => {
     expect(scoreQuiz([0, 1, null, 2], [0, 1, 1, 3])).toBe(2);
   });
-  it("has three terms of four weeks", () => {
-    expect(lessons).toHaveLength(12);
+  it("follows the Budget of Work weekly distribution", () => {
+    expect(lessons.filter((l) => l.term === 1).map((l) => l.weeks)).toEqual(["1–2", "3–4", "5–6", "7–8", "9–10"]);
+    expect(lessons.filter((l) => l.term === 2).map((l) => l.weeks)).toEqual(["1", "2–3", "4–5", "6–7", "8–9", "10"]);
+    expect(lessons.filter((l) => l.term === 3).map((l) => l.weeks)).toEqual(["1", "2", "3", "4", "5–6", "7–8", "9", "10"]);
     expect(new Set(lessons.map((l) => l.term)).size).toBe(3);
   });
   it("timeline is linked to existing lessons", () => {
     timeline.forEach((e) => e.lesson && expect(lessons.some((l) => l.id === e.lesson)).toBe(true));
   });
   it("search finds by keyword", () => {
-    expect(searchLessons("rizal").map((l) => l.id)).toContain("t2-w3");
+    expect(searchLessons("rizal").map((l) => l.id)).toContain("t2-w4");
   });
 });

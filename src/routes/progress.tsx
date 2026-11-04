@@ -34,14 +34,14 @@ function ProgressPage() {
         return (
           <section key={t.id} className="mt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pb-2">
-              <h2 className="text-2xl text-ink">Term {t.id}: {t.title}</h2>
+              <h2 className="text-2xl text-ink">Termino {t.id}: {t.title}</h2>
               <span className="font-sans text-sm text-muted-foreground">{s ? `Quiz best ${s.best}/10 · last ${s.last}/10 · ${s.attempts} attempt(s)` : "Quiz not taken"}</span>
             </div>
             <ul className="mt-2">
               {lessons.filter((l) => l.term === t.id).map((l) => (
                 <li key={l.id} className="flex items-center justify-between gap-3 border-b border-border py-3">
-                  <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="text-ink hover:text-primary">Week {l.week} · {l.title}</Link>
-                  <span className={`shrink-0 font-sans text-xs ${progress.completed.includes(l.id) ? "text-success" : "text-muted-foreground"}`}>{progress.completed.includes(l.id) ? "Completed" : "Unfinished"}</span>
+                  <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="text-ink hover:text-primary">Linggo {l.weeks} · {l.title}</Link>
+                  <span className={`shrink-0 font-sans text-xs ${progress.completed.includes(l.id) ? "text-success" : "text-muted-foreground"}`}>{progress.completed.includes(l.id) ? "Tapos na" : "Hindi pa tapos"}</span>
                 </li>
               ))}
             </ul>

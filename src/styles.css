@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Fraunces", Georgia, serif;
-  --font-serif: "Source Serif 4", Georgia, serif;
-  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: var(--radius);
@@ -38,30 +38,31 @@
 }
 
 :root {
-  --radius: 0.25rem;
-  --background: oklch(0.965 0.018 85);
-  --foreground: oklch(0.22 0.02 50);
-  --card: oklch(0.985 0.012 85);
-  --card-foreground: oklch(0.22 0.02 50);
-  --popover: oklch(0.985 0.012 85);
-  --popover-foreground: oklch(0.22 0.02 50);
-  --primary: oklch(0.42 0.13 28);
-  --primary-foreground: oklch(0.97 0.015 85);
-  --secondary: oklch(0.92 0.025 80);
-  --secondary-foreground: oklch(0.25 0.02 50);
-  --muted: oklch(0.93 0.02 82);
-  --muted-foreground: oklch(0.47 0.025 60);
-  --accent: oklch(0.7 0.12 75);
-  --accent-foreground: oklch(0.2 0.02 50);
-  --destructive: oklch(0.5 0.18 27);
-  --destructive-foreground: oklch(0.97 0.01 85);
-  --success: oklch(0.45 0.09 150);
-  --success-foreground: oklch(0.97 0.01 85);
-  --ink: oklch(0.2 0.02 50);
-  --parchment: oklch(0.95 0.025 82);
-  --border: oklch(0.84 0.03 75);
-  --input: oklch(0.84 0.03 75);
-  --ring: oklch(0.42 0.13 28);
+  --radius: 0px;
+  --background: #F5F1E8;
+  --foreground: #292929;
+  --card: #FBF8F1;
+  --card-foreground: #292929;
+  --popover: #FBF8F1;
+  --popover-foreground: #292929;
+  --primary: #263C32;
+  --primary-foreground: #F5F1E8;
+  --secondary: #ECE5D6;
+  --secondary-foreground: #292929;
+  --muted: #EAE3D3;
+  --muted-foreground: #786B5B;
+  --accent: #B49A5A;
+  --accent-foreground: #292929;
+  --destructive: #8E3B2E;
+  --destructive-foreground: #F5F1E8;
+  --success: #3E6B4F;
+  --success-foreground: #F5F1E8;
+  --ink: #263C32;
+  --parchment: #EFE8D8;
+  --border: #D9CFBB;
+  --input: #D9CFBB;
+  --ring: #B49A5A;
+  --gold-deep: #7D6633;
 }
 
 @layer base {
@@ -70,10 +71,12 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
     overflow-x: hidden;
   }
-  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.005em; color: var(--color-ink); line-height: 1.12; }
 }
 
 @utility eyebrow {
@@ -81,11 +84,11 @@
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--gold-deep);
   font-weight: 600;
 }
 @utility photo {
-  filter: sepia(0.15) contrast(1.02);
+  filter: sepia(0.12) contrast(1.03);
   border: 1px solid var(--color-border);
   box-shadow: 0 1px 0 var(--color-card), 0 12px 30px -18px color-mix(in oklab, var(--ink) 50%, transparent);
 }

@@ -1,92 +1,74 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { CheckCircle2, Circle } from "lucide-react";
 import { images, lessons, terms } from "@/lib/historia-data";
-import { useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Historia — Grade 11 Learning Dashboard" },
-      { name: "description", content: "Study Pag-aaral ng Kasaysayan at Lipunang Pilipino week by week across three terms." },
-      { property: "og:title", content: "Historia — Grade 11 Learning Dashboard" },
-      { property: "og:description", content: "Weekly lessons, timeline, and quizzes on Philippine history." },
+      { title: "HISTORIA: Kasaysayan, Kultura, at Pagkakakilanlan" },
+      { name: "description", content: "Digital learning platform para sa Grade 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino, batay sa tatlong termino ng DepEd." },
+      { property: "og:title", content: "HISTORIA: Kasaysayan, Kultura, at Pagkakakilanlan" },
+      { property: "og:description", content: "Mga aralin, timeline, at pagsusulit para sa Baitang 11 Kasaysayan at Lipunang Pilipino." },
     ],
   }),
-  component: Dashboard,
+  component: Home,
 });
 
-function Dashboard() {
-  const { progress, percent } = useProgress();
-  const [term, setTerm] = useState(1);
-  const t = terms.find((x) => x.id === term)!;
-  const list = lessons.filter((l) => l.term === term);
-  const next = lessons.find((l) => !progress.completed.includes(l.id));
-
+function Home() {
   return (
     <div>
-      <section className="relative overflow-hidden border-b border-border">
-        <img src={images.intramuros} alt="Intramuros walls and church, archival-style photograph" width={1600} height={912} className="absolute inset-0 h-full w-full object-cover opacity-25" />
-        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-          <p className="eyebrow">Baitang 11 · Pag-aaral ng Kasaysayan at Lipunang Pilipino</p>
-          <h1 className="mt-4 max-w-3xl text-4xl leading-[1.05] text-ink sm:text-6xl">Ang nakaraan bilang <em className="text-primary">aral</em> at salamin ng bayan.</h1>
-          <p className="mt-5 max-w-xl text-lg text-muted-foreground">Twelve weekly lessons across three terms — read, reflect, and test your understanding.</p>
-          <div className="mt-8 flex flex-wrap gap-3 font-sans">
-            {next && <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="inline-flex min-h-11 items-center rounded-sm bg-primary px-5 text-sm font-medium text-primary-foreground hover:opacity-90">Continue: {next.english}</Link>}
-            <Link to="/timeline" className="inline-flex min-h-11 items-center rounded-sm border border-ink px-5 text-sm font-medium text-ink hover:bg-card">Explore the timeline</Link>
+      <section className="border-b border-border">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.1fr_1fr] md:items-center md:py-20">
+          <div>
+            <p className="eyebrow">Baitang 11 · Pag-aaral ng Kasaysayan at Lipunang Pilipino</p>
+            <h1 className="mt-5 text-[2.6rem] sm:text-6xl">HISTORIA: <span className="italic">Kasaysayan, Kultura, at Pagkakakilanlan</span></h1>
+            <div className="mt-6 h-px w-20 bg-accent" />
+            <p className="mt-6 max-w-xl text-lg text-foreground">Isang digital learning platform na naglalayong palalimin ang pag-unawa ng mga mag-aaral sa kasaysayan, kultura, pakikibaka, at pagkamamamayan ng mga Pilipino.</p>
+            <div className="mt-8 flex flex-col gap-3 font-sans sm:flex-row">
+              <Link to="/dashboard" className="inline-flex min-h-12 items-center justify-center bg-primary px-6 text-sm font-semibold uppercase tracking-[0.12em] text-primary-foreground hover:bg-primary/90">Start Learning</Link>
+              <Link to="/curriculum" className="inline-flex min-h-12 items-center justify-center border border-primary px-6 text-sm font-semibold uppercase tracking-[0.12em] text-primary hover:bg-card">Explore the Curriculum</Link>
+            </div>
           </div>
+          <figure>
+            <img src={images.terraces} alt="Mga magsasakang naglalakad sa hagdan-hagdang palayan ng Kordilyera" width={1600} height={1008} className="photo aspect-[4/3] w-full object-cover" />
+            <figcaption className="mt-3 border-l-2 border-accent pl-3 font-sans text-xs text-muted-foreground">Hagdan-hagdang palayan ng Kordilyera — pamana ng kaalaman, pagtutulungan, at pag-angkop sa kalikasan.</figcaption>
+          </figure>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div className="flex flex-col gap-3 border border-border bg-card p-5 sm:flex-row sm:items-center sm:justify-between">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <div className="flex flex-col justify-between gap-4 border-b border-primary pb-4 sm:flex-row sm:items-end">
           <div>
-            <p className="eyebrow">Learning progress</p>
-            <p className="mt-1 font-display text-2xl text-ink">{progress.completed.length} of {lessons.length} lessons completed</p>
+            <p className="eyebrow">Ang Kurikulum</p>
+            <h2 className="mt-2 text-4xl">Tatlong Termino ng Pag-aaral</h2>
           </div>
-          <div className="w-full sm:w-72">
-            <div className="h-2 w-full bg-muted" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}><div className="h-2 bg-primary transition-all" style={{ width: `${percent}%` }} /></div>
-            <p className="mt-1 text-right font-sans text-xs text-muted-foreground">{percent}%</p>
-          </div>
+          <p className="max-w-md font-sans text-sm text-muted-foreground">Inayos ayon sa DepEd Three-Term Budget of Work — {lessons.length} aralin sa loob ng 30 linggo.</p>
         </div>
-
-        <div className="mt-10 grid grid-cols-3 border-b border-border font-sans" role="tablist">
-          {terms.map((x) => {
-            const done = lessons.filter((l) => l.term === x.id && progress.completed.includes(l.id)).length;
-            return (
-              <button key={x.id} role="tab" aria-selected={term === x.id} onClick={() => setTerm(x.id)} className={`min-h-14 border-b-2 px-2 py-3 text-left text-sm ${term === x.id ? "border-primary text-ink" : "border-transparent text-muted-foreground"}`}>
-                <span className="block text-[0.65rem] uppercase tracking-[0.15em]">Term {x.id}</span>
-                <span className="hidden sm:block">{x.name}</span>
-                <span className="block text-xs text-muted-foreground">{done}/4 done</span>
-              </button>
-            );
-          })}
+        <div className="grid md:grid-cols-3">
+          {terms.map((t, i) => (
+            <article key={t.id} className={`py-8 md:px-6 ${i > 0 ? "border-t border-border md:border-l md:border-t-0" : "md:pl-0"}`}>
+              <img src={t.image} alt={t.title} loading="lazy" width={1600} height={1008} className="photo aspect-[3/2] w-full object-cover" />
+              <p className="eyebrow mt-5">{t.name}</p>
+              <h3 className="mt-2 text-2xl">{t.title}</h3>
+              <p className="mt-3 text-[0.98rem] text-muted-foreground">{t.blurb}</p>
+              <Link to="/curriculum" hash={`term-${t.id}`} className="mt-4 inline-flex min-h-11 items-center font-sans text-sm font-semibold text-primary underline decoration-accent underline-offset-4">Tingnan ang mga aralin →</Link>
+            </article>
+          ))}
         </div>
+      </section>
 
-        <div className="mt-8 grid gap-8 md:grid-cols-[1fr_1.4fr]">
-          <div>
-            <img src={t.image} alt={t.title} loading="lazy" width={1200} height={800} className="photo aspect-[4/3] w-full object-cover" />
-            <p className="eyebrow mt-5">{t.period}</p>
-            <h2 className="mt-2 text-3xl text-ink">{t.title}</h2>
-            <p className="mt-3 text-muted-foreground">{t.blurb}</p>
-          </div>
-          <ol className="divide-y divide-border border-y border-border">
-            {list.map((l) => {
-              const done = progress.completed.includes(l.id);
-              return (
-                <li key={l.id}>
-                  <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="flex items-start gap-4 py-5 hover:bg-card">
-                    <span className="w-14 shrink-0 font-sans text-xs uppercase tracking-widest text-muted-foreground">Week {l.week}</span>
-                    <span className="flex-1">
-                      <span className="block font-display text-xl text-ink">{l.title}</span>
-                      <span className="block text-sm italic text-muted-foreground">{l.english}</span>
-                    </span>
-                    {done ? <CheckCircle2 className="h-5 w-5 shrink-0 text-success" aria-label="Completed" /> : <Circle className="h-5 w-5 shrink-0 text-border" aria-label="Not yet completed" />}
-                  </Link>
-                </li>
-              );
-            })}
-          </ol>
+      <section className="border-y border-border bg-card">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
+          {[
+            ["Mga Aralin", "Bawat linggo ay may layunin, paliwanag, halimbawa, at maikling pagtataya.", "/dashboard"],
+            ["Timeline", "Mahahalagang petsa mula sinaunang panahon hanggang kasalukuyan.", "/timeline"],
+            ["Quiz Center", "Sampung tanong bawat termino na may agarang puna at paliwanag.", "/quiz"],
+            ["Progress", "Itala ang natapos na aralin at iskor sa pagsusulit.", "/progress"],
+          ].map(([h, d, to]) => (
+            <Link key={h} to={to as "/dashboard"} className="block border-t-2 border-accent pt-4 hover:bg-background">
+              <h3 className="text-xl">{h}</h3>
+              <p className="mt-2 font-sans text-sm text-muted-foreground">{d}</p>
+            </Link>
+          ))}
         </div>
       </section>
     </div>
