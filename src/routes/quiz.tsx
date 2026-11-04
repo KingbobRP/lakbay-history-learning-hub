@@ -5,7 +5,7 @@ import { scoreQuiz, useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/quiz")({
   validateSearch: (s: Record<string, unknown>): { term?: number } => {
-    const n = Number(s.term);
+    const n = Number(s["term"]);
     return n >= 1 && n <= 3 ? { term: n } : {};
   },
   head: () => ({
@@ -35,7 +35,7 @@ function QuizCenter() {
             <button key={t.id} onClick={() => navigate({ search: { term: t.id } })} className="border border-border bg-card p-5 text-left hover:border-primary">
               <p className="eyebrow">Term {t.id}</p>
               <p className="mt-2 font-display text-xl text-ink">{t.title}</p>
-              <p className="mt-3 font-sans text-sm text-muted-foreground">{progress.scores[t.id] ? `Best score: ${progress.scores[t.id].best}/10` : "Not yet taken"}</p>
+              <p className="mt-3 font-sans text-sm text-muted-foreground">{progress.scores[t.id] ? `Best score: ${progress.scores[t.id]?.best}/10` : "Not yet taken"}</p>
             </button>
           ))}
         </div>
