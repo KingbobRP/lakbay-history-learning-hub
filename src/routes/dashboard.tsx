@@ -11,6 +11,8 @@ export const Route = createFileRoute("/dashboard")({
       { name: "description", content: "Lingguhang aralin sa tatlong termino, may tala ng natapos at hindi pa natatapos." },
       { property: "og:title", content: "Learning Dashboard — HISTORIA" },
       { property: "og:description", content: "Subaybayan ang iyong pag-aaral sa Baitang 11 Kasaysayan at Lipunang Pilipino." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Dashboard,

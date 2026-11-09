@@ -29,7 +29,7 @@ function Home() {
     <div className="home-page">
       <section className="home-cover relative overflow-hidden bg-cover text-cover-foreground">
         <img src={images.terraces} alt="Mga magsasakang naglalakad sa hagdan-hagdang palayan ng Kordilyera" width={1600} height={1008} className="cover-image" fetchPriority="high" />
-        <div className="mx-auto max-w-6xl px-5 pb-9 pt-12 sm:px-8 sm:pb-10 sm:pt-16 lg:pt-20">
+        <div className="mx-auto max-w-6xl px-5 pb-6 pt-8 sm:px-8 sm:pb-10 sm:pt-16 lg:pt-20">
           <div className="flex items-center gap-3 font-sans text-xs font-semibold uppercase sm:text-sm">
             <span className="h-px w-8 bg-accent" />
             <span className="text-cover-muted">Baitang 11 · Kasaysayan at Lipunang Pilipino</span>
@@ -40,7 +40,7 @@ function Home() {
             <Button asChild size="lg" className="h-12 bg-accent px-5 font-semibold text-accent-foreground shadow-none hover:bg-accent/90"><Link to="/dashboard">Start Learning <ArrowRight /></Link></Button>
             <Button asChild variant="outline" size="lg" className="h-12 border-cover-foreground/40 bg-transparent px-5 text-cover-foreground shadow-none hover:bg-cover-foreground/10 hover:text-cover-foreground"><Link to="/curriculum">Explore the Curriculum <ArrowUpRight /></Link></Button>
           </div>
-          <div className="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cover-foreground/20 pt-5 sm:mt-14">
+          <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-cover-foreground/20 pt-4 sm:mt-14 sm:pt-5">
             <p className="font-sans text-xs text-cover-muted">03 Termino <span className="mx-3 text-accent">/</span> {String(lessons.length).padStart(2, "0")} Aralin <span className="mx-3 text-accent">/</span> 30 Linggo</p>
             <p className="font-sans text-xs italic text-cover-muted">Kordilyera, Pilipinas · Archival-style na ilustrasyon</p>
           </div>

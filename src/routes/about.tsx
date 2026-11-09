@@ -8,6 +8,8 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "Layunin, mithiing pang-edukasyon, at mga gagamit ng HISTORIA, ang digital learning platform para sa Baitang 11." },
       { property: "og:title", content: "Tungkol sa HISTORIA" },
       { property: "og:description", content: "Bakit binuo ang HISTORIA at para kanino ito." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: About,

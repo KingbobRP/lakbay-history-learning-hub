@@ -14,6 +14,8 @@ export const Route = createFileRoute("/quiz")({
       { name: "description", content: "Ten-question quizzes for each term with instant feedback and explanations." },
       { property: "og:title", content: "Quiz Center — Historia" },
       { property: "og:description", content: "Test your knowledge of Philippine history." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: QuizCenter,

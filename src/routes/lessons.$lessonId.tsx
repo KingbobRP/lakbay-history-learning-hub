@@ -16,6 +16,8 @@ export const Route = createFileRoute("/lessons/$lessonId")({
           { name: "description", content: loaderData.lesson.summary },
           { property: "og:title", content: `${loaderData.lesson.title} — HISTORIA` },
           { property: "og:description", content: loaderData.lesson.summary },
+          { property: "og:type", content: "article" },
+          { name: "twitter:card", content: "summary_large_image" },
         ]
       : [{ title: "Aralin — HISTORIA" }, { name: "robots", content: "noindex" }],
   }),
