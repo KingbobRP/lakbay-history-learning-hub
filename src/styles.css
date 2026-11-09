@@ -35,6 +35,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-cover: var(--cover);
+  --color-cover-foreground: var(--cover-foreground);
+  --color-cover-muted: var(--cover-muted);
 }
 
 :root {
@@ -63,6 +66,11 @@
   --input: #D9CFBB;
   --ring: #B49A5A;
   --gold-deep: #7D6633;
+  --cover: oklch(0.21 0.025 158);
+  --cover-foreground: oklch(0.98 0.01 85);
+  --cover-muted: oklch(0.85 0.025 85);
+  --cover-shade: linear-gradient(90deg, color-mix(in oklab, var(--cover) 92%, transparent), color-mix(in oklab, var(--cover) 65%, transparent) 48%, color-mix(in oklab, var(--cover) 12%, transparent));
+  --header-shadow: 0 4px 24px color-mix(in oklab, var(--primary) 8%, transparent);
 }
 
 @layer base {
@@ -76,7 +84,31 @@
     line-height: 1.65;
     overflow-x: hidden;
   }
-  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.005em; color: var(--color-ink); line-height: 1.12; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: 0; color: var(--color-ink); line-height: 1.12; overflow-wrap: break-word; }
+  ::selection { background: var(--accent); color: var(--primary); }
+  a, button { -webkit-tap-highlight-color: transparent; }
+  a:focus-visible { outline: 2px solid var(--ring); outline-offset: 5px; }
+  main > div:not(.home-page), main > article { animation: page-enter 400ms ease-out both; }
+  main > article > h1 { text-wrap: balance; }
+  main > article > figure { margin-bottom: 2.5rem; }
+  main > article > figure img { border-radius: 2px; }
+}
+
+.site-header { box-shadow: var(--header-shadow); }
+.home-cover { isolation: isolate; }
+.home-cover::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--cover-shade); }
+.cover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 60%; z-index: -2; }
+.home-cover h1 { color: var(--cover-foreground); }
+.term-image { transition: transform 600ms ease; }
+.term-item:hover .term-image { transform: scale(1.035); }
+.section-number { font-size: 4.5rem; line-height: 1; font-family: var(--font-display); color: var(--accent); }
+@keyframes page-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 639px) {
+  :root { --cover-shade: linear-gradient(90deg, color-mix(in oklab, var(--cover) 86%, transparent), color-mix(in oklab, var(--cover) 52%, transparent)); }
+  .cover-image { object-position: 60% center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
 
 @utility eyebrow {

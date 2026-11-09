@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -16,10 +17,10 @@ const nav = [
 export function Logo() {
   return (
     <span className="flex items-center gap-3">
-      <span aria-hidden className="flex h-10 w-10 items-center justify-center border border-accent font-display text-xl font-semibold text-primary-foreground">H</span>
+      <span aria-hidden className="flex h-10 w-10 items-center justify-center border border-accent font-display text-2xl italic text-accent">H</span>
       <span className="leading-none">
-        <span className="block font-display text-2xl font-semibold tracking-[0.14em] text-primary-foreground">HISTORIA</span>
-        <span className="mt-1 hidden font-sans text-[0.62rem] uppercase tracking-[0.22em] text-accent sm:block">Kasaysayan at Lipunang Pilipino · Baitang 11</span>
+        <span className="block font-display text-2xl font-semibold text-primary-foreground">HISTORIA</span>
+        <span className="mt-1 block font-sans text-[0.6rem] uppercase text-accent">Kasaysayan at Lipunang Pilipino</span>
       </span>
     </span>
   );
@@ -28,17 +29,17 @@ export function Logo() {
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 bg-primary">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <header className="site-header sticky top-0 z-40 bg-primary">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
         <Link to="/" aria-label="HISTORIA — Home" onClick={() => setOpen(false)}><Logo /></Link>
         <nav className="hidden items-center font-sans text-sm xl:flex" aria-label="Main">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="border-b border-transparent px-3 py-2 text-primary-foreground/80 hover:text-primary-foreground" activeProps={{ className: "!border-accent !text-primary-foreground" }}>{n.label}</Link>
+            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="border-b border-transparent px-2.5 py-2 text-primary-foreground/70 transition-colors hover:text-primary-foreground" activeProps={{ className: "!border-accent !text-primary-foreground" }}>{n.label}</Link>
           ))}
         </nav>
-        <button className="inline-flex h-11 w-11 items-center justify-center border border-primary-foreground/30 text-primary-foreground xl:hidden" aria-label={open ? "Isara ang menu" : "Buksan ang menu"} aria-expanded={open} onClick={() => setOpen(!open)}>
+        <Button variant="ghost" size="icon" className="h-11 w-11 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground xl:hidden" aria-label={open ? "Isara ang menu" : "Buksan ang menu"} aria-expanded={open} onClick={() => setOpen(!open)}>
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        </Button>
       </div>
       <div className="h-px bg-accent/60" />
       {open && (
@@ -54,7 +55,7 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 bg-primary text-primary-foreground">
+    <footer className="mt-16 border-t-2 border-accent bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 font-sans text-sm sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <Logo />
@@ -73,6 +74,7 @@ export function SiteFooter() {
           <p className="mt-3 text-primary-foreground/70">Ang mga paksa bawat linggo ay batay sa DepEd Three-Term Budget of Work. Ang mga paliwanag at halimbawa ay karagdagang materyal ng HISTORIA. Ang mga larawan ay archival-style na ilustrasyon.</p>
         </div>
       </div>
+      <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-2 border-t border-primary-foreground/15 px-5 py-5 font-sans text-xs text-primary-foreground/60 sm:px-6"><span>HISTORIA · Kasaysayan, Kultura, at Pagkakakilanlan</span><span>Baitang 11</span></div>
     </footer>
   );
 }

@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Course content (lessons, timeline, quizzes) lives in src/lib/historia-data.ts; student progress is stored in browser localStorage via src/lib/progress.ts — no backend needed.
+- Shared visual roles and editorial page styles are defined in src/styles.css; page controls use the existing Button component to keep presentation consistent.
