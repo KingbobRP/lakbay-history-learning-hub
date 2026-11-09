@@ -9,6 +9,8 @@ export const Route = createFileRoute("/progress")({
       { name: "description", content: "Track completed lessons and quiz scores." },
       { property: "og:title", content: "Student Progress — Historia" },
       { property: "og:description", content: "Your learning record in Historia." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ProgressPage,

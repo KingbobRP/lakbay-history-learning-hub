@@ -8,6 +8,8 @@ export const Route = createFileRoute("/timeline")({
       { name: "description", content: "Kronolohikal na timeline ng kasaysayang Pilipino na nakaugnay sa mga aralin ng Baitang 11." },
       { property: "og:title", content: "Historical Timeline — Historia" },
       { property: "og:description", content: "Key dates and events in Philippine history." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Timeline,

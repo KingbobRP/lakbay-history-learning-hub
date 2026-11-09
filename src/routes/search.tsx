@@ -9,6 +9,8 @@ export const Route = createFileRoute("/search")({
       { name: "description", content: "Search lessons by title, topic or keyword." },
       { property: "og:title", content: "Search Lessons — Historia" },
       { property: "og:description", content: "Find any Historia lesson quickly." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: SearchPage,

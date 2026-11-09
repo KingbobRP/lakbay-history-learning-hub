@@ -8,6 +8,8 @@ export const Route = createFileRoute("/curriculum")({
       { name: "description", content: "Ang tatlong termino at lingguhang paksa ng Grade 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino ayon sa DepEd Budget of Work." },
       { property: "og:title", content: "Kurikulum — HISTORIA" },
       { property: "og:description", content: "Tatlong termino, lingguhang paksa, batay sa DepEd Three-Term Budget of Work." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Curriculum,
