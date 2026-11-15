@@ -11,3 +11,4 @@
 
 - Course content (lessons, timeline, quizzes) lives in src/lib/historia-data.ts; student progress is stored in browser localStorage via src/lib/progress.ts — no backend needed.
 - Shared visual roles and editorial page styles are defined in src/styles.css; page controls use the existing Button component to keep presentation consistent.
+- Derive sitemap static URLs from required route-level staticData.sitemap decisions and dynamic lesson URLs from the existing course collection; omit personal progress/search surfaces and lastmod without authoritative content dates.

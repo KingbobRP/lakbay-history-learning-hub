@@ -16,6 +16,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as LessonsLessonIdRouteImport } from './routes/lessons.$lessonId'
 
@@ -54,6 +55,11 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TimelineRoute = TimelineRouteImport.update({
   id: '/timeline',
   path: '/timeline',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/search': typeof SearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timeline': typeof TimelineRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/search': typeof SearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timeline': typeof TimelineRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/search': typeof SearchRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timeline': typeof TimelineRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
 }
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/quiz'
     | '/search'
+    | '/sitemap.xml'
     | '/timeline'
     | '/lessons/$lessonId'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/quiz'
     | '/search'
+    | '/sitemap.xml'
     | '/timeline'
     | '/lessons/$lessonId'
   id:
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/progress'
     | '/quiz'
     | '/search'
+    | '/sitemap.xml'
     | '/timeline'
     | '/lessons/$lessonId'
   fileRoutesById: FileRoutesById
@@ -143,6 +155,7 @@ export interface RootRouteChildren {
   ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRoute
   SearchRoute: typeof SearchRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TimelineRoute: typeof TimelineRoute
   LessonsLessonIdRoute: typeof LessonsLessonIdRoute
 }
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/timeline': {
       id: '/timeline'
       path: '/timeline'
@@ -223,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProgressRoute: ProgressRoute,
   QuizRoute: QuizRoute,
   SearchRoute: SearchRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TimelineRoute: TimelineRoute,
   LessonsLessonIdRoute: LessonsLessonIdRoute,
 }
