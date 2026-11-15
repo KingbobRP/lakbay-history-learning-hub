@@ -7,4 +7,5 @@
 - [x] Apply the visual-only museum-style refinement, preserving content and behavior.
 - [x] Verify phone/desktop presentation and existing learning flows.
 - [x] Review search foundations and assess Philippine keyword opportunities using Semrush.
-- [ ] Add the missing sitemap after the search review approval; Google indexing/traffic checks require Search Console access.
+- [x] Add and verify the approved sitemap with all 19 lessons and reference it in crawler rules.
+- [ ] Verify actual Google indexing/traffic — blocked by unavailable Search Console access.
