@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { lessons, terms } from "@/lib/historia-data";
 
 export const Route = createFileRoute("/curriculum")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Kurikulum — HISTORIA" },

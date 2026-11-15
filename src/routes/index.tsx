@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { images, lessons, terms } from "@/lib/historia-data";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "HISTORIA: Kasaysayan, Kultura, at Pagkakakilanlan" },

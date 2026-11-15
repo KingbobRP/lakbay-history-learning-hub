@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { images } from "@/lib/historia-data";
 
 export const Route = createFileRoute("/about")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Tungkol sa HISTORIA" },

@@ -3,6 +3,7 @@ import { lessons, terms } from "@/lib/historia-data";
 import { useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/progress")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Student Progress — Historia" },

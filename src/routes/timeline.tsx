@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { timeline } from "@/lib/historia-data";
 
 export const Route = createFileRoute("/timeline")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Historical Timeline — Historia" },
