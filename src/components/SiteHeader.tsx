@@ -16,8 +16,8 @@ const nav = [
 
 export function Logo() {
   return (
-    <span className="flex items-center gap-3">
-      <span aria-hidden className="flex h-10 w-10 items-center justify-center border border-accent font-display text-2xl italic text-accent">H</span>
+    <span className="historia-logo flex items-center gap-3">
+      <span aria-hidden className="logo-monogram flex h-10 w-10 items-center justify-center border border-accent font-display text-2xl italic text-accent">H</span>
       <span className="leading-none">
         <span className="block font-display text-2xl font-semibold text-primary-foreground">HISTORIA</span>
         <span className="mt-1 block font-sans text-[0.6rem] uppercase text-accent">Kasaysayan at Lipunang Pilipino</span>
@@ -32,7 +32,7 @@ export function SiteHeader() {
     <header className="site-header sticky top-0 z-40 bg-primary">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
         <Link to="/" aria-label="HISTORIA — Home" onClick={() => setOpen(false)}><Logo /></Link>
-        <nav className="hidden items-center font-sans text-sm xl:flex" aria-label="Main">
+        <nav className="desktop-navigation hidden items-center font-sans text-sm xl:flex" aria-label="Main">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} className="border-b border-transparent px-2.5 py-2 text-primary-foreground/70 transition-colors hover:text-primary-foreground" activeProps={{ className: "!border-accent !text-primary-foreground" }}>{n.label}</Link>
           ))}

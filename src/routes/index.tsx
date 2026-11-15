@@ -47,7 +47,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="border-b border-border bg-card">
+      <section className="learning-tools border-b border-border bg-card">
         <div className="mx-auto grid max-w-6xl grid-cols-2 px-5 sm:px-8 md:grid-cols-4">
           {learningTools.map(({ title, subtitle, to, icon: Icon }, i) => (
             <Link key={to} to={to} className={`group flex items-center gap-3 py-5 transition-colors hover:text-primary sm:py-7 ${i % 2 === 1 ? "border-l border-border pl-4" : "pr-3"} ${i > 1 ? "border-t border-border md:border-t-0 md:border-l md:pl-5" : ""}`}>
@@ -59,7 +59,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
+      <section className="home-curriculum mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
         <div className="flex flex-col justify-between gap-4 border-b border-primary/40 pb-6 sm:flex-row sm:items-end">
           <div><p className="eyebrow">Ang Kurikulum</p><h2 className="mt-3 text-3xl sm:text-4xl">Tatlong Termino ng Pag-aaral</h2></div>
           <p className="max-w-xs font-sans text-sm leading-relaxed text-muted-foreground">Inayos ayon sa DepEd<br />Three-Term Budget of Work.</p>
