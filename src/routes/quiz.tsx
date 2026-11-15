@@ -4,6 +4,7 @@ import { quizzes, terms } from "@/lib/historia-data";
 import { scoreQuiz, useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/quiz")({
+  staticData: { sitemap: true },
   validateSearch: (s: Record<string, unknown>): { term?: number } => {
     const n = Number(s["term"]);
     return n >= 1 && n <= 3 ? { term: n } : {};

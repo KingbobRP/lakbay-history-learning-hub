@@ -5,6 +5,7 @@ import { lessons, terms } from "@/lib/historia-data";
 import { useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/dashboard")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Learning Dashboard — HISTORIA" },

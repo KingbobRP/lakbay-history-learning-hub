@@ -4,6 +4,7 @@ import { lessons, terms } from "@/lib/historia-data";
 import { scoreQuiz, useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/lessons/$lessonId")({
+  staticData: { sitemap: true },
   loader: ({ params }) => {
     const lesson = lessons.find((l) => l.id === params.lessonId);
     if (!lesson) throw notFound();

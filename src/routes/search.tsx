@@ -3,6 +3,7 @@ import { useState } from "react";
 import { lessons, terms } from "@/lib/historia-data";
 
 export const Route = createFileRoute("/search")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Search Lessons — Historia" },
