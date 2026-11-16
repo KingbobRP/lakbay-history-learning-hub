@@ -18,7 +18,7 @@ export const gameCatalog: { id: GameId; title: string; category: string; descrip
   { id: 'millionaire', title: 'History Millionaire', category: 'Pangwakas na hamon', description: 'Umakyat sa siyam na antas ng kaalaman.', instructions: 'Sagutin ang siyam na tanong na pataas ang hirap at puntos. May tig-isang 50:50, pahiwatig, at skip. Ang maling sagot ay nagtatapos sa laro; ang skip ay walang puntos.', icon: 'millionaire' },
 ];
 
-function q(prompt: string, choices: string[], answer: number, explain: string, hint?: string, clues?: string[], accepted?: string[]): Question { return { prompt, choices, answer, explain, hint, clues, accepted }; }
+function q(prompt: string, choices: string[], answer: number, explain: string, hint?: string, clues?: string[], accepted?: string[]): Question { return { prompt, choices, answer, explain, ...(hint ? { hint } : {}), ...(clues ? { clues } : {}), ...(accepted ? { accepted } : {}) }; }
 const who = [
  q('Ako ang sumulat ng Noli Me Tangere. Sino ako?', ['Jose Rizal', 'Andres Bonifacio', 'Emilio Aguinaldo', 'Apolinario Mabini'], 0, 'Inilathala ni Jose Rizal ang Noli Me Tangere noong 1887.', 'Isa rin akong manggagamot.'),
  q('Isa ako sa mga nagtatag ng Katipunan noong 1892. Sino ako?', ['Antonio Luna', 'Andres Bonifacio', 'Marcelo H. del Pilar', 'Manuel Quezon'], 1, 'Si Andres Bonifacio ay isa sa mga nagtatag ng Katipunan noong Hulyo 7, 1892.', 'Tinatawag akong Supremo.'),

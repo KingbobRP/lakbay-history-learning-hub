@@ -5,6 +5,15 @@ import { Button } from '@/components/ui/button';
 import { gameCatalog, difficulties, questionsFor, timelineRounds, correctPositions, pointsFor, validatesText, type Difficulty, type GameId } from '@/lib/history-games';
 import { QuestMap } from './QuestMap';
 
+function shuffledOrder(length: number) {
+ const order = Array.from({ length }, (_, i) => i);
+ for (let attempt = 0; attempt < 10; attempt++) {
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const a = order[i]!; order[i] = order[j]!; order[j] = a; }
+  if (correctPositions(order) < length) return order;
+ }
+ return order.reverse();
+}
+
 export function HistoryGame({ id }: { id: GameId }) {
  const game = gameCatalog.find(g=>g.id===id);
  const [difficulty, setDifficulty] = useState<Difficulty>('easy');
@@ -31,7 +40,7 @@ export function HistoryGame({ id }: { id: GameId }) {
  if (!game) return null;
  const resetRound = (index: number) => {
   setRound(index); setPicked(null); setText(''); setFeedback(null); setHinted(false); setOpened([]); setFifty(false); setSkipped(false); setEarned(0);
-  setOrder((rounds[index] ?? []).map((_,i)=>i).reverse());
+  setOrder(shuffledOrder((rounds[index] ?? []).length));
  };
  const start = () => { setScore(0); setHits(0); setLifelines([]); resetRound(0); setPhase('play'); };
  const answer = (choice: number|null) => {
@@ -53,7 +62,7 @@ export function HistoryGame({ id }: { id: GameId }) {
   if(a===undefined || b===undefined) return old;
   next[index]=b; next[index+delta]=a; return next;
  });
- const useLifeline = (name:string) => {
+ const applyLifeline = (name:string) => {
   if(lifelines.includes(name) || feedback!==null) return;
   setLifelines(l=>[...l,name]);
   if(name==='50:50') setFifty(true);
@@ -78,7 +87,7 @@ export function HistoryGame({ id }: { id: GameId }) {
   </section>}
   {phase==='play' && <section className="mt-8 border-t border-accent pt-6">
    <div className="mb-8 flex flex-wrap items-center justify-between gap-3 text-sm"><span className="text-muted-foreground">{id==='detective'?'Misyon':'Hamon'} {round+1} / {total}{id==='millionaire' ? ` · Yugto ${Math.floor(round/3)+1}` : ''} · {difficulties.find(d=>d.id===difficulty)?.label}</span><span className="font-semibold text-primary" data-testid="running-score">{score.toLocaleString()} puntos</span></div>
-   {id==='millionaire' && <div className="mb-6 flex flex-wrap gap-2"><Button variant="outline" className="min-h-11" disabled={lifelines.includes('50:50')||feedback!==null} onClick={()=>useLifeline('50:50')}><Scissors /> 50:50</Button><Button variant="outline" className="min-h-11" disabled={lifelines.includes('hint')||feedback!==null} onClick={()=>useLifeline('hint')}><Lightbulb /> Pahiwatig</Button><Button variant="outline" className="min-h-11" disabled={lifelines.includes('skip')||feedback!==null} onClick={()=>useLifeline('skip')}><SkipForward /> Skip</Button><span className="self-center text-sm text-muted-foreground">Antas {round+1} · {pointsFor(difficulty,round,true)} puntos</span></div>}
+   {id==='millionaire' && <div className="mb-6 flex flex-wrap gap-2"><Button variant="outline" className="min-h-11" disabled={lifelines.includes('50:50')||feedback!==null} onClick={()=>applyLifeline('50:50')}><Scissors /> 50:50</Button><Button variant="outline" className="min-h-11" disabled={lifelines.includes('hint')||feedback!==null} onClick={()=>applyLifeline('hint')}><Lightbulb /> Pahiwatig</Button><Button variant="outline" className="min-h-11" disabled={lifelines.includes('skip')||feedback!==null} onClick={()=>applyLifeline('skip')}><SkipForward /> Skip</Button><span className="self-center text-sm text-muted-foreground">Antas {round+1} · {pointsFor(difficulty,round,true)} puntos</span></div>}
    {id==='timeline' ? <div className="max-w-3xl"><h2 className="mb-6 text-2xl">Mula pinakamaaga hanggang pinakahuli</h2><ol className="space-y-3">{order.map((eventIndex,i)=><li key={eventIndex} className={`flex items-center gap-3 border p-3 sm:p-4 ${feedback!==null ? eventIndex===i?'border-success bg-success/5':'border-destructive' : 'border-border bg-card'}`}><span className="font-display text-2xl text-accent">{i+1}</span><span className="flex-1 text-sm sm:text-base">{sequence[eventIndex]?.title}</span><Button variant="outline" size="icon" className="h-11 w-11 shrink-0" aria-label={`Itaas ${sequence[eventIndex]?.title}`} title="Itaas" disabled={i===0||feedback!==null} onClick={()=>move(i,-1)}><ArrowUp /></Button><Button variant="outline" size="icon" className="h-11 w-11 shrink-0" aria-label={`Ibaba ${sequence[eventIndex]?.title}`} title="Ibaba" disabled={i===order.length-1||feedback!==null} onClick={()=>move(i,1)}><ArrowDown /></Button></li>)}</ol>{feedback===null && <Button className="mt-6 min-h-12" onClick={checkOrder}><Check /> Suriin ang pagkakasunod-sunod</Button>}</div> : question && <div className={id==='map'||id==='artifact'?'grid items-start gap-8 md:grid-cols-2':'max-w-3xl'}>
     {id==='map' && <QuestMap picked={picked} correct={feedback!==null?question.answer:undefined} />}
     {id==='artifact' && <figure className="border border-border bg-card p-5"><img src={question.image} alt="Artifact mula sa koleksiyon ng National Museum; tukuyin sa tanong" className="h-72 w-full object-contain sm:h-96" /><figcaption className="mt-3 text-xs text-muted-foreground">Larawan: National Museum of the Philippines · <a className="underline" href={question.source} target="_blank" rel="noreferrer">Sanggunian</a></figcaption></figure>}
