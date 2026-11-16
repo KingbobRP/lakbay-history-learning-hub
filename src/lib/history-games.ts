@@ -97,7 +97,18 @@ export function timelineRounds(difficulty: Difficulty) {
  const count = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
  return [0, 2, 4].map(start => events.slice(start, start + count));
 }
+// Stable (prompt-seeded) shuffle so the correct choice is not always in the same position.
+export function mixChoices(question: Question): Question {
+ if (question.choices.length < 3) return question;
+ let seed = [...question.prompt].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+ const order = question.choices.map((_, i) => i);
+ for (let i = order.length - 1; i > 0; i--) { seed = (seed * 1103515245 + 12345) >>> 0; const j = seed % (i + 1); const a = order[i]!; order[i] = order[j]!; order[j] = a; }
+ return { ...question, choices: order.map(i => question.choices[i]!), answer: order.indexOf(question.answer) };
+}
 export function questionsFor(id: GameId, difficulty: Difficulty): Question[] {
+ return rawQuestionsFor(id, difficulty).map(question => (id === 'map' || id === 'complete' ? question : mixChoices(question)));
+}
+function rawQuestionsFor(id: GameId, difficulty: Difficulty): Question[] {
  const offset = difficulties.findIndex(d=>d.id===difficulty) * 3;
  if (id === 'millionaire') {
   const pool = [...(quizzes[1] ?? []), ...(quizzes[2] ?? []), ...(quizzes[3] ?? [])];

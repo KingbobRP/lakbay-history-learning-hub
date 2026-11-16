@@ -12,6 +12,10 @@ describe("History games rules", () => {
       }
     }
   });
+  it("does not always place the correct answer first", () => {
+    const answers = [...questionsFor("detective", "easy"), ...questionsFor("detective", "medium"), ...questionsFor("detective", "hard")].map((q) => q.answer);
+    expect(new Set(answers).size).toBeGreaterThan(1);
+  });
   it("timeline rounds grow with difficulty and are chronological", () => {
     expect(timelineRounds("easy")[0]).toHaveLength(3);
     expect(timelineRounds("hard")[0]).toHaveLength(5);
