@@ -18,7 +18,7 @@ export const gameCatalog: { id: GameId; title: string; category: string; descrip
   { id: 'millionaire', title: 'History Millionaire', category: 'Pangwakas na hamon', description: 'Umakyat sa siyam na antas ng kaalaman.', instructions: 'Sagutin ang siyam na tanong na pataas ang hirap at puntos. May tig-isang 50:50, pahiwatig, at skip. Ang maling sagot ay nagtatapos sa laro; ang skip ay walang puntos.', icon: 'millionaire' },
 ];
 
-function q(prompt: string, choices: string[], answer: number, explain: string, hint?: string, clues?: string[], accepted?: string[]): Question { return { prompt, choices, answer, explain, hint, clues, accepted }; }
+function q(prompt: string, choices: string[], answer: number, explain: string, hint?: string, clues?: string[], accepted?: string[]): Question { return { prompt, choices, answer, explain, ...(hint ? { hint } : {}), ...(clues ? { clues } : {}), ...(accepted ? { accepted } : {}) }; }
 const who = [
  q('Ako ang sumulat ng Noli Me Tangere. Sino ako?', ['Jose Rizal', 'Andres Bonifacio', 'Emilio Aguinaldo', 'Apolinario Mabini'], 0, 'Inilathala ni Jose Rizal ang Noli Me Tangere noong 1887.', 'Isa rin akong manggagamot.'),
  q('Isa ako sa mga nagtatag ng Katipunan noong 1892. Sino ako?', ['Antonio Luna', 'Andres Bonifacio', 'Marcelo H. del Pilar', 'Manuel Quezon'], 1, 'Si Andres Bonifacio ay isa sa mga nagtatag ng Katipunan noong Hulyo 7, 1892.', 'Tinatawag akong Supremo.'),
@@ -97,7 +97,18 @@ export function timelineRounds(difficulty: Difficulty) {
  const count = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
  return [0, 2, 4].map(start => events.slice(start, start + count));
 }
+// Stable (prompt-seeded) shuffle so the correct choice is not always in the same position.
+export function mixChoices(question: Question): Question {
+ if (question.choices.length < 3) return question;
+ let seed = [...question.prompt].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+ const order = question.choices.map((_, i) => i);
+ for (let i = order.length - 1; i > 0; i--) { seed = (seed * 1103515245 + 12345) >>> 0; const j = (seed >>> 16) % (i + 1); const a = order[i]!; order[i] = order[j]!; order[j] = a; }
+ return { ...question, choices: order.map(i => question.choices[i]!), answer: order.indexOf(question.answer) };
+}
 export function questionsFor(id: GameId, difficulty: Difficulty): Question[] {
+ return rawQuestionsFor(id, difficulty).map(question => (id === 'map' || id === 'complete' ? question : mixChoices(question)));
+}
+function rawQuestionsFor(id: GameId, difficulty: Difficulty): Question[] {
  const offset = difficulties.findIndex(d=>d.id===difficulty) * 3;
  if (id === 'millionaire') {
   const pool = [...(quizzes[1] ?? []), ...(quizzes[2] ?? []), ...(quizzes[3] ?? [])];

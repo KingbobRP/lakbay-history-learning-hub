@@ -1,7 +1,7 @@
 import { locations } from '@/lib/history-games';
 import { mapPoint, philippinesOutline } from '@/lib/philippines-map';
 
-export function QuestMap({ picked, correct }: { picked: number | null; correct?: number }) {
+export function QuestMap({ picked, correct }: { picked: number | null; correct?: number | undefined }) {
  return <figure className="quest-map relative border border-border bg-secondary/40">
   <svg viewBox="0 0 410 560" className="mx-auto h-[380px] w-full sm:h-[440px]" role="img" aria-label="Mapa ng Pilipinas na may siyam na makasaysayang lokasyon">
    <path d={philippinesOutline} className="fill-card stroke-accent" strokeWidth="1.5" />
