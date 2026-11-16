@@ -13,11 +13,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CurriculumRouteImport } from './routes/curriculum'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as GamesRouteImport } from './routes/games'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TimelineRouteImport } from './routes/timeline'
+import { Route as GamesIndexRouteImport } from './routes/games.index'
+import { Route as GamesGameIdRouteImport } from './routes/games.$gameId'
 import { Route as LessonsLessonIdRouteImport } from './routes/lessons.$lessonId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -38,6 +41,11 @@ const CurriculumRoute = CurriculumRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamesRoute = GamesRouteImport.update({
+  id: '/games',
+  path: '/games',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgressRoute = ProgressRouteImport.update({
@@ -65,6 +73,16 @@ const TimelineRoute = TimelineRouteImport.update({
   path: '/timeline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamesIndexRoute = GamesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GamesRoute,
+} as any)
+const GamesGameIdRoute = GamesGameIdRouteImport.update({
+  id: '/$gameId',
+  path: '/$gameId',
+  getParentRoute: () => GamesRoute,
+} as any)
 const LessonsLessonIdRoute = LessonsLessonIdRouteImport.update({
   id: '/lessons/$lessonId',
   path: '/lessons/$lessonId',
@@ -76,12 +94,15 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/curriculum': typeof CurriculumRoute
   '/dashboard': typeof DashboardRoute
+  '/games': typeof GamesRouteWithChildren
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timeline': typeof TimelineRoute
+  '/games/$gameId': typeof GamesGameIdRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
+  '/games/': typeof GamesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -93,7 +114,9 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timeline': typeof TimelineRoute
+  '/games/$gameId': typeof GamesGameIdRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
+  '/games': typeof GamesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -101,12 +124,15 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/curriculum': typeof CurriculumRoute
   '/dashboard': typeof DashboardRoute
+  '/games': typeof GamesRouteWithChildren
   '/progress': typeof ProgressRoute
   '/quiz': typeof QuizRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/timeline': typeof TimelineRoute
+  '/games/$gameId': typeof GamesGameIdRoute
   '/lessons/$lessonId': typeof LessonsLessonIdRoute
+  '/games/': typeof GamesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -115,12 +141,15 @@ export interface FileRouteTypes {
     | '/about'
     | '/curriculum'
     | '/dashboard'
+    | '/games'
     | '/progress'
     | '/quiz'
     | '/search'
     | '/sitemap.xml'
     | '/timeline'
+    | '/games/$gameId'
     | '/lessons/$lessonId'
+    | '/games/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -132,19 +161,24 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/timeline'
+    | '/games/$gameId'
     | '/lessons/$lessonId'
+    | '/games'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/curriculum'
     | '/dashboard'
+    | '/games'
     | '/progress'
     | '/quiz'
     | '/search'
     | '/sitemap.xml'
     | '/timeline'
+    | '/games/$gameId'
     | '/lessons/$lessonId'
+    | '/games/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -152,6 +186,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CurriculumRoute: typeof CurriculumRoute
   DashboardRoute: typeof DashboardRoute
+  GamesRoute: typeof GamesRouteWithChildren
   ProgressRoute: typeof ProgressRoute
   QuizRoute: typeof QuizRoute
   SearchRoute: typeof SearchRoute
@@ -190,6 +225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/games': {
+      id: '/games'
+      path: '/games'
+      fullPath: '/games'
+      preLoaderRoute: typeof GamesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/progress': {
       id: '/progress'
       path: '/progress'
@@ -225,6 +267,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TimelineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/games/': {
+      id: '/games/'
+      path: '/'
+      fullPath: '/games/'
+      preLoaderRoute: typeof GamesIndexRouteImport
+      parentRoute: typeof GamesRoute
+    }
+    '/games/$gameId': {
+      id: '/games/$gameId'
+      path: '/$gameId'
+      fullPath: '/games/$gameId'
+      preLoaderRoute: typeof GamesGameIdRouteImport
+      parentRoute: typeof GamesRoute
+    }
     '/lessons/$lessonId': {
       id: '/lessons/$lessonId'
       path: '/lessons/$lessonId'
@@ -235,11 +291,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface GamesRouteChildren {
+  GamesGameIdRoute: typeof GamesGameIdRoute
+  GamesIndexRoute: typeof GamesIndexRoute
+}
+
+const GamesRouteChildren: GamesRouteChildren = {
+  GamesGameIdRoute: GamesGameIdRoute,
+  GamesIndexRoute: GamesIndexRoute,
+}
+
+const GamesRouteWithChildren = GamesRoute._addFileChildren(GamesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CurriculumRoute: CurriculumRoute,
   DashboardRoute: DashboardRoute,
+  GamesRoute: GamesRouteWithChildren,
   ProgressRoute: ProgressRoute,
   QuizRoute: QuizRoute,
   SearchRoute: SearchRoute,
