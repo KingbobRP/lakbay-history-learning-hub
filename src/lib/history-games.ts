@@ -1,6 +1,6 @@
-import bulul from '@/assets/ifugao-bulul.png.asset.json';
-import urn from '@/assets/kulaman-urn.png.asset.json';
-import quran from '@/assets/quran-museum.png.asset.json';
+import bulul from '@/assets/artifact-bulul.jpg';
+import urn from '@/assets/artifact-kulaman-urn.jpg';
+import quran from '@/assets/artifact-quran.jpg';
 import { quizzes } from './historia-data';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
@@ -78,9 +78,9 @@ const map = [
  q('Aling lugar ang makasaysayang sentro ng Sultanato ng Sulu?', locations.map(l=>l.name), 8, 'Ang Jolo ay mahalagang sentro ng Sultanato ng Sulu.'),
 ];
 const artifacts = [
- { image: bulul.url, name: 'Bulul', use: 'Ritwal na kaugnay ng palay', context: 'Kulturang Ifugao', explain: 'Ang bulul ay inukit na pigurang kahoy na mahalaga sa mga ritwal ng palay ng Ifugao.', source: 'https://www.nationalmuseum.gov.ph/our-collections/ethnology/ritual-objects/' },
- { image: urn.url, name: 'Kulaman limestone burial urn', use: 'Sisidlan para sa paglilibing', context: 'Tradisyon ng paglilibing', explain: 'Ang urnang limestone mula sa Kulaman ay bahagi ng koleksiyon ng mga sisidlang panlibing ng National Museum.', source: 'https://www.nationalmuseum.gov.ph/our-collections/archaeology/burial-jars/' },
- { image: quran.url, name: 'Quran', use: 'Banal na kasulatan ng Islam', context: 'Pananampalatayang Islam', explain: 'Ang Quran ay banal na kasulatan ng Islam. Ang larawang ito ay mula sa koleksiyong Ritual Objects ng National Museum.', source: 'https://www.nationalmuseum.gov.ph/our-collections/ethnology/ritual-objects/' },
+ { image: bulul, name: 'Bulul', use: 'Ritwal na kaugnay ng palay', context: 'Kulturang Ifugao', explain: 'Ang bulul ay inukit na pigurang kahoy na mahalaga sa mga ritwal ng palay ng Ifugao.', source: 'https://www.nationalmuseum.gov.ph/our-collections/ethnology/ritual-objects/' },
+ { image: urn, name: 'Kulaman limestone burial urn', use: 'Sisidlan para sa paglilibing', context: 'Tradisyon ng paglilibing', explain: 'Ang urnang limestone mula sa Kulaman ay bahagi ng koleksiyon ng mga sisidlang panlibing ng National Museum.', source: 'https://www.nationalmuseum.gov.ph/our-collections/archaeology/burial-jars/' },
+ { image: quran, name: 'Quran', use: 'Banal na kasulatan ng Islam', context: 'Pananampalatayang Islam', explain: 'Ang Quran ay banal na kasulatan ng Islam. Ang larawang ito ay mula sa koleksiyong Ritual Objects ng National Museum.', source: 'https://www.nationalmuseum.gov.ph/our-collections/ethnology/ritual-objects/' },
 ];
 export const events = [
  { title: 'Labanan sa Mactan', date: 'Abril 27, 1521', year: 1521 },
