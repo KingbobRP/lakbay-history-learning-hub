@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, ArrowRight, BookOpen, Landmark, ClipboardList, ChartNoAxesCombined } from "lucide-react";
+import { ArrowUpRight, ArrowRight, BookOpen, Landmark, ClipboardList, ChartNoAxesCombined, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { images, lessons, terms } from "@/lib/historia-data";
 
@@ -58,6 +58,11 @@ function Home() {
             </Link>
           ))}
         </div>
+      </section>
+
+      <section className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5 border-b border-accent px-5 py-7 sm:px-8">
+        <div className="flex items-center gap-4"><Gamepad2 className="h-8 w-8 shrink-0 text-primary" strokeWidth={1.3} /><div><h2 className="text-2xl">Mga Larong Pangkasaysayan</h2><p className="mt-1 text-sm text-muted-foreground">Walong hamon sa kasaysayan, kultura, at pagkamamamayan.</p></div></div>
+        <Button asChild variant="outline" className="min-h-12"><Link to="/games">Tuklasin ang mga laro <ArrowRight /></Link></Button>
       </section>
 
       <section className="home-curriculum mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
