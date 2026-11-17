@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { quizzes, terms } from "@/lib/historia-data";
 import { scoreQuiz, useProgress } from "@/lib/progress";
+import { AnswerFeedback, choiceClass } from "@/components/lesson/AnswerFeedback";
+import { Celebration } from "@/components/lesson/Celebration";
 
 export const Route = createFileRoute("/quiz")({
   staticData: { sitemap: true },
@@ -32,7 +34,7 @@ function QuizCenter() {
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
         <p className="eyebrow">Pagsusulit</p>
         <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Sentro ng Pagsusulit</h1>
-        <p className="mt-3 text-muted-foreground">Pumili ng termino. Bawat pagsusulit ay may 10 tanong na may pagpipilian, agarang puna, at paliwanag.</p>
+        <p className="mt-3 text-muted-foreground">Pumili ng termino. Bawat pagsusulit ay may 10 tanong na sumusukat sa pagsusuri at kritikal na pag-iisip, na may agarang puna at paliwanag kung bakit tama o kulang ang bawat sagot.</p>
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {terms.map((t) => (
             <button key={t.id} onClick={() => navigate({ search: { term: t.id } })} className="border border-border bg-card p-5 text-left hover:border-primary">
@@ -84,24 +86,15 @@ function Quiz({ term, onBack }: { term: number; onBack: () => void }) {
               <p className="mt-1 text-lg text-ink">{q.q}</p>
               <div className="mt-4 grid gap-2">
                 {q.choices.map((c, ci) => {
-                  const isPicked = picked === ci;
-                  const reveal = picked !== null;
-                  const correct = ci === q.answer;
-                  let cls = "border-border bg-card hover:border-ink";
-                  if (reveal && correct) cls = "border-success bg-success/10 text-ink";
-                  else if (reveal && isPicked) cls = "border-destructive bg-destructive/10";
+                  const state = picked === null ? "idle" : ci === q.answer ? "correct" : picked === ci ? "wrong" : "dim";
                   return (
-                    <button key={ci} disabled={reveal || submitted} onClick={() => setAnswers((a) => a.map((v, j) => (j === i ? ci : v)))} className={`min-h-12 border px-4 py-3 text-left font-sans text-sm ${cls}`}>
-                      <span className="mr-2 font-semibold">{String.fromCharCode(65 + ci)}.</span>{c}
+                    <button key={ci} disabled={picked !== null || submitted} onClick={() => setAnswers((a) => a.map((v, j) => (j === i ? ci : v)))} className={`relative min-h-12 border px-4 py-3 text-left font-sans text-sm ${choiceClass(state)}`}>
+                      <span className="mr-2 font-semibold">{String.fromCharCode(65 + ci)}.</span>{c}{state === "correct" && picked === ci && <Celebration />}
                     </button>
                   );
                 })}
               </div>
-              {picked !== null && (
-                <p className={`mt-3 font-sans text-sm ${picked === q.answer ? "text-success" : "text-destructive"}`}>
-                  <strong>{picked === q.answer ? "Tama." : `Mali — ang tamang sagot ay ${String.fromCharCode(65 + q.answer)}.`}</strong> <span className="text-foreground">{q.explain}</span>
-                </p>
-              )}
+              {picked !== null && <AnswerFeedback correct={picked === q.answer} answer={q.choices[q.answer]} explain={q.explain} whyNot={q.whyNot} />}
             </li>
           );
         })}

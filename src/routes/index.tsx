@@ -7,9 +7,9 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "HISTORIA: Kasaysayan, Kultura, at Pagkakakilanlan" },
+      { title: "Pag-aaral ng Kasaysayan at Lipunang Pilipino — HISTORIA" },
       { name: "description", content: "Digital na plataporma ng pagkatuto para sa Baitang 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino, batay sa tatlong termino ng DepEd." },
-      { property: "og:title", content: "HISTORIA: Kasaysayan, Kultura, at Pagkakakilanlan" },
+      { property: "og:title", content: "Pag-aaral ng Kasaysayan at Lipunang Pilipino — HISTORIA" },
       { property: "og:description", content: "Mga aralin, talaang-panahon, at pagsusulit para sa Baitang 11 Kasaysayan at Lipunang Pilipino." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -35,8 +35,12 @@ function Home() {
             <span className="h-px w-8 bg-accent" />
             <span className="text-cover-muted">Baitang 11 · Kasaysayan at Lipunang Pilipino</span>
           </div>
-          <h1 className="mt-6 max-w-3xl text-5xl leading-none sm:text-7xl lg:text-8xl">HISTORIA<span className="mt-3 block text-3xl italic leading-tight sm:text-4xl lg:text-5xl">Kasaysayan, Kultura,<br className="hidden sm:block" /> at Pagkakakilanlan</span></h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-cover-muted sm:mt-6 sm:text-lg">Isang digital na plataporma ng pagkatuto na naglalayong palalimin ang pag-unawa ng mga mag-aaral sa kasaysayan, kultura, pakikibaka, at pagkamamamayan ng mga Pilipino.</p>
+          <h1 className="home-title mt-6 max-w-4xl leading-[1.05]">Pag-aaral ng Kasaysayan at Lipunang Pilipino</h1>
+          <div className="home-competency mt-5 max-w-2xl">
+            <p className="font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-accent">Kasanayang Pampagkatuto</p>
+            <p className="mt-1 font-display text-xl italic leading-snug text-cover-foreground sm:text-2xl">Nasusuri ang mga sanggunian ng kasaysayan at nailalapat ang kritikal na pananaw sa pag-unawa ng nakaraan</p>
+          </div>
+          <p className="home-intro mt-5 max-w-lg text-base leading-relaxed text-cover-muted">HISTORIA — isang digital na plataporma ng pagkatuto na naglalayong palalimin ang pag-unawa ng mga mag-aaral sa kasaysayan, kultura, pakikibaka, at pagkamamamayan ng mga Pilipino.</p>
           <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
             <Button asChild size="lg" className="h-12 bg-accent px-5 font-semibold text-accent-foreground shadow-none hover:bg-accent/90"><Link to="/dashboard">Simulan ang Pag-aaral <ArrowRight /></Link></Button>
             <Button asChild variant="outline" size="lg" className="h-12 border-cover-foreground/40 bg-transparent px-5 text-cover-foreground shadow-none hover:bg-cover-foreground/10 hover:text-cover-foreground"><Link to="/curriculum">Tuklasin ang Kurikulum <ArrowUpRight /></Link></Button>

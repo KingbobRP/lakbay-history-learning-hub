@@ -5,6 +5,9 @@ import precolonial from "@/assets/precolonial.jpg";
 import terraces from "@/assets/terraces.jpg";
 import community from "@/assets/community.jpg";
 import citizens from "@/assets/citizens.jpg";
+import { term1Assessments, term1Extra } from "./assessments/term1";
+import { term2Assessments, term2Extra } from "./assessments/term2";
+import { term3Assessments, term3Extra } from "./assessments/term3";
 import timelineCallao from "@/assets/timeline-callao.jpg";
 import timelineMactan from "@/assets/timeline-mactan.jpg";
 import timelineDagohoy from "@/assets/timeline-dagohoy.jpg";
@@ -638,6 +641,10 @@ export const lessons: Lesson[] = [
   },
 ];
 
+// Higher-order (HOTS) assessment items live in ./assessments and replace the original recall items.
+const hotsAssessments: Record<string, Question[]> = { ...term1Assessments, ...term2Assessments, ...term3Assessments };
+for (const lesson of lessons) lesson.assessment = hotsAssessments[lesson.id] ?? lesson.assessment;
+
 export type TimelineEvent = { year: string; title: string; text: string; image?: string; caption?: string; lesson?: string };
 
 export const timeline: TimelineEvent[] = [
@@ -659,11 +666,7 @@ export const timeline: TimelineEvent[] = [
 ];
 
 /** Ten-question term quizzes built from the lesson assessments plus extra items. */
-const extra: Record<number, Question> = {
-  1: { q: "Alin ang pinakamahusay na naglalarawan sa taong may kamalayang pangkasaysayan?", choices: ["Nagsasaulo ng maraming petsa", "Nakauunawa sa ugnayan ng nakaraan at kasalukuyan", "Ayaw sa kasaysayan", "Nagbabasa lamang ng banyagang aklat"], answer: 1, explain: "Ang kamalayang pangkasaysayan ay pag-unawa sa ugnayan ng nakaraan, kasalukuyan, at hinaharap." },
-  2: { q: "Bakit nabigo ang maraming naunang pag-aalsa laban sa Espanya?", choices: ["Kawalan ng pagkakaisa ng mga rehiyon", "Kakulangan ng pagkain lamang", "Walang dahilan", "Tinulungan ng ibang bansa"], answer: 0, explain: "Lokal at hiwa-hiwalay ang mga pag-aalsa, kaya nagamit ng Espanya ang taktikang hatiin at sakupin." },
-  3: { q: "Ano ang pinakamalapit na kahulugan ng 'inklusibong pag-unlad'?", choices: ["Pag-unlad para sa iilan", "Pag-unlad na walang naiiwan", "Pag-unlad ng lungsod lamang", "Pag-unlad ng negosyo lamang"], answer: 1, explain: "Inklusibo ang pag-unlad kapag nakikinabang ang lahat." },
-};
+const extra: Record<number, Question> = { 1: term1Extra, 2: term2Extra, 3: term3Extra };
 
 function buildQuiz(term: number): Question[] {
   const pool = lessons.filter((l) => l.term === term).flatMap((l) => l.assessment);

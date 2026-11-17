@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { lessons, terms } from "@/lib/historia-data";
-import { useProgress } from "@/lib/progress";
+import { masteryKey, totalKeyTerms, useProgress } from "@/lib/progress";
 
 export const Route = createFileRoute("/progress")({
   staticData: { sitemap: false },
@@ -26,9 +26,9 @@ function ProgressPage() {
       <p className="eyebrow">Talaan ng Pag-unlad</p>
       <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Pag-unlad ng Mag-aaral</h1>
       <p className="mt-3 text-muted-foreground">Awtomatikong naitatala sa kagamitang ito.</p>
-      <div className="mt-8 grid grid-cols-3 border border-border bg-card text-center">
-        {[["Aralin", `${percent}%`], ["Pagsusulit", `${quizAvg}%`], ["Kabuuan", `${overall}%`]].map(([k, v]) => (
-          <div key={k} className="border-r border-border p-4 last:border-r-0"><p className="eyebrow">{k}</p><p className="mt-1 font-display text-3xl text-ink">{v}</p></div>
+      <div className="mt-8 grid grid-cols-2 border border-border bg-card text-center sm:grid-cols-4">
+        {[["Aralin", `${percent}%`], ["Pagsusulit", `${quizAvg}%`], ["Kabuuan", `${overall}%`], ["Kabisadong termino", `${progress.mastered.length}/${totalKeyTerms}`]].map(([k, v]) => (
+          <div key={k} className="border-b border-r border-border p-4 sm:border-b-0"><p className="eyebrow">{k}</p><p className="mt-1 font-display text-3xl text-ink">{v}</p></div>
         ))}
       </div>
       <p className="mt-2 font-sans text-xs text-muted-foreground">Kabuuan = 60% natapos na aralin + 40% pinakamataas na iskor sa pagsusulit.</p>
@@ -44,7 +44,7 @@ function ProgressPage() {
               {lessons.filter((l) => l.term === t.id).map((l) => (
                 <li key={l.id} className="flex items-center justify-between gap-3 border-b border-border py-3">
                   <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="text-ink hover:text-primary">Linggo {l.weeks} · {l.title}</Link>
-                  <span className={`shrink-0 font-sans text-xs ${progress.completed.includes(l.id) ? "text-success" : "text-muted-foreground"}`}>{progress.completed.includes(l.id) ? "Tapos na" : "Hindi pa tapos"}</span>
+                  <span className="shrink-0 text-right"><span className="font-sans text-xs text-muted-foreground">{l.keyTerms.filter((k) => progress.mastered.includes(masteryKey(l.id, k.term))).length}/{l.keyTerms.length} termino · </span><span className={`shrink-0 font-sans text-xs ${progress.completed.includes(l.id) ? "text-success" : "text-muted-foreground"}`}>{progress.completed.includes(l.id) ? "Tapos na" : "Hindi pa tapos"}</span></span>
                 </li>
               ))}
             </ul>
