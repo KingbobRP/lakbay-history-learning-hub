@@ -6,10 +6,10 @@ export const Route = createFileRoute("/progress")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Student Progress — Historia" },
-      { name: "description", content: "Track completed lessons and quiz scores." },
-      { property: "og:title", content: "Student Progress — Historia" },
-      { property: "og:description", content: "Your learning record in Historia." },
+      { title: "Pag-unlad ng Mag-aaral — HISTORIA" },
+      { name: "description", content: "Subaybayan ang mga natapos na aralin at iskor sa pagsusulit." },
+      { property: "og:title", content: "Pag-unlad ng Mag-aaral — HISTORIA" },
+      { property: "og:description", content: "Ang iyong talaan ng pag-aaral sa HISTORIA." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -24,21 +24,21 @@ function ProgressPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Talaan ng Pag-unlad</p>
-      <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Student Progress</h1>
-      <p className="mt-3 text-muted-foreground">Saved automatically on this device.</p>
+      <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Pag-unlad ng Mag-aaral</h1>
+      <p className="mt-3 text-muted-foreground">Awtomatikong nai-save sa kagamitang ito.</p>
       <div className="mt-8 grid grid-cols-3 border border-border bg-card text-center">
-        {[["Lessons", `${percent}%`], ["Quizzes", `${quizAvg}%`], ["Overall", `${overall}%`]].map(([k, v]) => (
+        {[["Aralin", `${percent}%`], ["Pagsusulit", `${quizAvg}%`], ["Kabuuan", `${overall}%`]].map(([k, v]) => (
           <div key={k} className="border-r border-border p-4 last:border-r-0"><p className="eyebrow">{k}</p><p className="mt-1 font-display text-3xl text-ink">{v}</p></div>
         ))}
       </div>
-      <p className="mt-2 font-sans text-xs text-muted-foreground">Overall = 60% lessons completed + 40% best quiz scores.</p>
+      <p className="mt-2 font-sans text-xs text-muted-foreground">Kabuuan = 60% natapos na aralin + 40% pinakamataas na iskor sa pagsusulit.</p>
       {terms.map((t) => {
         const s = progress.scores[t.id];
         return (
           <section key={t.id} className="mt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-ink pb-2">
               <h2 className="text-2xl text-ink">Termino {t.id}: {t.title}</h2>
-              <span className="font-sans text-sm text-muted-foreground">{s ? `Quiz best ${s.best}/10 · last ${s.last}/10 · ${s.attempts} attempt(s)` : "Quiz not taken"}</span>
+              <span className="font-sans text-sm text-muted-foreground">{s ? `Pinakamataas ${s.best}/10 · huli ${s.last}/10 · ${s.attempts} pagsubok` : "Hindi pa nasasagutan ang pagsusulit"}</span>
             </div>
             <ul className="mt-2">
               {lessons.filter((l) => l.term === t.id).map((l) => (
@@ -51,7 +51,7 @@ function ProgressPage() {
           </section>
         );
       })}
-      <button onClick={() => { if (confirm("Reset all progress?")) reset(); }} className="mt-10 min-h-11 border border-destructive px-4 font-sans text-sm text-destructive">Reset progress</button>
+      <button onClick={() => { if (confirm("Burahin ang lahat ng pag-unlad?")) reset(); }} className="mt-10 min-h-11 border border-destructive px-4 font-sans text-sm text-destructive">Burahin ang pag-unlad</button>
     </div>
   );
 }

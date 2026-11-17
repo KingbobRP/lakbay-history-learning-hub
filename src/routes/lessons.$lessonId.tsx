@@ -23,7 +23,7 @@ export const Route = createFileRoute("/lessons/$lessonId")({
       : [{ title: "Aralin — HISTORIA" }, { name: "robots", content: "noindex" }],
   }),
   notFoundComponent: () => (
-    <div className="mx-auto max-w-xl px-4 py-20 text-center"><h1 className="text-3xl">Hindi mahanap ang aralin</h1><Link to="/dashboard" className="mt-4 inline-block font-sans text-primary underline">Bumalik sa dashboard</Link></div>
+    <div className="mx-auto max-w-xl px-4 py-20 text-center"><h1 className="text-3xl">Hindi mahanap ang aralin</h1><Link to="/dashboard" className="mt-4 inline-block font-sans text-primary underline">Bumalik sa mga aralin</Link></div>
   ),
   component: LessonPage,
 });
@@ -43,12 +43,12 @@ function LessonPage() {
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <nav className="font-sans text-xs text-muted-foreground"><Link to="/dashboard" className="hover:text-primary">Dashboard</Link> / {term.name} / Linggo {lesson.weeks}</nav>
+      <nav className="font-sans text-xs text-muted-foreground"><Link to="/dashboard" className="hover:text-primary">Mga Aralin</Link> / {term.name} / Linggo {lesson.weeks}</nav>
       <p className="eyebrow mt-6">{term.name} · {term.title} · Linggo {lesson.weeks}</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">{lesson.title}</h1>
 
       <div className="mt-6 border border-primary/30 bg-card p-4 font-sans">
-        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.15em] text-primary">Paksa ayon sa DepEd Budget of Work</p>
+        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.15em] text-primary">Paksa ayon sa Badyet ng Gawain ng DepEd</p>
         <p className="mt-1 text-base text-foreground">{lesson.competency}</p>
         <p className="mt-2 text-xs text-muted-foreground">Ang mga sumusunod na paliwanag, halimbawa, at pagtataya ay karagdagang materyal ng HISTORIA at hindi opisyal na pahayag ng DepEd.</p>
       </div>
@@ -108,7 +108,7 @@ function LessonPage() {
         <button onClick={() => toggleLesson(lesson.id)} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground"}`}>
           {done ? "✓ Tapos na — ibalik bilang hindi tapos" : "Markahan bilang tapos"}
         </button>
-        <Link to="/quiz" search={{ term: lesson.term }} className="inline-flex min-h-12 items-center justify-center border border-primary px-5 text-sm font-semibold text-primary">Sagutan ang Termino {lesson.term} quiz</Link>
+        <Link to="/quiz" search={{ term: lesson.term }} className="inline-flex min-h-12 items-center justify-center border border-primary px-5 text-sm font-semibold text-primary">Sagutan ang pagsusulit ng Termino {lesson.term}</Link>
       </div>
       <div className="mt-8 grid grid-cols-2 gap-3 font-sans text-sm">
         {prev ? <Link to="/lessons/$lessonId" params={{ lessonId: prev.id }} className="border border-border p-3 hover:bg-card"><span className="text-xs text-muted-foreground">← Nakaraan</span><span className="block text-ink">{prev.title}</span></Link> : <span />}

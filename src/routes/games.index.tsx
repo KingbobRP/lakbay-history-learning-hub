@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { gameCatalog } from '@/lib/history-games';
 import { images } from '@/lib/historia-data';
 
-const description = 'Walong larong pangkasaysayan para sa Baitang 11: timeline, personalidad, ebidensiya, mapa, artifact, at mga hamon sa kaalaman.';
+const description = 'Walong larong pangkasaysayan para sa Baitang 11: talaang-panahon, personalidad, ebidensiya, mapa, artepakto, at mga hamon sa kaalaman.';
 export const Route = createFileRoute('/games/')({
  staticData: { sitemap: true },
  head: () => ({ meta: [{ title: 'Mga Larong Pangkasaysayan — HISTORIA' }, { name: 'description', content: description }, { property: 'og:title', content: 'Mga Larong Pangkasaysayan — HISTORIA' }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] }),
@@ -14,7 +14,7 @@ const icons = [Hourglass, Fingerprint, Search, BadgeCheck, MapPinned, ScrollText
 function GamesPage() {
  return <div className="games-page">
   <section className="relative overflow-hidden bg-primary text-primary-foreground">
-   <img src={images.intramuros} alt="Mga pader ng Intramuros, archival-style na ilustrasyon" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+   <img src={images.intramuros} alt="Mga pader ng Intramuros, ilustrasyong istilong-arkibo" className="absolute inset-0 h-full w-full object-cover opacity-20" />
    <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16"><p className="text-xs font-semibold uppercase text-accent">HISTORIA · Silid ng mga Hamon</p><h1 className="mt-4 max-w-2xl text-4xl text-primary-foreground sm:text-6xl">Mga Larong<br /><span className="italic">Pangkasaysayan</span></h1><p className="mt-5 max-w-lg text-primary-foreground/80">Kilalanin ang mga bayani, sundan ang mga bakas, at tuklasin ang mga lugar na humubog sa ating pagkakakilanlan.</p><p className="mt-8 border-t border-accent/40 pt-4 text-xs text-primary-foreground/70">08 laro <span className="mx-3 text-accent">/</span> 03 antas ng hamon <span className="mx-3 text-accent">/</span> Baitang 11</p></div>
   </section>
   <section className="mx-auto max-w-6xl px-5 py-10 sm:px-8"><div className="mb-8 flex flex-wrap items-baseline justify-between gap-3 border-b border-accent pb-5"><h2 className="text-3xl">Piliin ang iyong hamon</h2><span className="text-sm text-muted-foreground">Kasaysayan · Kultura · Pagkamamamayan</span></div>

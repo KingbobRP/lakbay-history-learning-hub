@@ -19,6 +19,6 @@ export function QuestMap({ picked, correct }: { picked: number | null; correct?:
    })}
    <text x="20" y="40" className="fill-muted-foreground font-sans text-[12px]">PILIPINAS</text>
   </svg>
-  <figcaption className="px-4 pb-3 text-xs text-muted-foreground">Balangkas: Natural Earth · Mga marker: tinatayang sentro ng lokasyon</figcaption>
+  <figcaption className="px-4 pb-3 text-xs text-muted-foreground">Balangkas ng mapa: Natural Earth · Mga tanda: tinatayang sentro ng lokasyon</figcaption>
  </figure>;
 }
