@@ -8,14 +8,14 @@ export type GameId = 'timeline' | 'who' | 'detective' | 'fact' | 'map' | 'comple
 export type Question = { prompt: string; choices: string[]; answer: number; explain: string; hint?: string; clues?: string[]; accepted?: string[]; image?: string; source?: string };
 export const difficulties: { id: Difficulty; label: string }[] = [{ id: 'easy', label: 'Madali' }, { id: 'medium', label: 'Katamtaman' }, { id: 'hard', label: 'Mahirap' }];
 export const gameCatalog: { id: GameId; title: string; category: string; description: string; instructions: string; icon: string }[] = [
-  { id: 'timeline', title: 'Timeline Challenge', category: 'Panahon', description: 'Ayusin ang mga pangyayaring humubog sa ating bansa.', instructions: 'Gamitin ang pataas at pababang arrow upang ayusin ang mga pangyayari mula pinakamaaga hanggang pinakahuli. Bawat pangyayaring nasa tamang puwesto ay may puntos.', icon: 'timeline' },
-  { id: 'who', title: 'Who Am I?', category: 'Mga personalidad', description: 'Kilalanin ang Pilipinong nasa likod ng mga pahiwatig.', instructions: 'Basahin ang mga pahiwatig at piliin ang personalidad. Maaari kang humingi ng isang dagdag na pahiwatig bawat tanong; kalahati ang puntos kapag ginamit ito.', icon: 'who' },
-  { id: 'detective', title: 'History Detective', category: 'Ebidensiya', description: 'Suriin ang mga bakas. Tuklasin ang kasaysayan.', instructions: 'Buksan ang bawat ebidensiya bago magbigay ng konklusyon. Tatlong yugto ang bawat misyon. Piliin ang sagot na sinusuportahan ng mga dokumento at detalye.', icon: 'detective' },
-  { id: 'fact', title: 'Fact or Fake?', category: 'Mapanuring pag-iisip', description: 'Ihiwalay ang katotohanan sa maling pahayag.', instructions: 'Basahin ang pahayag at piliin ang TRUE o FALSE. Makikita ang paliwanag kaagad pagkatapos ng bawat sagot.', icon: 'fact' },
-  { id: 'map', title: 'History Map Quest', category: 'Heograpiya', description: 'Hanapin ang mga lugar na saksi sa ating nakaraan.', instructions: 'Piliin ang numero sa mapa o ang katumbas nitong lugar sa talaan. Ang mga marker ay tunay na lokasyon; inilalarawan ang mapa sa antas ng buong bansa.', icon: 'map' },
-  { id: 'complete', title: 'Complete the History', category: 'Mga pangalan at petsa', description: 'Buuin ang nawawalang bahagi ng ating kuwento.', instructions: 'I-type ang pangalan, petsa, o salitang nawawala. Hindi mahalaga ang malaki o maliit na titik; tinatanggap din ang nakalistang karaniwang alternatibong pangalan.', icon: 'complete' },
-  { id: 'artifact', title: 'Artifact Explorer', category: 'Pamana at kultura', description: 'Basahin ang kasaysayang nakatago sa mga bagay.', instructions: 'Suriin ang tunay na larawan mula sa National Museum at tukuyin ang bagay o ang kabuluhan nito. May tatlong artifact; nagbabago ang tanong ayon sa antas.', icon: 'artifact' },
-  { id: 'millionaire', title: 'History Millionaire', category: 'Pangwakas na hamon', description: 'Umakyat sa siyam na antas ng kaalaman.', instructions: 'Sagutin ang siyam na tanong na pataas ang hirap at puntos. May tig-isang 50:50, pahiwatig, at skip. Ang maling sagot ay nagtatapos sa laro; ang skip ay walang puntos.', icon: 'millionaire' },
+  { id: 'timeline', title: 'Hamon ng Panahon', category: 'Kronolohiya', description: 'Ayusin ang mga pangyayaring humubog sa ating bansa.', instructions: 'Gamitin ang pataas at pababang arrow upang ayusin ang mga pangyayari mula pinakamaaga hanggang pinakahuli. Bawat pangyayaring nasa tamang puwesto ay may puntos.', icon: 'timeline' },
+  { id: 'who', title: 'Sino Ako?', category: 'Mga personalidad', description: 'Kilalanin ang Pilipinong nasa likod ng mga pahiwatig.', instructions: 'Basahin ang mga pahiwatig at piliin ang personalidad. Maaari kang humingi ng isang dagdag na pahiwatig bawat tanong; kalahati ang puntos kapag ginamit ito.', icon: 'who' },
+  { id: 'detective', title: 'Detektib ng Kasaysayan', category: 'Ebidensiya', description: 'Suriin ang mga bakas. Tuklasin ang kasaysayan.', instructions: 'Buksan ang bawat ebidensiya bago magbigay ng konklusyon. Tatlong yugto ang bawat misyon. Piliin ang sagot na sinusuportahan ng mga dokumento at detalye.', icon: 'detective' },
+  { id: 'fact', title: 'Totoo o Hindi?', category: 'Mapanuring pag-iisip', description: 'Ihiwalay ang katotohanan sa maling pahayag.', instructions: 'Basahin ang pahayag at piliin ang TAMA o MALI. Makikita ang paliwanag kaagad pagkatapos ng bawat sagot.', icon: 'fact' },
+  { id: 'map', title: 'Paglalakbay sa Mapa', category: 'Heograpiya', description: 'Hanapin ang mga lugar na saksi sa ating nakaraan.', instructions: 'Piliin ang numero sa mapa o ang katumbas nitong lugar sa talaan. Ang mga tanda ay tunay na lokasyon; inilalarawan ang mapa sa antas ng buong bansa.', icon: 'map' },
+  { id: 'complete', title: 'Buuin ang Kasaysayan', category: 'Mga pangalan at petsa', description: 'Buuin ang nawawalang bahagi ng ating kuwento.', instructions: 'I-type ang pangalan, petsa, o salitang nawawala. Hindi mahalaga ang malaki o maliit na titik; tinatanggap din ang nakalistang karaniwang alternatibong pangalan.', icon: 'complete' },
+  { id: 'artifact', title: 'Paggalugad sa Artepakto', category: 'Pamana at kultura', description: 'Basahin ang kasaysayang nakatago sa mga bagay.', instructions: 'Suriin ang tunay na larawan mula sa Pambansang Museo at tukuyin ang bagay o ang kabuluhan nito. May tatlong artepakto; nagbabago ang tanong ayon sa antas.', icon: 'artifact' },
+  { id: 'millionaire', title: 'Milyonaryo ng Kasaysayan', category: 'Pangwakas na hamon', description: 'Umakyat sa siyam na antas ng kaalaman.', instructions: 'Sagutin ang siyam na tanong na pataas ang hirap at puntos. May tig-isang 50:50, pahiwatig, at laktaw. Ang maling sagot ay nagtatapos sa laro; ang laktaw ay walang puntos.', icon: 'millionaire' },
 ];
 
 function q(prompt: string, choices: string[], answer: number, explain: string, hint?: string, clues?: string[], accepted?: string[]): Question { return { prompt, choices, answer, explain, ...(hint ? { hint } : {}), ...(clues ? { clues } : {}), ...(accepted ? { accepted } : {}) }; }
@@ -31,15 +31,15 @@ const who = [
  q('Ako ang pintor ng Spoliarium, na nagkamit ng gintong medalya sa Madrid noong 1884.', ['Felix Resurreccion Hidalgo', 'Fernando Amorsolo', 'Juan Luna', 'Guillermo Tolentino'], 2, 'Ipininta ni Juan Luna ang Spoliarium. Ang tagumpay nito ay mahalaga sa kamalayang Pilipino.', 'Kapatid ko si Antonio Luna.'),
 ];
 const fact = [
- q('Ipinahayag ang kalayaan sa Kawit noong Hunyo 12, 1898.', ['TRUE', 'FALSE'], 0, 'Naganap ang pagpapahayag sa bahay ni Emilio Aguinaldo sa Kawit, Cavite.'),
- q('Si Andres Bonifacio ang sumulat ng Noli Me Tangere.', ['TRUE', 'FALSE'], 1, 'Si Jose Rizal ang may-akda; inilathala ito noong 1887.'),
- q('Ang People Power sa EDSA ay naganap noong 1986.', ['TRUE', 'FALSE'], 0, 'Naganap ang EDSA People Power noong Pebrero 22–25, 1986.'),
- q('Ang Kartilya ay isinulat ni Emilio Jacinto.', ['TRUE', 'FALSE'], 0, 'Naglalaman ang Kartilya ng mga prinsipyong gagabay sa mga kasapi ng Katipunan.'),
- q('Sa Mactan napatay si Magallanes noong Abril 27, 1521.', ['TRUE', 'FALSE'], 0, 'Napatay si Magallanes sa labanan laban sa mga mandirigma ni Lapu-Lapu.'),
- q('Tanging armadong paglaban ang anyo ng pakikibaka.', ['TRUE', 'FALSE'], 1, 'Ang panulat, mapayapang protesta, at sama-samang pagkilos ay mga anyo rin ng pakikibaka.'),
- q('Pinasinayaan ang Unang Republika sa Malolos noong Enero 23, 1899.', ['TRUE', 'FALSE'], 0, 'Ang Malolos Republic ay pinasinayaan sa Simbahan ng Barasoain.'),
- q('Ang petsa ng lagda sa Proklamasyon 1081 at ang pampublikong pag-anunsiyo ng Batas Militar ay pareho.', ['TRUE', 'FALSE'], 1, 'May petsang Setyembre 21, 1972 ang Proklamasyon 1081; inanunsiyo ito sa publiko noong Setyembre 23.'),
- q('Ang likas-kayang pag-unlad ay tumutugon sa kasalukuyan nang hindi isinasakripisyo ang kakayahan ng susunod na henerasyon.', ['TRUE', 'FALSE'], 0, 'Ito ang pangunahing ideya ng sustainable development sa ulat na Our Common Future (1987).'),
+ q('Ipinahayag ang kalayaan sa Kawit noong Hunyo 12, 1898.', ['TAMA', 'MALI'], 0, 'Naganap ang pagpapahayag sa bahay ni Emilio Aguinaldo sa Kawit, Cavite.'),
+ q('Si Andres Bonifacio ang sumulat ng Noli Me Tangere.', ['TAMA', 'MALI'], 1, 'Si Jose Rizal ang may-akda; inilathala ito noong 1887.'),
+ q('Ang Lakas ng Bayan sa EDSA ay naganap noong 1986.', ['TAMA', 'MALI'], 0, 'Naganap ang Lakas ng Bayan sa EDSA noong Pebrero 22–25, 1986.'),
+ q('Ang Kartilya ay isinulat ni Emilio Jacinto.', ['TAMA', 'MALI'], 0, 'Naglalaman ang Kartilya ng mga prinsipyong gagabay sa mga kasapi ng Katipunan.'),
+ q('Sa Mactan napatay si Magallanes noong Abril 27, 1521.', ['TAMA', 'MALI'], 0, 'Napatay si Magallanes sa labanan laban sa mga mandirigma ni Lapu-Lapu.'),
+ q('Tanging armadong paglaban ang anyo ng pakikibaka.', ['TAMA', 'MALI'], 1, 'Ang panulat, mapayapang protesta, at sama-samang pagkilos ay mga anyo rin ng pakikibaka.'),
+ q('Pinasinayaan ang Unang Republika sa Malolos noong Enero 23, 1899.', ['TAMA', 'MALI'], 0, 'Ang Republika ng Malolos ay pinasinayaan sa Simbahan ng Barasoain.'),
+ q('Ang petsa ng lagda sa Proklamasyon 1081 at ang pampublikong pag-anunsiyo ng Batas Militar ay pareho.', ['TAMA', 'MALI'], 1, 'May petsang Setyembre 21, 1972 ang Proklamasyon 1081; inanunsiyo ito sa publiko noong Setyembre 23.'),
+ q('Ang likas-kayang pag-unlad ay tumutugon sa kasalukuyan nang hindi isinasakripisyo ang kakayahan ng susunod na henerasyon.', ['TAMA', 'MALI'], 0, 'Ito ang pangunahing ideya ng likas-kayang pag-unlad sa ulat na Ating Iisang Kinabukasan (1987).'),
 ];
 const complete = [
  q('Ipinahayag ang kalayaan noong Hunyo 12, ____.', ['1898'], 0, 'Hunyo 12, 1898 ang petsa ng pagpapahayag sa Kawit.', undefined, undefined, ['1898']),
@@ -47,7 +47,7 @@ const complete = [
  q('Ang labanan noong Abril 27, 1521 ay naganap sa ____.', ['Mactan'], 0, 'Sa Mactan lumaban ang mga mandirigmang pinamunuan ni Lapu-Lapu.', undefined, undefined, ['Mactan', 'Mactan Cebu']),
  q('Ang may-akda ng Kartilya ay si ____.', ['Emilio Jacinto'], 0, 'Si Emilio Jacinto ang sumulat ng Kartilya.', undefined, undefined, ['Emilio Jacinto', 'Jacinto']),
  q('Ang samahang itinatag noong Hulyo 7, 1892 ay ang ____.', ['Katipunan'], 0, 'Itinatag ang Katipunan upang isulong ang kalayaan.', undefined, undefined, ['Katipunan', 'KKK']),
- q('Ang People Power sa EDSA ay naganap noong Pebrero 22–25, ____.', ['1986'], 0, 'Noong 1986 naganap ang EDSA People Power.', undefined, undefined, ['1986']),
+ q('Ang Lakas ng Bayan sa EDSA ay naganap noong Pebrero 22–25, ____.', ['1986'], 0, 'Noong 1986 naganap ang Lakas ng Bayan sa EDSA.', undefined, undefined, ['1986']),
  q('Ang Unang Republika ay pinasinayaan noong Enero 23, ____.', ['1899'], 0, 'Pinasinayaan ito sa Malolos noong Enero 23, 1899.', undefined, undefined, ['1899']),
  q('Ang nobelang karugtong ng Noli Me Tangere ay ____.', ['El Filibusterismo'], 0, 'Inilathala ang El Filibusterismo noong 1891.', undefined, undefined, ['El Filibusterismo', 'El Fili']),
  q('Ang sagisag-panulat ni Marcelo H. del Pilar ay ____.', ['Plaridel'], 0, 'Plaridel ang isa sa mga sagisag-panulat ni Marcelo H. del Pilar.', undefined, undefined, ['Plaridel']),
@@ -55,9 +55,9 @@ const complete = [
 const detective = [
  q('Misyon: Tukuyin ang lugar ng pagpapahayag ng kalayaan.', ['Kawit', 'Malolos', 'Mactan', 'Dapitan'], 0, 'Ang petsa, lalawigan, at tahanan ay tumutukoy sa Kawit, Cavite.', undefined, ['Petsa sa dokumento: Hunyo 12, 1898.', 'Lalawigan: Cavite.', 'Lugar: tahanan ni Emilio Aguinaldo.']),
  q('Misyon: Kaninong akda ang nobelang nasa tala?', ['Jose Rizal', 'Emilio Jacinto', 'Andres Bonifacio', 'Juan Luna'], 0, 'Ang Noli Me Tangere ay inilathala ni Rizal sa Berlin noong 1887.', undefined, ['Pamagat: Noli Me Tangere.', 'Taon ng pagkalimbag: 1887.', 'Lugar ng pagkalimbag: Berlin.']),
- q('Misyon: Tukuyin ang pangyayaring inilalarawan.', ['EDSA People Power', 'Labanan sa Mactan', 'Himagsikan 1896', 'Pagbubukas ng Kongreso ng Malolos'], 0, 'Ang magkakaugnay na detalye ay tumutukoy sa EDSA People Power noong 1986.', undefined, ['Taon: 1986.', 'Mga sibilyan ang nagtipon sa isang pangunahing lansangan.', 'Kaugnay ng pagtatapos ng pamumuno ni Ferdinand Marcos Sr.']),
+ q('Misyon: Tukuyin ang pangyayaring inilalarawan.', ['Lakas ng Bayan sa EDSA', 'Labanan sa Mactan', 'Himagsikan 1896', 'Pagbubukas ng Kongreso ng Malolos'], 0, 'Ang magkakaugnay na detalye ay tumutukoy sa Lakas ng Bayan sa EDSA noong 1986.', undefined, ['Taon: 1986.', 'Mga sibilyan ang nagtipon sa isang pangunahing lansangan.', 'Kaugnay ng pagtatapos ng pamumuno ni Ferdinand Marcos Sr.']),
  q('Misyon: Aling samahan ang pinagmulan ng gabay?', ['Katipunan', 'La Liga Filipina', 'Kongreso ng Malolos', 'Hukbalahap'], 0, 'Ang Kartilya ni Jacinto ay gabay sa mga prinsipyo ng Katipunan.', undefined, ['May-akda: Emilio Jacinto.', 'Pamagat: Kartilya.', 'Nilalaman: mga prinsipyong moral para sa mga kasapi.']),
- q('Misyon: Aling kilusan ang inilalarawan?', ['Kilusang Propaganda', 'Hukbalahap', 'EDSA People Power', 'Pag-aalsa ni Dagohoy'], 0, 'Ang La Solidaridad ay mahalagang pahayagan ng Kilusang Propaganda.', undefined, ['Ginamit ang panulat para sa mga reporma.', 'Pahayagan: La Solidaridad.', 'Mga pangalan: del Pilar at Lopez Jaena.']),
+ q('Misyon: Aling kilusan ang inilalarawan?', ['Kilusang Propaganda', 'Hukbalahap', 'Lakas ng Bayan sa EDSA', 'Pag-aalsa ni Dagohoy'], 0, 'Ang La Solidaridad ay mahalagang pahayagan ng Kilusang Propaganda.', undefined, ['Ginamit ang panulat para sa mga reporma.', 'Pahayagan: La Solidaridad.', 'Mga pangalan: del Pilar at Lopez Jaena.']),
  q('Misyon: Anong uri ng sanggunian ang salaysay?', ['Primaryang sanggunian', 'Makabagong nobela', 'Aklat-aralin lamang', 'Walang kabuluhang ebidensiya'], 0, 'Ang salaysay ng nakasaksi ay primaryang sanggunian, ngunit kailangang suriin ang pananaw at limitasyon nito.', undefined, ['Sumulat si Antonio Pigafetta tungkol sa ekspedisyon.', 'Kasama siya sa paglalakbay noong 1521.', 'Isinulat niya ang mga pangyayaring kanyang nasaksihan.']),
  q('Misyon: Aling institusyon ang pinasinayaan?', ['Unang Republika', 'Komonwelt', 'Katipunan', 'La Liga Filipina'], 0, 'Pinasinayaan ang Unang Republika sa Malolos noong Enero 23, 1899.', undefined, ['Petsa: Enero 23, 1899.', 'Lugar: Barasoain, Malolos.', 'Kaugnay ng Saligang Batas ng Malolos.']),
  q('Misyon: Bakit kailangang paghambingin ang dalawang petsa?', ['Magkaiba ang petsa ng dokumento at pag-anunsiyo', 'Walang Batas Militar noong 1972', 'Parehong petsa ang dalawang tala', 'Hindi dapat suriin ang dokumento'], 0, 'May petsang Setyembre 21 ang Proklamasyon 1081; Setyembre 23 ito inanunsiyo sa publiko.', undefined, ['Dokumento: Proklamasyon 1081.', 'Petsa ng dokumento: Setyembre 21, 1972.', 'Pag-anunsiyo sa publiko: Setyembre 23, 1972.']),
@@ -72,15 +72,15 @@ const map = [
  q('Saang lungsod matatagpuan ang Intramuros?', locations.map(l=>l.name), 5, 'Nasa Maynila ang makasaysayang Intramuros.'),
  q('Saan ipinatapon si Jose Rizal mula 1892 hanggang 1896?', locations.map(l=>l.name), 2, 'Ipinatapon si Rizal sa Dapitan, na ngayon ay nasa Zamboanga del Norte.'),
  q('Saan pinasinayaan ang Unang Republika?', locations.map(l=>l.name), 1, 'Sa Malolos, Bulacan pinasinayaan ang Unang Republika.'),
- q('Aling lungsod sa Ilocos Sur ang kilala sa makasaysayang sentro nitong UNESCO World Heritage Site?', locations.map(l=>l.name), 4, 'Ang Historic City of Vigan ay UNESCO World Heritage Site mula 1999.'),
+ q('Aling lungsod sa Ilocos Sur ang kilala sa makasaysayang sentro nitong Pandaigdigang Pamanang Pook ng UNESCO?', locations.map(l=>l.name), 4, 'Ang Makasaysayang Lungsod ng Vigan ay Pandaigdigang Pamanang Pook ng UNESCO mula 1999.'),
  q('Alin ang nasa Ifugao at kilala sa hagdan-hagdang palayan?', locations.map(l=>l.name), 6, 'Ang Banaue ay munisipalidad sa Ifugao, sa Kordilyera.'),
  q('Saang lalawigan natagpuan ang Manunggul Jar?', locations.map(l=>l.name), 7, 'Natagpuan ang Manunggul Jar sa Manunggul Cave, Palawan.'),
  q('Aling lugar ang makasaysayang sentro ng Sultanato ng Sulu?', locations.map(l=>l.name), 8, 'Ang Jolo ay mahalagang sentro ng Sultanato ng Sulu.'),
 ];
 const artifacts = [
  { image: bulul, name: 'Bulul', use: 'Ritwal na kaugnay ng palay', context: 'Kulturang Ifugao', explain: 'Ang bulul ay inukit na pigurang kahoy na mahalaga sa mga ritwal ng palay ng Ifugao.', source: 'https://www.nationalmuseum.gov.ph/our-collections/ethnology/ritual-objects/' },
- { image: urn, name: 'Kulaman limestone burial urn', use: 'Sisidlan para sa paglilibing', context: 'Tradisyon ng paglilibing', explain: 'Ang urnang limestone mula sa Kulaman ay bahagi ng koleksiyon ng mga sisidlang panlibing ng National Museum.', source: 'https://www.nationalmuseum.gov.ph/our-collections/archaeology/burial-jars/' },
- { image: quran, name: 'Quran', use: 'Banal na kasulatan ng Islam', context: 'Pananampalatayang Islam', explain: 'Ang Quran ay banal na kasulatan ng Islam. Ang larawang ito ay mula sa koleksiyong Ritual Objects ng National Museum.', source: 'https://www.nationalmuseum.gov.ph/our-collections/ethnology/ritual-objects/' },
+ { image: urn, name: 'Urnang panlibing na batong-apog mula sa Kulaman', use: 'Sisidlan para sa paglilibing', context: 'Tradisyon ng paglilibing', explain: 'Ang urnang batong-apog mula sa Kulaman ay bahagi ng koleksiyon ng mga sisidlang panlibing ng Pambansang Museo.', source: 'https://www.nationalmuseum.gov.ph/our-collections/archaeology/burial-jars/' },
+ { image: quran, name: 'Quran', use: 'Banal na kasulatan ng Islam', context: 'Pananampalatayang Islam', explain: 'Ang Quran ay banal na kasulatan ng Islam. Ang larawang ito ay mula sa koleksiyong Mga Bagay na Panritwal ng Pambansang Museo.', source: 'https://www.nationalmuseum.gov.ph/our-collections/ethnology/ritual-objects/' },
 ];
 export const events = [
  { title: 'Labanan sa Mactan', date: 'Abril 27, 1521', year: 1521 },
@@ -91,7 +91,7 @@ export const events = [
  { title: 'Pagbitay kay Jose Rizal', date: 'Disyembre 30, 1896', year: 1896 },
  { title: 'Pagpapahayag ng kalayaan sa Kawit', date: 'Hunyo 12, 1898', year: 1898 },
  { title: 'Pagpapasinaya ng Unang Republika', date: 'Enero 23, 1899', year: 1899 },
- { title: 'EDSA People Power', date: 'Pebrero 22–25, 1986', year: 1986 },
+ { title: 'Lakas ng Bayan sa EDSA', date: 'Pebrero 22–25, 1986', year: 1986 },
 ];
 export function timelineRounds(difficulty: Difficulty) {
  const count = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
@@ -115,7 +115,7 @@ function rawQuestionsFor(id: GameId, difficulty: Difficulty): Question[] {
   const start = difficulties.findIndex(d=>d.id===difficulty);
   return Array.from({length: 9}, (_, i) => {
    const question = pool[Math.floor(i/3)*10 + (i%3)*2 + start];
-   if (!question) throw new Error('Missing millionaire question');
+   if (!question) throw new Error('Kulang ang tanong para sa Milyonaryo ng Kasaysayan');
    return q(question.q, question.choices, question.answer, question.explain, i < 3 ? 'Pag-isipan ang kamalayang pangkasaysayan at primaryang sanggunian.' : i < 6 ? 'Iugnay ang detalye sa mga pangyayari ng pakikibaka.' : 'Isaalang-alang ang katarungan, karapatan, at pangangalaga sa susunod na henerasyon.');
   });
  }
