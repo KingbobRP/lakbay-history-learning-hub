@@ -289,7 +289,7 @@ export const lessons: Lesson[] = [
     assessment: [
       { q: "Ano ang pangunahing layunin ng Kilusang Propaganda?", choices: ["Ganap na kalayaan sa armas", "Reporma sa pamamagitan ng mapayapang paraan", "Pagbabalik ng sultanato", "Kalakalang galyon"], answer: 1, explain: "Humingi ng reporma ang mga propagandista." },
       { q: "Sino ang nagtatag ng Katipunan?", choices: ["Jose Rizal", "Emilio Aguinaldo", "Andres Bonifacio", "Apolinario Mabini"], answer: 2, explain: "Itinatag ito ni Bonifacio noong 1892." },
-      { q: "Anong pangyayari noong 1872 ang nagpaalab ng nasyonalismo?", choices: ["Pagbitay sa GomBurZa", "Pagbubukas ng Suez Canal lamang", "Labanan sa Mactan", "Kasunduan sa Paris"], answer: 0, explain: "Ang pagbitay sa tatlong pari ay pumukaw sa damdamin ng mga Pilipino." },
+      { q: "Anong pangyayari noong 1872 ang nagpaalab ng nasyonalismo?", choices: ["Pagbitay sa GomBurZa", "Pagbubukas ng Kanal Suez lamang", "Labanan sa Mactan", "Kasunduan sa Paris"], answer: 0, explain: "Ang pagbitay sa tatlong pari ay pumukaw sa damdamin ng mga Pilipino." },
     ],
   },
   {
@@ -433,7 +433,7 @@ export const lessons: Lesson[] = [
     ],
     facts: ["Sa kasong Oposa v. Factoran (1993), kinilala ng Korte Suprema ang karapatan ng mga kabataan na kumatawan sa susunod na henerasyon sa usaping pangkapaligiran — tinatawag na pananagutang pang-henerasyon."],
     examples: [
-      { title: "Pasilidad sa Pagbawi ng mga Materyales (MRF)", text: "Iniaatas ng RA 9003 sa mga barangay ang pagkakaroon ng pasilidad para sa paghihiwalay at pagre-recycle ng basura." },
+      { title: "Pasilidad sa Pagbawi ng mga Materyales (MRF)", text: "Iniaatas ng RA 9003 sa mga barangay ang pagkakaroon ng pasilidad para sa paghihiwalay at muling pagproseso ng basura." },
       { title: "Oposa v. Factoran", text: "Mga batang nagdemanda upang ipatigil ang labis na pagtotroso para sa kapakanan ng susunod na henerasyon." },
     ],
     keyTerms: [
@@ -458,7 +458,7 @@ export const lessons: Lesson[] = [
     objectives: ["Matukoy ang piling programang panlipunan ng pamahalaan.", "Masuri ang layunin at kinalabasan ng mga ito.", "Makabuo ng mungkahi upang mapabuti ang isang programa."],
     intro: "Ang mga programang panlipunan ay paraan ng pamahalaan upang tulungan ang mga mamamayang nangangailangan at isulong ang pag-unlad na walang naiiwan.",
     sections: [
-      { heading: "Programang Pantawid Pamilyang Pilipino (4Ps)", body: "Isang programang may kondisyong paglilipat ng salapi na ginawang batas sa RA 11310 (2019). Nagbibigay ito ng tulong-pinansiyal sa mahihirap na pamilya kapalit ng pagtupad sa kondisyon gaya ng pagpapaaral sa anak at regular na pagpapatingin sa sentrong pangkalusugan." },
+      { heading: "Programang Pantawid Pamilyang Pilipino (4Ps)", body: "Isang programang may kondisyong paglilipat ng salapi na ginawang batas sa RA 11310 (2019). Nagbibigay ito ng tulong-pinansiyal sa mahihirap na pamilya kapalit ng pagtupad sa kondisyon gaya ng pagpapaaral sa anak at palagiang pagpapatingin sa sentrong pangkalusugan." },
       { heading: "Pambansang Programa sa Pagpapaluntian (NGP)", body: "Programa ng DENR na nagsimula noong 2011 upang magtanim ng puno sa malawak na lupain, mabawasan ang kahirapan sa kanayunan, at mapangalagaan ang kagubatan." },
       { heading: "Komprehensibong Programa sa Repormang Agraryo (CARP)", body: "Batay sa RA 6657 (1988), layunin nitong ipamahagi ang lupa sa mga magsasakang walang sariling lupa — kaugnay ng mahabang kasaysayan ng suliraning agraryo." },
     ],
@@ -582,7 +582,7 @@ export const lessons: Lesson[] = [
     objectives: ["Matukoy ang iba't ibang paraan ng pakikiisa.", "Maipaliwanag ang papel ng lipunang sibil at NGO.", "Makabuo ng plano ng pakikiisa sa sariling pamayanan."],
     intro: "Walang bansang uunlad kung ang pamahalaan lamang ang kumikilos. Ang pakikiisa ng mamamayan ang nagbibigay-buhay sa mga programa at nagbabantay sa kapangyarihan.",
     sections: [
-      { heading: "Mga antas ng pakikiisa", body: "Maaaring makiisa sa antas ng pamilya (pagtitipid, pagre-recycle), paaralan (organisasyon ng mag-aaral), pamayanan (asamblea ng barangay, SK), at bansa (halalan, konsultasyong pampubliko)." },
+      { heading: "Mga antas ng pakikiisa", body: "Maaaring makiisa sa antas ng pamilya (pagtitipid, muling pagproseso), paaralan (organisasyon ng mag-aaral), pamayanan (asamblea ng barangay, SK), at bansa (halalan, konsultasyong pampubliko)." },
       { heading: "Lipunang sibil at NGO", body: "Ang mga samahang di-pampamahalaan (NGO), kooperatiba, at samahang sibiko ay katuwang ng pamahalaan sa paghahatid ng serbisyo at pagtataguyod ng mga adbokasiya." },
       { heading: "Bayanihan sa makabagong panahon", body: "Ang diwa ng bayanihan ay nananatili sa mga gawaing gaya ng paminggalan ng pamayanan, pamamahagi ng tulong, at pagtitipon ng tulong sa internet." },
     ],
@@ -649,7 +649,7 @@ export const timeline: TimelineEvent[] = [
   { year: "1872", title: "Pagbitay sa GomBurZa", text: "Ang pagbitay sa tatlong paring Pilipino ay nagpaalab sa damdaming makabayan.", image: timelineGomburza, caption: "Sina Padre Mariano Gomez, Jose Burgos, at Jacinto Zamora. Larawan mula sa ika-19 na siglo, pampublikong domeyn.", lesson: "t2-w4" },
   { year: "1892", title: "Pagtatatag ng Katipunan", text: "Itinatag ni Andres Bonifacio ang lihim na samahang naglalayong makamit ang kalayaan.", image: revolution, caption: "Mga rebolusyonaryong Pilipino.", lesson: "t2-w4" },
   { year: "1898", title: "Pagpapahayag ng Kalayaan", text: "Ipinahayag ang kalayaan sa Kawit, Cavite noong Hunyo 12.", image: timelineKawit, caption: "Ang tahanan ni Emilio Aguinaldo (Dambanang Aguinaldo) sa Kawit, Cavite. Larawan: Ralff Nestor Nacor, CC BY-SA 4.0, Wikimedia Commons.", lesson: "t2-w8" },
-  { year: "1899", title: "Unang Republika", text: "Pinasinayaan ang Republika ng Malolos noong Enero 23.", image: timelineMalolos, caption: "Paglalarawan ng Kongreso ng Malolos sa sesyon sa Simbahan ng Barasoain. Larawan: Presidential Museum and Library, pampublikong domeyn.", lesson: "t2-w8" },
+  { year: "1899", title: "Unang Republika", text: "Pinasinayaan ang Republika ng Malolos noong Enero 23.", image: timelineMalolos, caption: "Paglalarawan ng Kongreso ng Malolos sa sesyon sa Simbahan ng Barasoain. Larawan: Museo at Aklatang Pampanguluhan, pampublikong domeyn.", lesson: "t2-w8" },
   { year: "1946", title: "Kalayaan mula sa Estados Unidos", text: "Ipinahayag ang Republika ng Pilipinas noong Hulyo 4.", image: commonwealth, caption: "Maynila sa kalagitnaan ng ika-20 siglo.", lesson: "t2-w6" },
   { year: "1972", title: "Batas Militar", text: "Idineklara ni Ferdinand Marcos ang Batas Militar noong Setyembre.", image: timelineBantayog, caption: "Bantayog ng mga Bayani sa Lungsod Quezon, alaala ng mga lumaban sa Batas Militar. Larawan: Alternativity, CC BY-SA 4.0, Wikimedia Commons.", lesson: "t2-w6" },
   { year: "1986", title: "Lakas ng Bayan sa EDSA", text: "Mapayapang pagkilos ng milyon-milyong Pilipino ang nagpanumbalik ng demokrasya.", image: citizens, caption: "Mamamayan sa isang pampublikong pagtitipon.", lesson: "t2-w6" },
