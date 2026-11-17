@@ -8,9 +8,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "HISTORIA: Kasaysayan, Kultura, at Pagkakakilanlan" },
-      { name: "description", content: "Digital learning platform para sa Grade 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino, batay sa tatlong termino ng DepEd." },
+      { name: "description", content: "Digital na plataporma ng pagkatuto para sa Baitang 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino, batay sa tatlong termino ng DepEd." },
       { property: "og:title", content: "HISTORIA: Kasaysayan, Kultura, at Pagkakakilanlan" },
-      { property: "og:description", content: "Mga aralin, timeline, at pagsusulit para sa Baitang 11 Kasaysayan at Lipunang Pilipino." },
+      { property: "og:description", content: "Mga aralin, talaang-panahon, at pagsusulit para sa Baitang 11 Kasaysayan at Lipunang Pilipino." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -20,9 +20,9 @@ export const Route = createFileRoute("/")({
 
 const learningTools = [
   { title: "Mga Aralin", subtitle: "Pag-unawa sa ating nakaraan", to: "/dashboard", icon: BookOpen },
-  { title: "Timeline", subtitle: "Mga yugto ng kasaysayan", to: "/timeline", icon: Landmark },
-  { title: "Quiz Center", subtitle: "Sukatin ang iyong kaalaman", to: "/quiz", icon: ClipboardList },
-  { title: "Progress", subtitle: "Ang iyong paglalakbay", to: "/progress", icon: ChartNoAxesCombined },
+  { title: "Talaang-Panahon", subtitle: "Mga yugto ng kasaysayan", to: "/timeline", icon: Landmark },
+  { title: "Pagsusulit", subtitle: "Sukatin ang iyong kaalaman", to: "/quiz", icon: ClipboardList },
+  { title: "Pag-unlad", subtitle: "Ang iyong paglalakbay", to: "/progress", icon: ChartNoAxesCombined },
 ] as const;
 
 function Home() {
@@ -36,14 +36,14 @@ function Home() {
             <span className="text-cover-muted">Baitang 11 · Kasaysayan at Lipunang Pilipino</span>
           </div>
           <h1 className="mt-6 max-w-3xl text-5xl leading-none sm:text-7xl lg:text-8xl">HISTORIA<span className="mt-3 block text-3xl italic leading-tight sm:text-4xl lg:text-5xl">Kasaysayan, Kultura,<br className="hidden sm:block" /> at Pagkakakilanlan</span></h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-cover-muted sm:mt-6 sm:text-lg">Isang digital learning platform na naglalayong palalimin ang pag-unawa ng mga mag-aaral sa kasaysayan, kultura, pakikibaka, at pagkamamamayan ng mga Pilipino.</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-cover-muted sm:mt-6 sm:text-lg">Isang digital na plataporma ng pagkatuto na naglalayong palalimin ang pag-unawa ng mga mag-aaral sa kasaysayan, kultura, pakikibaka, at pagkamamamayan ng mga Pilipino.</p>
           <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
-            <Button asChild size="lg" className="h-12 bg-accent px-5 font-semibold text-accent-foreground shadow-none hover:bg-accent/90"><Link to="/dashboard">Start Learning <ArrowRight /></Link></Button>
-            <Button asChild variant="outline" size="lg" className="h-12 border-cover-foreground/40 bg-transparent px-5 text-cover-foreground shadow-none hover:bg-cover-foreground/10 hover:text-cover-foreground"><Link to="/curriculum">Explore the Curriculum <ArrowUpRight /></Link></Button>
+            <Button asChild size="lg" className="h-12 bg-accent px-5 font-semibold text-accent-foreground shadow-none hover:bg-accent/90"><Link to="/dashboard">Simulan ang Pag-aaral <ArrowRight /></Link></Button>
+            <Button asChild variant="outline" size="lg" className="h-12 border-cover-foreground/40 bg-transparent px-5 text-cover-foreground shadow-none hover:bg-cover-foreground/10 hover:text-cover-foreground"><Link to="/curriculum">Tuklasin ang Kurikulum <ArrowUpRight /></Link></Button>
           </div>
           <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-cover-foreground/20 pt-4 sm:mt-14 sm:pt-5">
             <p className="font-sans text-xs text-cover-muted">03 Termino <span className="mx-3 text-accent">/</span> {String(lessons.length).padStart(2, "0")} Aralin <span className="mx-3 text-accent">/</span> 30 Linggo</p>
-            <p className="font-sans text-xs italic text-cover-muted">Kordilyera, Pilipinas · Archival-style na ilustrasyon</p>
+            <p className="font-sans text-xs italic text-cover-muted">Kordilyera, Pilipinas · Ilustrasyong istilong-arkibo</p>
           </div>
         </div>
       </section>
@@ -68,7 +68,7 @@ function Home() {
       <section className="home-curriculum mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
         <div className="flex flex-col justify-between gap-4 border-b border-primary/40 pb-6 sm:flex-row sm:items-end">
           <div><p className="eyebrow">Ang Kurikulum</p><h2 className="mt-3 text-3xl sm:text-4xl">Tatlong Termino ng Pag-aaral</h2></div>
-          <p className="max-w-xs font-sans text-sm leading-relaxed text-muted-foreground">Inayos ayon sa DepEd<br />Three-Term Budget of Work.</p>
+          <p className="max-w-xs font-sans text-sm leading-relaxed text-muted-foreground">Inayos ayon sa Tatlong-Terminong<br />Badyet ng Gawain ng DepEd.</p>
         </div>
         <div className="grid gap-8 pt-8 md:grid-cols-3 md:gap-7">
           {terms.map((t, i) => (

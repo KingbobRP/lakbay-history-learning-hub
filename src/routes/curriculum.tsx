@@ -6,9 +6,9 @@ export const Route = createFileRoute("/curriculum")({
   head: () => ({
     meta: [
       { title: "Kurikulum — HISTORIA" },
-      { name: "description", content: "Ang tatlong termino at lingguhang paksa ng Grade 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino ayon sa DepEd Budget of Work." },
+      { name: "description", content: "Ang tatlong termino at lingguhang paksa ng Baitang 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino ayon sa Badyet ng Gawain ng DepEd." },
       { property: "og:title", content: "Kurikulum — HISTORIA" },
-      { property: "og:description", content: "Tatlong termino, lingguhang paksa, batay sa DepEd Three-Term Budget of Work." },
+      { property: "og:description", content: "Tatlong termino, lingguhang paksa, batay sa Tatlong-Terminong Badyet ng Gawain ng DepEd." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -21,7 +21,7 @@ function Curriculum() {
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Balangkas ng Kurso</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">Ang Kurikulum</h1>
-      <p className="mt-4 max-w-2xl text-muted-foreground">Ang mga paksa sa ibaba ay inayos ayon sa DepEd Three-Term Budget of Work para sa Baitang 11. Ang nakasulat sa kolum na <strong className="text-foreground">"Paksa ayon sa Budget of Work"</strong> ay ang opisyal na lingguhang paksa; ang lahat ng paliwanag sa loob ng mga aralin ay karagdagang materyal ng HISTORIA.</p>
+      <p className="mt-4 max-w-2xl text-muted-foreground">Ang mga paksa sa ibaba ay inayos ayon sa Tatlong-Terminong Badyet ng Gawain ng DepEd para sa Baitang 11. Ang nakasulat sa kolum na <strong className="text-foreground">"Paksa ayon sa Badyet ng Gawain"</strong> ay ang opisyal na lingguhang paksa; ang lahat ng paliwanag sa loob ng mga aralin ay karagdagang materyal ng HISTORIA.</p>
 
       {terms.map((t) => (
         <section key={t.id} id={`term-${t.id}`} className="mt-14 scroll-mt-24">
@@ -33,7 +33,7 @@ function Curriculum() {
             <thead className="sr-only sm:not-sr-only">
               <tr className="border-b border-border text-left text-xs uppercase tracking-widest text-muted-foreground">
                 <th className="py-3 pr-4 font-semibold">Linggo</th>
-                <th className="py-3 pr-4 font-semibold">Paksa ayon sa Budget of Work</th>
+                <th className="py-3 pr-4 font-semibold">Paksa ayon sa Badyet ng Gawain</th>
                 <th className="py-3 font-semibold"><span className="sr-only">Aralin</span></th>
               </tr>
             </thead>

@@ -6,10 +6,10 @@ export const Route = createFileRoute("/search")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Search Lessons — Historia" },
-      { name: "description", content: "Search lessons by title, topic or keyword." },
-      { property: "og:title", content: "Search Lessons — Historia" },
-      { property: "og:description", content: "Find any Historia lesson quickly." },
+      { title: "Maghanap ng Aralin — HISTORIA" },
+      { name: "description", content: "Maghanap ng aralin ayon sa pamagat, paksa, o susing salita." },
+      { property: "og:title", content: "Maghanap ng Aralin — HISTORIA" },
+      { property: "og:description", content: "Mabilis na hanapin ang anumang aralin ng HISTORIA." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -30,7 +30,7 @@ function SearchPage() {
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Paghahanap</p>
       <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Maghanap ng Aralin</h1>
-      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Hal. “Rizal”, “babaylan”, “pagkamamamayan”…" aria-label="Search lessons" className="mt-8 min-h-12 w-full border border-primary bg-card px-4 font-sans text-base outline-none focus:ring-2 focus:ring-ring" />
+      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Hal. “Rizal”, “babaylan”, “pagkamamamayan”…" aria-label="Maghanap ng aralin" className="mt-8 min-h-12 w-full border border-primary bg-card px-4 font-sans text-base outline-none focus:ring-2 focus:ring-ring" />
       {q && <p className="mt-3 font-sans text-sm text-muted-foreground">{results.length} resulta</p>}
       {terms.map((t) => {
         const r = results.filter((l) => l.term === t.id);

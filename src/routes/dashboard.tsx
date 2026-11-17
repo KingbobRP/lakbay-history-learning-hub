@@ -8,9 +8,9 @@ export const Route = createFileRoute("/dashboard")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Learning Dashboard — HISTORIA" },
+      { title: "Talaan ng Pag-aaral — HISTORIA" },
       { name: "description", content: "Lingguhang aralin sa tatlong termino, may tala ng natapos at hindi pa natatapos." },
-      { property: "og:title", content: "Learning Dashboard — HISTORIA" },
+      { property: "og:title", content: "Talaan ng Pag-aaral — HISTORIA" },
       { property: "og:description", content: "Subaybayan ang iyong pag-aaral sa Baitang 11 Kasaysayan at Lipunang Pilipino." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -28,14 +28,14 @@ function Dashboard() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <p className="eyebrow">Learning Dashboard</p>
+      <p className="eyebrow">Talaan ng Pag-aaral</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">Ang Iyong Pag-aaral</h1>
 
       <div className="mt-8 grid gap-6 border border-border bg-card p-6 md:grid-cols-[1fr_auto] md:items-center">
         <div>
-          <p className="font-sans text-sm text-muted-foreground">Learning progress</p>
+          <p className="font-sans text-sm text-muted-foreground">Pag-usad ng pag-aaral</p>
           <p className="mt-1 font-display text-3xl text-ink">{progress.completed.length} sa {lessons.length} aralin ang natapos</p>
-          <div className="mt-4 h-1.5 w-full bg-muted" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100} aria-label="Learning progress"><div className="h-1.5 bg-primary" style={{ width: `${percent}%` }} /></div>
+          <div className="mt-4 h-1.5 w-full bg-muted" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100} aria-label="Pag-usad ng pag-aaral"><div className="h-1.5 bg-primary" style={{ width: `${percent}%` }} /></div>
           <p className="mt-1 font-sans text-xs text-muted-foreground">{percent}%</p>
         </div>
         {next ? (
