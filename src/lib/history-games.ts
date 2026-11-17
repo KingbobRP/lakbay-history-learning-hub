@@ -5,7 +5,7 @@ import { quizzes } from './historia-data';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type GameId = 'timeline' | 'who' | 'detective' | 'fact' | 'map' | 'complete' | 'artifact' | 'millionaire';
-export type Question = { prompt: string; choices: string[]; answer: number; explain: string; hint?: string; clues?: string[]; accepted?: string[]; image?: string; source?: string };
+export type Question = { prompt: string; choices: string[]; answer: number; explain: string; whyNot?: string; hint?: string; clues?: string[]; accepted?: string[]; image?: string; source?: string };
 export const difficulties: { id: Difficulty; label: string }[] = [{ id: 'easy', label: 'Madali' }, { id: 'medium', label: 'Katamtaman' }, { id: 'hard', label: 'Mahirap' }];
 export const gameCatalog: { id: GameId; title: string; category: string; description: string; instructions: string; icon: string }[] = [
   { id: 'timeline', title: 'Hamon ng Panahon', category: 'Kronolohiya', description: 'Ayusin ang mga pangyayaring humubog sa ating bansa.', instructions: 'Gamitin ang pataas at pababang palaso upang ayusin ang mga pangyayari mula pinakamaaga hanggang pinakahuli. Bawat pangyayaring nasa tamang puwesto ay may puntos.', icon: 'timeline' },

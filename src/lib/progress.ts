@@ -2,11 +2,17 @@ import { useCallback, useEffect, useState } from "react";
 import { lessons } from "./historia-data";
 
 const KEY = "historia-progress-v1";
-export type Progress = { completed: string[]; scores: Record<string, { best: number; last: number; attempts: number }> };
-const empty: Progress = { completed: [], scores: {} };
+/** mastered holds key-term ids ("lessonId::term") the student marked as memorised on the flip cards. */
+export type Progress = { completed: string[]; scores: Record<string, { best: number; last: number; attempts: number }>; mastered: string[] };
+const empty: Progress = { completed: [], scores: {}, mastered: [] };
+export const masteryKey = (lessonId: string, term: string) => `${lessonId}::${term}`;
+export const totalKeyTerms = lessons.reduce((n, l) => n + l.keyTerms.length, 0);
 
 function read(): Progress {
-  try { return { ...empty, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch { return empty; }
+  try {
+    const saved = { ...empty, ...JSON.parse(localStorage.getItem(KEY) || "{}") } as Progress;
+    return { ...saved, mastered: Array.isArray(saved.mastered) ? saved.mastered : [] };
+  } catch { return empty; }
 }
 
 export function useProgress() {
@@ -30,6 +36,7 @@ export function useProgress() {
       const prev = s.scores[term] ?? { best: 0, last: 0, attempts: 0 };
       return { ...s, scores: { ...s.scores, [term]: { best: Math.max(prev.best, score), last: score, attempts: prev.attempts + 1 } } };
     }),
+    toggleMastered: (key: string) => save((s) => ({ ...s, mastered: s.mastered.includes(key) ? s.mastered.filter((x) => x !== key) : [...s.mastered, key] })),
     reset: () => save(() => empty),
     percent: Math.round((p.completed.length / lessons.length) * 100),
   };

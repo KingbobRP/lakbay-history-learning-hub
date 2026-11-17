@@ -24,7 +24,8 @@ export const terms: Term[] = [
   { id: 3, name: "Ikatlong Termino", title: "Pagkamamamayan at Likas-Kayang Pag-unlad", weeks: 10, image: citizens, blurb: "Pag-aaral sa likas-kayang pag-unlad, katarungang panlipunan, at mga karapatan at tungkulin ng mamamayan tungo sa pambansang kaunlaran." },
 ];
 
-export type Question = { q: string; choices: string[]; answer: number; explain: string };
+/** explain = why the correct answer is sound; whyNot = why the distractors fall short. */
+export type Question = { q: string; choices: string[]; answer: number; explain: string; whyNot?: string };
 
 export type Lesson = {
   id: string; term: number; week: number; weeks: string; title: string; topic: string;

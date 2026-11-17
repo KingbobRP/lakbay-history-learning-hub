@@ -13,3 +13,15 @@
 - [ ] Verify actual Google indexing/traffic — blocked by unavailable Search Console access.
 - [x] Translate all remaining English text into Filipino.
 - [x] Give every timeline event a photo.
+
+# Interactive lesson upgrade (Nov 2026)
+- [ ] Home page: subject title + exact competency statement.
+- [ ] Lesson page: step-by-step card stepper with top progress bar.
+- [ ] Salaysay + Saysay interactive equation (Aralin 1, Pagtalakay).
+- [ ] Primarya vs. Sekundarya 4-card sorter after Pagtalakay.
+- [ ] Pigafetta bias hotspots linked to Pantayong Pananaw.
+- [ ] Flip cards for Mga Susing Termino with "kabisado" toggle feeding Pag-unlad.
+- [ ] Rich answer feedback (instant states, celebration, why/why-not) in lessons, quiz center, games.
+- [ ] HOTS rewrite of all lesson assessments, term extras, and game question banks.
+- [ ] Remove duplicate Intramuros caption; polish hover/spacing.
+- [ ] Verify on phone size; tests.
