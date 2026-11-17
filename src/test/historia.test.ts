@@ -23,6 +23,12 @@ describe("Historia rules", () => {
   it("timeline is linked to existing lessons", () => {
     timeline.forEach((e) => e.lesson && expect(lessons.some((l) => l.id === e.lesson)).toBe(true));
   });
+  it("every timeline event has a photo with a caption", () => {
+    timeline.forEach((e) => {
+      expect(e.image, e.title).toBeTruthy();
+      expect(e.caption, e.title).toBeTruthy();
+    });
+  });
   it("search finds by keyword", () => {
     expect(searchLessons("rizal").map((l) => l.id)).toContain("t2-w4");
   });
