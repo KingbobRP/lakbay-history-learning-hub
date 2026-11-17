@@ -25,7 +25,7 @@ function ProgressPage() {
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Talaan ng Pag-unlad</p>
       <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Pag-unlad ng Mag-aaral</h1>
-      <p className="mt-3 text-muted-foreground">Awtomatikong nai-save sa kagamitang ito.</p>
+      <p className="mt-3 text-muted-foreground">Awtomatikong naitatala sa kagamitang ito.</p>
       <div className="mt-8 grid grid-cols-3 border border-border bg-card text-center">
         {[["Aralin", `${percent}%`], ["Pagsusulit", `${quizAvg}%`], ["Kabuuan", `${overall}%`]].map(([k, v]) => (
           <div key={k} className="border-r border-border p-4 last:border-r-0"><p className="eyebrow">{k}</p><p className="mt-1 font-display text-3xl text-ink">{v}</p></div>
