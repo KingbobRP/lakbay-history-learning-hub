@@ -13,3 +13,4 @@
 - Shared visual roles and editorial page styles are defined in src/styles.css; page controls use the existing Button component to keep presentation consistent.
 - Derive sitemap static URLs from required route-level staticData.sitemap decisions and dynamic lesson URLs from the existing course collection; omit personal progress/search surfaces and lastmod without authoritative content dates.
 - Keep game question banks and scoring rules in src/lib/history-games.ts and reusable game presentation in src/components/games; games use session-only scores, not a shared leaderboard, because the app has no persistent user accounts.
+- App photos are bundled under src/assets and imported directly (not CDN asset pointers) so copies built from GitHub (e.g. Netlify) show them too.
