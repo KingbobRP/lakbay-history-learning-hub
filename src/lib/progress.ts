@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { lessons } from "./historia-data";
+import { award, resetRewards, XP_RULES } from "./rewards";
 
 const KEY = "historia-progress-v1";
 /** mastered holds key-term ids ("lessonId::term") the student marked as memorised on the flip cards. */
@@ -31,13 +32,23 @@ export function useProgress() {
   }, []);
   return {
     progress: p,
-    toggleLesson: (id: string) => save((s) => ({ ...s, completed: s.completed.includes(id) ? s.completed.filter((x) => x !== id) : [...s.completed, id] })),
-    recordScore: (term: number, score: number) => save((s) => {
+    toggleLesson: (id: string) => {
+      save((s) => ({ ...s, completed: s.completed.includes(id) ? s.completed.filter((x) => x !== id) : [...s.completed, id] }));
+      if (read().completed.includes(id)) award(`lesson:${id}`, XP_RULES.lesson);
+    },
+    recordScore: (term: number, score: number) => {
+      award(`quiz:${term}`, XP_RULES.quiz);
+      if (score === 10) award(`perfect:${term}`, XP_RULES.perfect);
+      save((s) => {
       const prev = s.scores[term] ?? { best: 0, last: 0, attempts: 0 };
       return { ...s, scores: { ...s.scores, [term]: { best: Math.max(prev.best, score), last: score, attempts: prev.attempts + 1 } } };
-    }),
-    toggleMastered: (key: string) => save((s) => ({ ...s, mastered: s.mastered.includes(key) ? s.mastered.filter((x) => x !== key) : [...s.mastered, key] })),
-    reset: () => save(() => empty),
+      });
+    },
+    toggleMastered: (key: string) => {
+      save((s) => ({ ...s, mastered: s.mastered.includes(key) ? s.mastered.filter((x) => x !== key) : [...s.mastered, key] }));
+      if (read().mastered.includes(key)) award(`term:${key}`, XP_RULES.term);
+    },
+    reset: () => { save(() => empty); resetRewards(); },
     percent: Math.round((p.completed.length / lessons.length) * 100),
   };
 }
