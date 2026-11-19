@@ -30,6 +30,12 @@ function Dashboard() {
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Talaan ng Pag-aaral</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">Ang Iyong Pag-aaral</h1>
+      <nav className="mt-5 flex flex-wrap gap-2 font-sans text-sm" aria-label="Iba pang bahagi ng Aralin">
+        <Link to="/timeline" className="inline-flex min-h-11 items-center border border-accent px-4 text-primary hover:bg-secondary">Talaang-Panahon</Link>
+        <Link to="/curriculum" className="inline-flex min-h-11 items-center border border-border px-4 text-primary hover:bg-secondary">Kurikulum</Link>
+        <Link to="/games" className="inline-flex min-h-11 items-center border border-border px-4 text-primary hover:bg-secondary">Mga Laro</Link>
+        <Link to="/search" className="inline-flex min-h-11 items-center border border-border px-4 text-primary hover:bg-secondary">Maghanap</Link>
+      </nav>
 
       <div className="mt-8 grid gap-6 border border-border bg-card p-6 md:grid-cols-[1fr_auto] md:items-center">
         <div>

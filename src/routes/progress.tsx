@@ -1,6 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { lessons, terms } from "@/lib/historia-data";
+import { useEffect, useState } from "react";
 import { masteryKey, totalKeyTerms, useProgress } from "@/lib/progress";
+import { useProfile, type Profile } from "@/lib/profile";
+import { useRewards } from "@/lib/rewards";
+
+function ProfileForm() {
+  const { profile, save } = useProfile();
+  const rewards = useRewards();
+  const [f, setF] = useState<Profile>({ fullName: "", age: "", gender: "", section: "" });
+  const [saved, setSaved] = useState(false);
+  useEffect(() => { if (profile) setF(profile); }, [profile]);
+  const field = "mt-1 min-h-11 w-full border border-border bg-background px-3 font-sans text-base";
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); if (!f.fullName.trim()) return; save({ ...f, fullName: f.fullName.trim() }); setSaved(true); }} className="mt-8 border border-accent bg-card p-5">
+      <div className="flex flex-wrap items-baseline justify-between gap-2"><h2 className="text-2xl text-ink">Aking Profile</h2><span className="font-sans text-sm font-semibold text-primary">{rewards.xp} XP</span></div>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <label className="font-sans text-sm sm:col-span-2">Buong pangalan<input required value={f.fullName} onChange={(e) => setF({ ...f, fullName: e.target.value })} className={field} /></label>
+        <label className="font-sans text-sm">Edad<input inputMode="numeric" value={f.age} onChange={(e) => setF({ ...f, age: e.target.value.replace(/\D/g, "").slice(0, 2) })} className={field} /></label>
+        <label className="font-sans text-sm">Kasarian<select value={f.gender} onChange={(e) => setF({ ...f, gender: e.target.value })} className={field}><option value="">Pumili</option><option>Lalaki</option><option>Babae</option><option>Mas gustong hindi sabihin</option></select></label>
+        <label className="font-sans text-sm sm:col-span-2">Seksiyon<input value={f.section} onChange={(e) => setF({ ...f, section: e.target.value })} placeholder="hal. 11 - STEM" className={field} /></label>
+      </div>
+      <div className="mt-4 flex items-center gap-3"><button type="submit" className="min-h-11 bg-primary px-5 font-sans text-sm font-semibold text-primary-foreground">I-save ang profile</button>{saved && <span className="font-sans text-sm text-success" role="status">Nai-save na!</span>}</div>
+    </form>
+  );
+}
 
 export const Route = createFileRoute("/progress")({
   staticData: { sitemap: false },
@@ -26,6 +50,7 @@ function ProgressPage() {
       <p className="eyebrow">Talaan ng Pag-unlad</p>
       <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Pag-unlad ng Mag-aaral</h1>
       <p className="mt-3 text-muted-foreground">Awtomatikong naitatala sa kagamitang ito.</p>
+      <ProfileForm />
       <div className="mt-8 grid grid-cols-2 border border-border bg-card text-center sm:grid-cols-4">
         {[["Aralin", `${percent}%`], ["Pagsusulit", `${quizAvg}%`], ["Kabuuan", `${overall}%`], ["Kabisadong termino", `${progress.mastered.length}/${totalKeyTerms}`]].map(([k, v]) => (
           <div key={k} className="border-b border-r border-border p-4 sm:border-b-0"><p className="eyebrow">{k}</p><p className="mt-1 font-display text-3xl text-ink">{v}</p></div>
