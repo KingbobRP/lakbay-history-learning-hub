@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, UserRound, CalendarDays, Users, GraduationCap, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useProfile } from "@/lib/profile";
+import { useStudent } from "@/lib/student";
+import { StudentDashboard } from "@/components/StudentDashboard";
 import heroFigures from "@/assets/home-hero-figures.jpg";
 import mascot from "@/assets/home-mascot.png";
 import decoBook from "@/assets/deco-book.png";
@@ -28,13 +29,11 @@ const sparkles = [
 ];
 
 function Home() {
-  const { profile, ready } = useProfile();
-  const info = [
-    { icon: UserRound, label: "Pangalan", value: profile?.fullName },
-    { icon: CalendarDays, label: "Edad", value: profile?.age },
-    { icon: Users, label: "Kasarian", value: profile?.gender },
-    { icon: GraduationCap, label: "Seksiyon", value: profile?.section },
-  ];
+  const { session } = useStudent();
+  return session ? <StudentDashboard /> : <Landing />;
+}
+
+function Landing() {
   return (
     <div className="home-page hx">
       <section className="hx-hero">
@@ -61,22 +60,11 @@ function Home() {
       <section className="hx-panel-wrap mx-auto max-w-6xl px-4 sm:px-8">
         <div className="hx-panel">
           <img src={mascot} alt="Masayahing mag-aaral na may hawak na aklat" width={816} height={816} className="hx-mascot" />
-          <div className="hx-welcome"><span>Maligayang pagbabalik,</span><strong>{profile ? profile.fullName.split(" ")[0] : "Mag-aaral"}!</strong></div>
-          {ready && !profile ? (
-            <div className="hx-empty">
-              <p>Wala pang profile. Ilagay ang iyong buong pangalan at seksiyon upang makita rito.</p>
-              <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/progress">Gumawa ng profile</Link></Button>
-            </div>
-          ) : (
-            <dl className="hx-info">
-              {info.map(({ icon: Icon, label, value }) => (
-                <div key={label} className="hx-info-item">
-                  <Icon className="h-6 w-6 shrink-0 text-accent" strokeWidth={1.5} />
-                  <div className="min-w-0"><dt>{label}:</dt><dd>{value || "—"}</dd></div>
-                </div>
-              ))}
-            </dl>
-          )}
+          <div className="hx-welcome"><span>Maligayang pagdating,</span><strong>Mag-aaral!</strong></div>
+          <div className="hx-empty">
+            <p>Mag-log in gamit ang iyong buong pangalan, class code, at PIN upang makita ang iyong profile, puntos, at pag-unlad.</p>
+            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/auth">Mag-log in</Link></Button>
+          </div>
         </div>
       </section>
     </div>

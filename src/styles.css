@@ -301,3 +301,19 @@ footer { margin-top: 5rem; }
 .hx-info dd { margin: 0; font-family: var(--font-display); font-size: 1.2rem; color: var(--cover-foreground); overflow-wrap: anywhere; }
 .hx-empty { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.8rem; text-align: center; font-size: 0.95rem; color: var(--cover-muted); }
 @media (prefers-reduced-motion: reduce) { .hx *, .xp-toast { animation: none !important; } }
+
+/* ===== Student dashboard + Babaylan ===== */
+.babaylan-card { display: flex; gap: 1rem; align-items: flex-start; border: 1px solid var(--accent); background: var(--card); padding: 1rem; animation: hx-rise 500ms ease-out both; }
+.babaylan-face { width: 5.5rem; height: 5.5rem; border-radius: 999px; border: 2px solid var(--accent); object-fit: cover; flex-shrink: 0; animation: babaylan-breathe 4s ease-in-out infinite; }
+.babaylan-face.is-happy { animation: babaylan-hop 600ms ease 2; }
+@media (max-width: 480px) { .babaylan-face { width: 4rem; height: 4rem; } }
+.babaylan-bubble { position: relative; margin-top: 0.25rem; background: var(--parchment); padding: 0.7rem 0.9rem; font-size: 0.98rem; line-height: 1.55; animation: hx-rise 300ms ease-out both; }
+.babaylan-btn { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--primary); color: var(--primary); font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; transition: background-color 160ms ease; }
+.babaylan-btn:hover { background: var(--secondary); }
+.babaylan-btn.is-primary { background: var(--primary); color: var(--primary-foreground); }
+.babaylan-fab { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--accent); background: var(--card); padding: 0.25rem 0.75rem 0.25rem 0.25rem; color: var(--primary); font-family: var(--font-sans); }
+.babaylan-fab img { width: 2.75rem; height: 2.75rem; border-radius: 999px; object-fit: cover; }
+@keyframes babaylan-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+@keyframes babaylan-hop { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px) rotate(-3deg); } }
+.dash-card { border: 1px solid var(--border); background: var(--card); padding: 1.1rem; }
+.dash-bar { height: 0.45rem; background: var(--muted); } .dash-bar > span { display: block; height: 100%; background: var(--primary); transition: width 400ms ease; }
