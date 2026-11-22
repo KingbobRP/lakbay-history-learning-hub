@@ -108,6 +108,35 @@
 .historia-logo { gap: 0.9rem; }
 .logo-monogram { outline: 1px solid color-mix(in oklab, var(--accent) 35%, transparent); outline-offset: -5px; }
 .desktop-navigation a { padding-inline: 0.75rem; padding-block: 0.65rem; }
+
+/* Subtle HISTORIA navigation icon motion */
+.nav-icon-motion {
+  transform-origin: center;
+  animation: nav-icon-float 3.6s ease-in-out infinite;
+  transition: color 180ms ease, filter 180ms ease;
+}
+.desktop-navigation a:nth-child(even) .nav-icon-motion { animation-delay: -1.8s; }
+.desktop-navigation a:hover .nav-icon-motion,
+.desktop-navigation a:focus-visible .nav-icon-motion,
+nav[aria-label="Nabigasyon sa telepono"] a:active .nav-icon-motion {
+  animation: nav-icon-wiggle 420ms ease-in-out;
+  color: var(--accent);
+}
+.desktop-navigation a[aria-current="page"] .nav-icon-motion,
+nav[aria-label="Nabigasyon sa telepono"] a[aria-current="page"] .nav-icon-motion {
+  color: var(--accent);
+  filter: drop-shadow(0 0 4px color-mix(in oklab, var(--accent) 35%, transparent));
+}
+@keyframes nav-icon-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+@keyframes nav-icon-wiggle {
+  0%, 100% { transform: rotate(0); }
+  30% { transform: rotate(-9deg); }
+  65% { transform: rotate(7deg); }
+}
+
 .site-header > div:first-child { padding-block: 1.1rem; }
 .home-cover > div { padding-top: 5rem; padding-bottom: 2rem; }
 .home-cover h1 { font-weight: 500; }
@@ -206,6 +235,10 @@ footer { margin-top: 5rem; }
 /* Interactive lesson: stepper, activities, feedback, flip cards */
 .stepper-bar { margin-top: 2rem; padding: 1rem 0 0.75rem; border-top: 1px solid var(--color-border); scroll-margin-top: 5.5rem; }
 .step-dot { display: flex; width: 100%; min-height: 2.75rem; flex-direction: column; align-items: center; justify-content: center; gap: 0.1rem; border: 1px solid var(--color-border); background: var(--color-card); font-family: var(--font-sans); font-size: 0.72rem; color: var(--color-muted-foreground); line-height: 1.2; }
+.step-dot { transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, background-color 180ms ease; }
+.step-dot:hover { transform: translateY(-2px); }
+.step-dot:active { transform: scale(0.97); }
+
 .step-dot > span:first-child { font-weight: 700; font-size: 0.85rem; }
 .step-dot:hover { border-color: var(--color-primary); color: var(--color-primary); }
 .step-dot.is-done { border-color: color-mix(in oklab, var(--color-success) 50%, var(--color-border)); color: var(--color-success); }
@@ -303,18 +336,42 @@ footer { margin-top: 5rem; }
 .hx-empty { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.8rem; text-align: center; font-size: 0.95rem; color: var(--cover-muted); }
 @media (prefers-reduced-motion: reduce) { .hx *, .xp-toast { animation: none !important; } }
 
-/* ===== Student dashboard + Babaylan ===== */
-.babaylan-card { display: flex; gap: 1rem; align-items: flex-start; border: 1px solid var(--accent); background: var(--card); padding: 1rem; animation: hx-rise 500ms ease-out both; }
-.babaylan-face { width: 5.5rem; height: 5.5rem; border-radius: 999px; border: 2px solid var(--accent); object-fit: cover; flex-shrink: 0; animation: babaylan-breathe 4s ease-in-out infinite; }
-.babaylan-face.is-happy { animation: babaylan-hop 600ms ease 2; }
-@media (max-width: 480px) { .babaylan-face { width: 4rem; height: 4rem; } }
-.babaylan-bubble { position: relative; margin-top: 0.25rem; background: var(--parchment); padding: 0.7rem 0.9rem; font-size: 0.98rem; line-height: 1.55; animation: hx-rise 300ms ease-out both; }
-.babaylan-btn { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--primary); color: var(--primary); font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; transition: background-color 160ms ease; }
-.babaylan-btn:hover { background: var(--secondary); }
-.babaylan-btn.is-primary { background: var(--primary); color: var(--primary-foreground); }
-.babaylan-fab { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--accent); background: var(--card); padding: 0.25rem 0.75rem 0.25rem 0.25rem; color: var(--primary); font-family: var(--font-sans); }
-.babaylan-fab img { width: 2.75rem; height: 2.75rem; border-radius: 999px; object-fit: cover; }
-@keyframes babaylan-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-@keyframes babaylan-hop { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px) rotate(-3deg); } }
 .dash-card { border: 1px solid var(--border); background: var(--card); padding: 1.1rem; }
 .dash-bar { height: 0.45rem; background: var(--muted); } .dash-bar > span { display: block; height: 100%; background: var(--primary); transition: width 400ms ease; }
+
+
+/* Subtle XP and dashboard badge motion */
+.xp-pill {
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+.xp-pill:hover { transform: translateY(-1px); }
+.xp-pill:active { transform: scale(0.97); }
+.xp-star-motion {
+  transform-origin: center;
+  animation: xp-star-float 3s ease-in-out infinite;
+}
+.xp-pill:hover .xp-star-motion {
+  animation: nav-icon-wiggle 420ms ease-in-out;
+}
+.dash-xp-summary {
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+.dash-xp-summary:hover {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 7%, var(--card));
+}
+.dashboard-icon-motion {
+  transform-origin: center;
+  transition: transform 180ms ease;
+}
+a:hover .dashboard-icon-motion {
+  transform: translateY(-2px) scale(1.06);
+}
+@keyframes xp-star-float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-2px) rotate(5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .xp-star-motion { animation: none !important; }
+  .xp-pill, .dashboard-icon-motion, .dash-xp-summary { transition: none !important; }
+}

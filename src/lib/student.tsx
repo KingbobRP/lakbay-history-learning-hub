@@ -96,12 +96,17 @@ export function StudentProvider({ children }: { children: ReactNode }) {
   const award = useCallback((rewardId: string, label: string) => {
     if (uid) {
       if (activity.some((a) => a.reward_id === rewardId)) return;
-      void supabase.rpc("award_points", { _reward_id: rewardId, _label: label }).then(({ data }) => {
+      void supabase.rpc("award_points", { _reward_id: rewardId, _label: label }).then(({ data, error }) => {
+        if (error) {
+          console.error("XP award failed:", error);
+          return;
+        }
         const pts = Number(data) || 0;
         if (pts > 0) {
           setActivity((list) => [{ id: crypto.randomUUID(), kind: "points", label, reward_id: rewardId, score: null, points: pts, created_at: new Date().toISOString() }, ...list]);
           notify(pts);
         }
+
       });
     } else {
       setLocalRewards((r) => {

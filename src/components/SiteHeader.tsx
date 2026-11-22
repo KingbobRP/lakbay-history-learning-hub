@@ -38,7 +38,7 @@ export function SiteHeader() {
         <Link to="/" aria-label="HISTORIA — Tahanan" onClick={() => setOpen(false)}><Logo /></Link>
         <nav className="desktop-navigation hidden items-center font-sans text-sm lg:flex" aria-label="Pangunahing nabigasyon">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} title={n.label} className="flex items-center gap-1.5 border-b-2 border-transparent !px-2 py-2 text-primary-foreground/75 transition-colors hover:text-primary-foreground" activeProps={{ className: "!border-accent !text-accent" }}><n.icon className="h-4 w-4" /><span className="hidden xl:inline">{n.label}</span></Link>
+            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} title={n.label} className="flex items-center gap-1.5 border-b-2 border-transparent !px-2 py-2 text-primary-foreground/75 transition-colors hover:text-primary-foreground" activeProps={{ className: "!border-accent !text-accent" }}><n.icon className="nav-icon-motion h-4 w-4" /><span className="hidden xl:inline">{n.label}</span></Link>
           ))}
         </nav>
         <div className="flex items-center gap-2">
@@ -55,7 +55,7 @@ export function SiteHeader() {
       {open && (
         <nav className="bg-primary font-sans lg:hidden" aria-label="Nabigasyon sa telepono">
           {nav.map((n) => (
-            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} onClick={() => setOpen(false)} className="flex items-center gap-3 border-b border-primary-foreground/10 px-6 py-4 text-base text-primary-foreground/85" activeProps={{ className: "!text-accent font-semibold" }}><n.icon className="h-5 w-5" />{n.label}</Link>
+            <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} onClick={() => setOpen(false)} className="flex items-center gap-3 border-b border-primary-foreground/10 px-6 py-4 text-base text-primary-foreground/85" activeProps={{ className: "!text-accent font-semibold" }}><n.icon className="nav-icon-motion h-5 w-5" />{n.label}</Link>
           ))}
           {!session && <Link to="/auth" onClick={() => setOpen(false)} className="flex items-center gap-3 px-6 py-4 text-base text-accent"><LogIn className="h-5 w-5" />Mag-log in</Link>}
         </nav>

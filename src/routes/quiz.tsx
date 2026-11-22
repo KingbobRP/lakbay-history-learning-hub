@@ -58,7 +58,7 @@ function Quiz({ term, onBack }: { term: number; onBack: () => void }) {
   const answered = answers.filter((a) => a !== null).length;
   const score = scoreQuiz(answers, qs.map((q) => q.answer));
 
-  const submit = () => { setSubmitted(true); recordScore(term, score); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const submit = () => { setSubmitted(true); recordScore(term, score, answers, qs.map((q) => q.answer)); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const retake = () => { setAnswers(qs.map(() => null)); setSubmitted(false); window.scrollTo({ top: 0 }); };
 
   return (

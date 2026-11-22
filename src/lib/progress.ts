@@ -27,7 +27,10 @@ export function useProgress() {
       }
     },
     visitLesson: (id: string) => { if (p.lastLesson !== id) save((s) => ({ ...s, lastLesson: id })); },
-    recordScore: (term: number, score: number) => {
+    recordScore: (term: number, score: number, answers: (number | null)[], keys: number[]) => {
+      answers.forEach((answer, i) => {
+        if (answer === keys[i]) award(`quizAnswer:${term}:${i}`, `Tamang sagot ${i + 1} sa Pagsusulit ng Termino ${term}`);
+      });
       award(`quiz:${term}`, `Unang pagsagot sa Pagsusulit ng Termino ${term}`);
       if (score === 10) award(`perfect:${term}`, `Perpektong iskor sa Termino ${term}`);
       log("quiz", `Pagsusulit ng Termino ${term}`, score);

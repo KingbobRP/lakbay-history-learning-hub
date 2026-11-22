@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { gameCatalog, difficulties, questionsFor, timelineRounds, correctPositions, pointsFor, validatesText, type Difficulty, type GameId } from '@/lib/history-games';
 import { QuestMap } from './QuestMap';
 import { Celebration } from '@/components/lesson/Celebration';
+import { useStudent } from '@/lib/student';
 
 function shuffledOrder(length: number) {
  const order = Array.from({ length }, (_, i) => i);
@@ -17,6 +18,7 @@ function shuffledOrder(length: number) {
 
 export function HistoryGame({ id }: { id: GameId }) {
  const game = gameCatalog.find(g=>g.id===id);
+  const { award } = useStudent();
  const [difficulty, setDifficulty] = useState<Difficulty>('easy');
  const [phase, setPhase] = useState<'intro'|'play'|'results'>('intro');
  const [round, setRound] = useState(0);
@@ -32,6 +34,7 @@ export function HistoryGame({ id }: { id: GameId }) {
  const [fifty, setFifty] = useState(false);
  const [skipped, setSkipped] = useState(false);
  const [hits, setHits] = useState(0);
+  const [streak, setStreak] = useState(0);
  const qs = questionsFor(id,difficulty);
  const rounds = timelineRounds(difficulty);
  const total = id==='timeline' ? rounds.length : qs.length;
@@ -39,25 +42,43 @@ export function HistoryGame({ id }: { id: GameId }) {
  const sequence = rounds[round] ?? [];
  const max = id==='timeline' ? rounds.reduce((n,r)=>n+r.length*pointsFor(difficulty,0),0) : qs.reduce((n,_,i)=>n+pointsFor(difficulty,i,id==='millionaire'),0);
  if (!game) return null;
+  const recordAnswerReward = (correct: boolean) => {
+    if (!correct) {
+      setStreak(0);
+      return;
+    }
+    const nextStreak = streak + 1;
+    setStreak(nextStreak);
+    award(`gameAnswer:${id}:${round}`, `Tamang sagot sa ${game.title} — hamon ${round + 1}`);
+    if (nextStreak === 3) award(`streak3:${id}`, `3 sunod-sunod na tamang sagot sa ${game.title}`);
+    if (nextStreak === 5) award(`streak5:${id}`, `5 sunod-sunod na tamang sagot sa ${game.title}`);
+  };
  const resetRound = (index: number) => {
   setRound(index); setPicked(null); setText(''); setFeedback(null); setHinted(false); setOpened([]); setFifty(false); setSkipped(false); setEarned(0);
   setOrder(shuffledOrder((rounds[index] ?? []).length));
  };
- const start = () => { setScore(0); setHits(0); setLifelines([]); resetRound(0); setPhase('play'); };
+ const start = () => { setScore(0); setHits(0); setStreak(0); setLifelines([]); resetRound(0); setPhase('play'); };
  const answer = (choice: number|null) => {
   if(feedback!==null || !question) return;
   const correct = id==='complete' ? validatesText(text,question) : choice===question.answer;
   const pts = correct ? pointsFor(difficulty,round,id==='millionaire',hinted && id==='who') : 0;
-  setPicked(choice); setFeedback(correct); setScore(s=>s+pts); setEarned(pts); if(correct) setHits(h=>h+1);
+  setPicked(choice); setFeedback(correct); setScore(s=>s+pts); setEarned(pts); if(correct) setHits(h=>h+1); recordAnswerReward(correct);
  };
  const checkOrder = () => {
   if(feedback!==null) return;
   const count=correctPositions(order); const pts=count*pointsFor(difficulty,round);
-  setFeedback(count===sequence.length); setScore(s=>s+pts); setEarned(pts); if(count===sequence.length) setHits(h=>h+1);
+  setFeedback(count===sequence.length); setScore(s=>s+pts); setEarned(pts); if(count===sequence.length) setHits(h=>h+1); recordAnswerReward(count===sequence.length);
  };
  const next = () => {
-  if(round+1===total || (id==='millionaire' && feedback===false && !skipped)) setPhase('results'); else resetRound(round+1);
- };
+    if (round + 1 === total) {
+      award(`gameComplete:${id}`, `Natapos ang larong ${game.title}`);
+      setPhase('results');
+    } else if (id === 'millionaire' && feedback === false && !skipped) {
+      setPhase('results');
+    } else {
+      resetRound(round + 1);
+    }
+  };
  const move = (index:number, delta:number) => setOrder(old=>{
   const next=[...old]; const a=next[index]; const b=next[index+delta];
   if(a===undefined || b===undefined) return old;
@@ -68,7 +89,7 @@ export function HistoryGame({ id }: { id: GameId }) {
   setLifelines(l=>[...l,name]);
   if(name==='50:50') setFifty(true);
   if(name==='hint') setHinted(true);
-  if(name==='skip') {setSkipped(true);setFeedback(false);}
+  if(name==='skip') {setSkipped(true);setFeedback(false);setStreak(0);}
  };
  return <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8">
   <Button asChild variant="link" className="mb-6 min-h-11 px-0"><Link to="/games"><ArrowLeft /> Lahat ng laro</Link></Button>

@@ -7,6 +7,7 @@ export function AnswerFeedback({ correct, answer, explain, whyNot, extra }: { co
         {correct ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
         {correct ? "Tama!" : "Hindi pa tama."} {extra && <span className="font-normal text-foreground">{extra}</span>}
       </p>
+      {!correct && <p className="mt-2 text-muted-foreground">💪 Kaya mo ‘yan! Suriin natin ang paliwanag sa ibaba.</p>}
       {!correct && answer && <p className="mt-2">Tamang sagot: <strong>{answer}</strong></p>}
       {explain && <p className="mt-2"><span className="font-semibold text-ink">Bakit ito ang tama: </span>{explain}</p>}
       {whyNot && <p className="mt-2 text-muted-foreground"><span className="font-semibold text-ink">Bakit kulang ang ibang pagpipilian: </span>{whyNot}</p>}

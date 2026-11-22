@@ -15,7 +15,7 @@ export function Celebration({ label = "Mahusay!" }: { label?: string }) {
       {Array.from({ length: 16 }, (_, i) => (
         <i key={i} style={{ "--a": `${(i * 360) / 16}deg`, "--d": `${46 + (i % 3) * 16}px` } as CSSProperties} />
       ))}
-      <b>{label}</b>
+      <b>🎉✨ {label}</b>
     </span>
   );
 }

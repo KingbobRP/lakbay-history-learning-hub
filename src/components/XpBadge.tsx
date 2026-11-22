@@ -26,7 +26,7 @@ export function XpBadge() {
     <div className="relative">
       <Popover>
         <PopoverTrigger className="xp-pill" aria-label={`${rewards.xp} XP — buksan ang mga gantimpala`}>
-          <Star className="h-4 w-4 fill-accent text-accent" />
+          <Star className="xp-star-motion h-4 w-4 fill-accent text-accent" />
           <span className="font-semibold">{rewards.xp}</span><span className="text-[0.7rem] opacity-75">XP</span>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-80 border-accent bg-card p-0">
@@ -39,12 +39,12 @@ export function XpBadge() {
             <ul className="mt-2 space-y-2">
               {badges.map((b) => (
                 <li key={b.id} className={`flex items-center gap-3 ${b.earned ? "" : "opacity-50"}`}>
-                  {b.earned ? <Award className="h-5 w-5 shrink-0 text-accent" /> : <Lock className="h-4 w-4 shrink-0 text-muted-foreground" />}
+                  {b.earned ? <Award className="dashboard-icon-motion h-5 w-5 shrink-0 text-accent" /> : <Lock className="h-4 w-4 shrink-0 text-muted-foreground" />}
                   <span className="min-w-0"><span className="block text-sm font-semibold text-ink">{b.title}</span><span className="block text-xs text-muted-foreground">{b.desc}</span></span>
                 </li>
               ))}
             </ul>
-            <p className="mt-4 border-t border-border pt-3 font-sans text-[0.7rem] leading-relaxed text-muted-foreground">Paano kumita: +{XP_RULES.lesson} bawat natapos na aralin, +{XP_RULES.term} bawat kabisadong termino, +{XP_RULES.quiz} sa unang pagsagot ng pagsusulit, +{XP_RULES.perfect} sa perpektong iskor. Isang beses lang bawat gawain.</p>
+            <p className="mt-4 border-t border-border pt-3 font-sans text-[0.7rem] leading-relaxed text-muted-foreground">Paano kumita: +{XP_RULES.lesson} bawat natapos na aralin, +{XP_RULES.term} bawat kabisadong termino, +{XP_RULES.quizAnswer} bawat tamang sagot sa pagsusulit · +{XP_RULES.quiz} sa unang pagsusulit, +{XP_RULES.perfect} sa perpektong iskor, +{XP_RULES.gameAnswer} bawat tamang sagot sa laro, +{XP_RULES.streak3} sa 3 sunod-sunod na tamang sagot, +{XP_RULES.streak5} sa 5 sunod-sunod, at +{XP_RULES.gameComplete} sa pagtatapos ng laro. Isang beses lang bawat gantimpala.</p>
           </div>
         </PopoverContent>
       </Popover>

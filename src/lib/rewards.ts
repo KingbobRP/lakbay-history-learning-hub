@@ -1,9 +1,14 @@
 /** XP rules — each reward id can be earned only once per student. */
 export const XP_RULES = {
-  lesson: 20, // first time a lesson is marked finished
-  term: 5, // first time a key term is marked memorised
-  quiz: 30, // first time a term quiz is submitted
-  perfect: 20, // first perfect 10/10 on a term quiz
+  lesson: 25,
+  term: 5,
+  quiz: 30,
+  quizAnswer: 10,
+  perfect: 20,
+  gameAnswer: 10,
+  streak3: 5,
+  streak5: 10,
+  gameComplete: 15,
 } as const;
 
 export const XP_EVENT = "historia-xp";
@@ -16,6 +21,7 @@ export function applyAward(state: Rewards, id: string, points: number): Rewards 
 }
 
 export type Badge = { id: string; title: string; desc: string; earned: boolean };
+
 export function badgesFor(r: Rewards, lessonIdsByTerm: string[][]): Badge[] {
   const lessons = r.awarded.filter((a) => a.startsWith("lesson:")).map((a) => a.slice(7));
   const terms = r.awarded.filter((a) => a.startsWith("term:")).length;

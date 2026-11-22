@@ -22,7 +22,7 @@ function Achievements() {
     <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
       <p className="eyebrow">🏆 Gantimpala</p>
       <h1 className="mt-2 text-4xl">Mga Gantimpala at Nakamit</h1>
-      <div className="dash-card mt-6 flex items-center gap-4"><Star className="h-8 w-8 fill-accent text-accent" /><div><p className="font-display text-5xl text-primary">{rewards.xp} XP</p><p className="font-sans text-sm text-muted-foreground">+{XP_RULES.lesson} bawat aralin · +{XP_RULES.term} bawat kabisadong termino · +{XP_RULES.quiz} unang pagsusulit · +{XP_RULES.perfect} perpektong iskor. Isang beses lang bawat gawain.</p></div></div>
+      <div className="dash-card mt-6 flex items-center gap-4"><Star className="h-8 w-8 fill-accent text-accent" /><div><p className="font-display text-5xl text-primary">{rewards.xp} XP</p><p className="font-sans text-sm text-muted-foreground">+{XP_RULES.lesson} bawat aralin · +{XP_RULES.term} bawat kabisadong termino · +{XP_RULES.quizAnswer} bawat tamang sagot sa pagsusulit · +{XP_RULES.quiz} unang pagsusulit · +{XP_RULES.perfect} perpektong iskor · +{XP_RULES.gameAnswer} bawat tamang sagot sa laro · +{XP_RULES.streak3}/+{XP_RULES.streak5} bonus sa streak · +{XP_RULES.gameComplete} sa pagtatapos ng laro.</p></div></div>
       <h2 className="mt-8 text-2xl">Mga tsapa</h2>
       <ul className="mt-3 grid gap-3 sm:grid-cols-2">
         {allBadges(rewards).map((b) => <li key={b.id} className={`dash-card flex items-center gap-3 ${b.earned ? "" : "opacity-55"}`}>{b.earned ? <Award className="h-7 w-7 text-accent" /> : <Lock className="h-5 w-5 text-muted-foreground" />}<span><span className="block font-semibold">{b.title}</span><span className="block text-sm text-muted-foreground">{b.desc}</span></span></li>)}
