@@ -13,7 +13,7 @@ export function StudentDashboard() {
   const { profile, progress, activity, rewards, ready } = useStudent();
   if (!ready) return <div className="mx-auto max-w-6xl px-5 py-16 font-sans text-muted-foreground" role="status">Kinukuha ang iyong talaan…</div>;
   const name = profile?.full_name || "Mag-aaral";
-  const first = name.split(" ")[0];
+  const first = name.split(" ")[0] ?? name;
   const next = continueLesson(progress);
   const recent = lessons.find((l) => l.id === progress.lastLesson);
   const pct = overallPercent(progress);

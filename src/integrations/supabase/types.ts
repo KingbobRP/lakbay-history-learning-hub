@@ -85,6 +85,7 @@ export type Database = {
       }
       student_progress: {
         Row: {
+          adventure: Json
           completed: string[]
           last_lesson: string | null
           mastered: string[]
@@ -93,6 +94,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          adventure?: Json
           completed?: string[]
           last_lesson?: string | null
           mastered?: string[]
@@ -101,6 +103,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          adventure?: Json
           completed?: string[]
           last_lesson?: string | null
           mastered?: string[]

@@ -1,0 +1,1 @@
+alter table public.student_progress add column adventure jsonb not null default '{}'::jsonb;

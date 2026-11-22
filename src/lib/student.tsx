@@ -2,12 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { applyAward, XP_EVENT, XP_RULES, type Rewards } from "./rewards";
+import { emptyAdventure, type Adventure } from "./adventure";
 
-export type Progress = { completed: string[]; scores: Record<string, { best: number; last: number; attempts: number }>; mastered: string[]; lastLesson?: string | null };
+export type Progress = { completed: string[]; scores: Record<string, { best: number; last: number; attempts: number }>; mastered: string[]; lastLesson?: string | null; adventure: Adventure };
 export type Profile = { full_name: string; age: number | null; gender: string; class_code: string; section: string; avatar: string };
 export type Activity = { id: string; kind: string; label: string; reward_id: string | null; score: number | null; points: number; created_at: string };
 
-const emptyProgress: Progress = { completed: [], scores: {}, mastered: [], lastLesson: null };
+const emptyProgress: Progress = { completed: [], scores: {}, mastered: [], lastLesson: null, adventure: emptyAdventure };
 const LOCAL_P = "historia-progress-v1";
 const LOCAL_R = "historia-rewards-v1";
 
@@ -59,12 +60,12 @@ export function StudentProvider({ children }: { children: ReactNode }) {
     ]);
     setProfile(p.data ?? null);
     if (pr.data) {
-      setProgress({ completed: pr.data.completed, mastered: pr.data.mastered, scores: (pr.data.scores ?? {}) as Progress["scores"], lastLesson: pr.data.last_lesson });
+      setProgress({ completed: pr.data.completed, mastered: pr.data.mastered, scores: (pr.data.scores ?? {}) as Progress["scores"], lastLesson: pr.data.last_lesson, adventure: { ...emptyAdventure, ...((pr.data.adventure ?? {}) as Adventure) } });
     } else {
       // first sign-in: carry over anything done as a guest on this device
       const local = readLocal(LOCAL_P, emptyProgress);
       setProgress(local);
-      await supabase.from("student_progress").insert({ user_id: id, completed: local.completed, mastered: local.mastered, scores: local.scores, last_lesson: local.lastLesson ?? null });
+      await supabase.from("student_progress").insert({ user_id: id, completed: local.completed, mastered: local.mastered, scores: local.scores, last_lesson: local.lastLesson ?? null, adventure: local.adventure as never });
     }
     setActivity((a.data ?? []) as Activity[]);
     setReady(true);
@@ -84,7 +85,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
     setProgress((prev) => {
       const next = fn(prev);
       if (uid) {
-        void supabase.from("student_progress").upsert({ user_id: uid, completed: next.completed, mastered: next.mastered, scores: next.scores, last_lesson: next.lastLesson ?? null, updated_at: new Date().toISOString() });
+        void supabase.from("student_progress").upsert({ user_id: uid, completed: next.completed, mastered: next.mastered, scores: next.scores, last_lesson: next.lastLesson ?? null, adventure: next.adventure as never, updated_at: new Date().toISOString() });
       } else writeLocal(LOCAL_P, next);
       return next;
     });

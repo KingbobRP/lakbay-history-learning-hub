@@ -18,7 +18,7 @@ export function AvatarPicker({ value, onChange }: { value: string; onChange: (id
   );
 }
 
-export function AvatarImg({ src, size = 48, className = "" }: { src?: string; size?: number; className?: string }) {
+export function AvatarImg({ src, size = 48, className = "" }: { src?: string | undefined; size?: number; className?: string }) {
   return src
     ? <img src={src} alt="" width={size} height={size} className={`shrink-0 rounded-full border-2 border-accent object-cover ${className}`} style={{ width: size, height: size }} />
     : <span className={`flex shrink-0 items-center justify-center rounded-full border-2 border-accent bg-secondary font-display text-primary ${className}`} style={{ width: size, height: size }}>?</span>;

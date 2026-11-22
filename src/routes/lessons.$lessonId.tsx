@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { lessons, terms, type Lesson, type Question } from "@/lib/historia-data";
 import { lessonInteractives } from "@/lib/lesson-interactives";
 import { AnswerFeedback, choiceClass } from "@/components/lesson/AnswerFeedback";
@@ -47,7 +47,8 @@ function LessonPage() {
 }
 
 function LessonStepper({ lesson }: { lesson: Lesson }) {
-  const { progress, toggleLesson } = useProgress();
+  const { progress, toggleLesson, visitLesson } = useProgress();
+  useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [step, setStep] = useState(0);
   const topRef = useRef<HTMLDivElement>(null);
   const done = progress.completed.includes(lesson.id);

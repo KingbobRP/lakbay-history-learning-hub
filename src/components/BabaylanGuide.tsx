@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { MessageCircle, Minus } from "lucide-react";
 import babaylan from "@/assets/babaylan.jpg";
@@ -7,12 +7,14 @@ import type { Lesson } from "@/lib/historia-data";
 type Step = "welcome" | "ready" | "later" | "intro" | "question" | "answered";
 
 /** Friendly Babaylan guide. Talking to her never awards points. */
-export function BabaylanGuide({ name, lesson }: { name: string; lesson?: Lesson }) {
+export function BabaylanGuide({ name, lesson }: { name: string; lesson?: Lesson | undefined }) {
   const [open, setOpen] = useState(true);
   const [step, setStep] = useState<Step>("welcome");
   const [picked, setPicked] = useState<number | null>(null);
   const [qIndex, setQIndex] = useState(0);
+  const once = useRef(false);
   useEffect(() => {
+    if (once.current) return; once.current = true;
     if (sessionStorage.getItem("babaylan-greeted")) setStep("intro");
     else sessionStorage.setItem("babaylan-greeted", "1");
     setQIndex(Math.floor(Math.random() * 100));
