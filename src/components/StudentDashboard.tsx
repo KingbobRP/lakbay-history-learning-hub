@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen, ClipboardList, Gamepad2, Landmark, Star, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ export function StudentDashboard() {
   const civilization = progressFor(rewards.xp);
   const badges = allBadges(rewards).filter((b) => b.earned);
   return (
-    <div className="home-page civilization-shell mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-8" data-era={civilization.era.id} style={eraCssVars(civilization.era)}>
+    <div className="home-page civilization-shell mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-8" data-era={civilization.era.id} style={eraCssVars(civilization.era) as CSSProperties}>
       <section className="dash-card flex flex-wrap items-center gap-4">
         <AvatarImg src={avatarSrc(profile?.avatar)} size={72} />
         <div className="min-w-0 flex-1">
