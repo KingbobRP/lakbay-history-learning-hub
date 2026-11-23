@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import type { CSSProperties } from "react";
 import {
   ArrowRight, Archive, BookOpen, CalendarDays, ChartNoAxesColumnIncreasing,
   ChevronRight, Clock3, Compass, Gamepad2, Home, Landmark, MapPinned,
@@ -81,7 +82,7 @@ export function StudentDashboard() {
           <section className="reborn-progress-panel">
             <div className="reborn-panel-heading"><h2>Your Progress</h2><ChartNoAxesColumnIncreasing size={22} /></div>
             <div className="reborn-progress-body">
-              <div className="reborn-ring" style={{ "--progress": `${pct}%` } as React.CSSProperties}><span>{pct}%</span></div>
+              <div className="reborn-ring" style={{ "--progress": `${pct}%` } as CSSProperties}><span>{pct}%</span></div>
               <div><strong>Overall Completion</strong><p>This Term</p><b>↑ {termDone}/{termTotal} lessons</b></div>
             </div>
             <div className="reborn-current">
