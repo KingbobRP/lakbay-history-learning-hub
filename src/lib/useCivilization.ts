@@ -30,5 +30,5 @@ export function useCivilization() {
   }, [rewards.xp]);
 
   const dismiss = useCallback(() => setQueue((items) => items.slice(1)), []);
-  return { progress, cosmetics: unlockedCosmetics(progress.level), celebration: active, dismiss };
+  return { progress, rewards, cosmetics: unlockedCosmetics(progress.level), celebration: active, dismiss };
 }
