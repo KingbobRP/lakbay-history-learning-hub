@@ -60,6 +60,12 @@ function categoryFor(title: string) {
   return "kaunlaran";
 }
 
+function relatedGame(category: string) {
+  if (category === "arkeolohiya" || category === "kultura") return "artifact";
+  if (category === "paglaban" || category === "kalayaan") return "detective";
+  return "timeline";
+}
+
 function Timeline() {
   const [period, setPeriod] = useState<(typeof periods)[number]["id"]>("all");
   const [category, setCategory] = useState<(typeof categories)[number]["id"]>("all");
@@ -118,10 +124,10 @@ function Timeline() {
                     <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-gold-deep">{categories.find((c) => c.id === event.category)?.label} · {periods.find((p) => p.id === event.period)?.label}</p>
                     <p className="mt-2 font-display text-2xl text-primary">{event.year}</p>
                     <h2 className="mt-1 text-2xl text-ink">{event.title}</h2>
-                    <p className="mt-3 leading-relaxed text-muted-foreground">{event.text}</p>
+                    <details open className="group mt-3"><summary className="cursor-pointer list-none font-sans text-sm font-semibold text-primary marker:hidden">Bakit mahalaga ito? <span className="ml-1 text-xs text-muted-foreground group-open:hidden">· Buksan</span><span className="ml-1 hidden text-xs text-muted-foreground group-open:inline">· Isara</span></summary><p className="mt-2 leading-relaxed text-muted-foreground">{event.text}</p></details>
                     {event.caption && <p className="mt-3 border-t border-border pt-2 font-sans text-xs leading-relaxed text-muted-foreground">{event.caption}</p>}
                     <div className="mt-5 flex flex-wrap gap-3">
-                      {event.lesson && <Link to="/lessons/$lessonId" params={{ lessonId: event.lesson }} className="inline-flex min-h-11 items-center gap-2 bg-primary px-4 font-sans text-sm font-semibold text-primary-foreground hover:bg-primary/90"><BookOpen className="h-4 w-4" /> Kaugnay na aralin <ArrowUpRight className="h-4 w-4" /></Link>}
+                      {event.lesson && <Link to="/lessons/$lessonId" params={{ lessonId: event.lesson }} className="inline-flex min-h-11 items-center gap-2 bg-primary px-4 font-sans text-sm font-semibold text-primary-foreground hover:bg-primary/90"><BookOpen className="h-4 w-4" /> Kaugnay na aralin <ArrowUpRight className="h-4 w-4" /></Link>}<Link to="/games/$gameId" params={{ gameId: relatedGame(event.category) }} className="inline-flex min-h-11 items-center border border-border px-4 font-sans text-sm text-primary hover:bg-secondary">Kaugnay na laro</Link>
                       <Link to="/search" search={{ q: event.title } as never} className="inline-flex min-h-11 items-center border border-border px-4 font-sans text-sm text-primary hover:bg-secondary">Maghanap ng kaugnay na paksa</Link>
                     </div>
                   </div>
