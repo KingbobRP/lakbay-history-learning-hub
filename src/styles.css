@@ -568,3 +568,31 @@ a:hover .dashboard-icon-motion {
 @media(prefers-reduced-motion:reduce) {
   .hx-art, .hx-art img, .hd-hero-image { animation: none !important; }
 }
+
+
+/* Reference-inspired fixed museum sidebar */
+.historia-sidebar { position: fixed; z-index: 45; inset: 0 auto 0 0; width: 13rem; flex-direction: column; padding: 1.2rem .8rem 1rem; border-right: 1px solid color-mix(in oklab,var(--accent) 60%,transparent); background: radial-gradient(ellipse at 50% 0%,#27392f 0%,#101b16 58%,#08110e 100%); color: #f5edda; box-shadow: 10px 0 35px rgb(0 0 0 / .25); }
+.historia-sidebar-brand { display:flex; align-items:center; justify-content:center; gap:.65rem; padding:.65rem .25rem 1.35rem; border-bottom:1px solid color-mix(in oklab,var(--accent) 45%,transparent); color:#e9c77e; }
+.historia-brand-mark { font-size:2.5rem; line-height:1; text-shadow:0 0 16px #c99b45; }
+.historia-sidebar-brand strong { display:block; font:700 1.8rem/.9 var(--font-display); letter-spacing:.04em; }
+.historia-sidebar-brand small { display:block; margin-top:.35rem; text-align:center; font: .65rem var(--font-sans); letter-spacing:.28em; }
+.historia-sidebar-nav { display:flex; flex-direction:column; gap:.3rem; margin-top:1rem; }
+.historia-sidebar-nav a { display:flex; align-items:center; gap:.8rem; min-height:2.8rem; padding:.55rem .65rem; border:1px solid transparent; color:#e5ddca; font: .82rem var(--font-sans); transition:background .18s,border-color .18s,color .18s,transform .18s; }
+.historia-sidebar-nav a:hover { border-color:color-mix(in oklab,var(--accent) 40%,transparent); background:rgb(211 166 83 / .09); color:#f6d58c; transform:translateX(2px); }
+.historia-sidebar-nav a.is-active { border-color:#c79d53; background:linear-gradient(90deg,#9b733b 0%,#4d3c25 80%,transparent); color:#fff0c8; box-shadow:0 0 18px rgb(211 166 83 / .18); }
+.historia-sidebar-nav a.is-active svg { filter:drop-shadow(0 0 5px #e3bd72); }
+.historia-sidebar-quote { margin-top:auto; padding:1rem .45rem .9rem; border-top:1px solid color-mix(in oklab,var(--accent) 38%,transparent); color:#d8c79e; text-align:center; font:italic .95rem/1.4 var(--font-display); }
+.historia-sidebar-quote small { display:block; margin-top:.5rem; color:#b99b60; font: .75rem var(--font-display); }
+.historia-sidebar-bottom { display:flex; justify-content:center; padding-top:.65rem; border-top:1px solid color-mix(in oklab,var(--accent) 30%,transparent); }
+.historia-mobile-header { position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:.75rem; padding:.7rem 1rem; border-bottom:1px solid var(--accent); background:#101b16; color:#f5edda; }
+.historia-mobile-nav { position:absolute; top:100%; left:0; right:0; display:grid; grid-template-columns:1fr 1fr; gap:.3rem; padding:.8rem; border-bottom:1px solid var(--accent); background:#101b16; box-shadow:0 16px 30px rgb(0 0 0 / .35); }
+.historia-mobile-nav a { display:flex; align-items:center; gap:.55rem; padding:.75rem .55rem; color:#f1e6ce; font:.8rem var(--font-sans); }
+.historia-dashboard { max-width:none; min-height:100vh; padding:1.2rem clamp(1rem,2.5vw,2.5rem) 1.5rem; background:radial-gradient(ellipse at 85% 8%,rgb(157 117 53 / .13),transparent 32%),linear-gradient(135deg,#0a1511,#14231b 62%,#0a1511); color:#f5edda; }
+.historia-dashboard .hd-panel,.historia-dashboard .hd-featured,.historia-dashboard .hd-shortcut { border-color:rgb(198 157 83 / .58); background:linear-gradient(145deg,rgb(27 39 31 / .96),rgb(10 19 15 / .98)); }
+.historia-dashboard .hd-hero { min-height:22rem; border-color:rgb(198 157 83 / .7); }
+.historia-dashboard .hd-hero-shade { background:linear-gradient(90deg,rgba(7,15,11,.94),rgba(7,15,11,.76) 40%,rgba(7,15,11,.18)),linear-gradient(0deg,rgba(7,15,11,.5),transparent 55%); }
+.historia-dashboard .hd-profile-line h1,.historia-dashboard .hd-panel h2,.historia-dashboard .hd-current-panel h3,.historia-dashboard .hd-featured-copy h2,.historia-dashboard .hd-shortcut strong { color:#f5edda; }
+.historia-dashboard .hd-eyebrow,.historia-dashboard .hd-gold-icon,.historia-dashboard .hd-gold-link,.historia-dashboard .hd-text-link { color:#e5bd70; }
+.historia-dashboard .hd-footer { color:#bda77d; border-color:rgb(198 157 83 / .4); }
+@media(max-width:1023px) { .historia-dashboard { padding-top:1rem; } }
+@media(max-width:520px) { .historia-mobile-header .historia-logo .logo-monogram { width:2rem;height:2rem;font-size:1.25rem; } .historia-mobile-header .historia-logo span:nth-child(2) span:first-child { font-size:1.3rem; } }
