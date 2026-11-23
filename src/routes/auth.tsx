@@ -7,6 +7,7 @@ import { studentEmail, studentPassword, validPin } from "@/lib/student-auth";
 import { useStudent } from "@/lib/student";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>) => ({ mode: search.mode === "signup" ? "signup" as const : "login" as const }),
   staticData: { sitemap: false },
   head: () => ({ meta: [
     { title: "Mag-log in — HISTORIA" },
@@ -21,7 +22,8 @@ export const Route = createFileRoute("/auth")({
 });
 
 function AuthPage() {
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const { mode: requestedMode } = Route.useSearch();
+  const [mode, setMode] = useState<"login" | "signup">(requestedMode);
   const [f, setF] = useState({ fullName: "", classCode: "", section: "", pin: "" });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
