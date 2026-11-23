@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, UserRound, Home, BookOpen, ClipboardList, Trophy, ChartNoAxesCombined, Settings, LogIn } from "lucide-react";
+import { Menu, X, UserRound, Home, BookOpen, ClipboardList, Trophy, ChartNoAxesCombined, Settings, LogIn, CalendarDays, Gamepad2, Search, Library } from "lucide-react";
 import { useStudent } from "@/lib/student";
 import { avatarSrc } from "@/lib/avatars";
 import { AvatarImg } from "@/components/AvatarPicker";
@@ -8,13 +8,15 @@ import { Button } from "@/components/ui/button";
 import { XpBadge } from "@/components/XpBadge";
 
 const nav = [
-  { to: "/", label: "Tahanan", icon: Home },
-  { to: "/dashboard", label: "Aralin", icon: BookOpen },
-  { to: "/quiz", label: "Pagsusulit", icon: ClipboardList },
-  { to: "/achievements", label: "Gantimpala", icon: Trophy },
-  { to: "/progress", label: "Pag-unlad", icon: ChartNoAxesCombined },
+  { to: "/dashboard", label: "Dashboard", icon: Home },
+  { to: "/progress", label: "Paglalakbay", icon: ChartNoAxesCombined },
+  { to: "/curriculum", label: "Kurikulum", icon: Library },
+  { to: "/timeline", label: "Timeline", icon: CalendarDays },
+  { to: "/games", label: "Game Center", icon: Gamepad2 },
+  { to: "/search", label: "Paghahanap", icon: Search },
+  { to: "/achievements", label: "Mga Nakamit", icon: Trophy },
   { to: "/profile", label: "Profile", icon: UserRound },
-  { to: "/settings", label: "Mga Setting", icon: Settings },
+  { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
 export function Logo() {
