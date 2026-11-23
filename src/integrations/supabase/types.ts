@@ -58,6 +58,7 @@ export type Database = {
           id: string
           section: string
           updated_at: string
+          username: string | null
         }
         Insert: {
           age?: number | null
@@ -69,6 +70,7 @@ export type Database = {
           id: string
           section?: string
           updated_at?: string
+          username?: string | null
         }
         Update: {
           age?: number | null
@@ -80,6 +82,7 @@ export type Database = {
           id?: string
           section?: string
           updated_at?: string
+          username?: string | null
         }
         Relationships: []
       }
