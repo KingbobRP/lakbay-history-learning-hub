@@ -50,6 +50,7 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
   useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [step, setStep] = useState(0);
+  const [assessmentComplete, setAssessmentComplete] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
   const done = progress.completed.includes(lesson.id);
   const idx = lessons.findIndex((l) => l.id === lesson.id);
@@ -134,16 +135,18 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
 
       <section hidden={step !== 5} className="step-card">
         <H2 n={8}>Maikling Pagtataya</H2>
-        <MiniAssessment questions={lesson.assessment} />
+        <MiniAssessment questions={lesson.assessment} onCompletionChange={setAssessmentComplete} />
         <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 font-sans sm:flex-row">
-          <button onClick={() => toggleLesson(lesson.id)} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}>
-            {done ? "✓ Tapos na — ibalik bilang hindi tapos" : "Markahan bilang tapos"}
+          <button onClick={() => toggleLesson(lesson.id)} disabled={!assessmentComplete} className={`min-h-12 px-5 text-sm font-semibold ${!assessmentComplete ? "cursor-not-allowed border border-border text-muted-foreground opacity-60" : done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}>
+            {!assessmentComplete ? "Sagutan muna ang lahat ng tanong" : done ? "✓ Tapos na — ibalik bilang hindi tapos" : "Markahan bilang tapos"}
           </button>
           <Link to="/quiz" search={{ term: lesson.term }} className="inline-flex min-h-12 items-center justify-center border border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary">Sagutan ang pagsusulit ng Termino {lesson.term}</Link>
         </div>
         <div className="mt-8 grid grid-cols-2 gap-3 font-sans text-sm">
           {prev ? <Link to="/lessons/$lessonId" params={{ lessonId: prev.id }} className="border border-border p-3 hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">← Nakaraang aralin</span><span className="block text-ink">{prev.title}</span></Link> : <span />}
-          {next && <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link>}
+          {next && (assessmentComplete
+            ? <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link>
+            : <div aria-disabled="true" className="cursor-not-allowed border border-border p-3 text-right opacity-60"><span className="text-xs text-muted-foreground">Naka-lock ang susunod na aralin</span><span className="block text-sm text-muted-foreground">Sagutan muna ang lahat ng tanong sa pagtataya.</span></div>)}
         </div>
       </section>
 
@@ -155,7 +158,7 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   );
 }
 
-function MiniAssessment({ questions }: { questions: Question[] }) {
+function MiniAssessment({ questions, onCompletionChange }: { questions: Question[]; onCompletionChange: (complete: boolean) => void }) {
   const [ans, setAns] = useState<(number | null)[]>(() => questions.map(() => null));
   const answered = ans.every((a) => a !== null);
   const score = scoreQuiz(ans, questions.map((q) => q.answer));
@@ -169,7 +172,13 @@ function MiniAssessment({ questions }: { questions: Question[] }) {
             <div className="mt-3 grid gap-2">
               {q.choices.map((c, ci) => {
                 const state = picked === null ? "idle" : ci === q.answer ? "correct" : picked === ci ? "wrong" : "dim";
-                return <button key={c} disabled={picked !== null} onClick={() => setAns((a) => a.map((v, j) => (j === i ? ci : v)))} className={`relative min-h-12 border px-4 py-3 text-left text-sm ${choiceClass(state)}`}><span className="mr-2 font-semibold">{String.fromCharCode(65 + ci)}.</span>{c}{state === "correct" && picked === ci && <Celebration />}</button>;
+                return <button key={c} disabled={picked !== null} onClick={() => {
+                  setAns((a) => {
+                    const updated = a.map((v, j) => (j === i ? ci : v));
+                    onCompletionChange(updated.every((answer) => answer !== null));
+                    return updated;
+                  });
+                }} className={`relative min-h-12 border px-4 py-3 text-left text-sm ${choiceClass(state)}`}><span className="mr-2 font-semibold">{String.fromCharCode(65 + ci)}.</span>{c}{state === "correct" && picked === ci && <Celebration />}</button>;
               })}
             </div>
             {picked !== null && <AnswerFeedback correct={picked === q.answer} answer={q.choices[q.answer]} explain={q.explain} whyNot={q.whyNot} />}
@@ -179,7 +188,10 @@ function MiniAssessment({ questions }: { questions: Question[] }) {
       {answered && (
         <div className="mt-6 flex flex-wrap items-center gap-4 border border-primary p-4" role="status">
           <p className="font-display text-2xl text-ink">Iskor: {score}/{questions.length}</p>
-          <button onClick={() => setAns(questions.map(() => null))} className="min-h-11 border border-primary px-4 text-sm font-semibold text-primary hover:bg-secondary">Ulitin</button>
+          <button onClick={() => {
+            setAns(questions.map(() => null));
+            onCompletionChange(false);
+          }} className="min-h-11 border border-primary px-4 text-sm font-semibold text-primary hover:bg-secondary">Ulitin</button>
         </div>
       )}
     </div>
