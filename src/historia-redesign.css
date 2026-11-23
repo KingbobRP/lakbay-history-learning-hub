@@ -95,3 +95,185 @@ main button:focus-visible, main a:focus-visible, input:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+
+/* HISTORIA REBORN — cinematic archival student dashboard */
+body:has(.reborn-dashboard) { background:#07110d; color:#f4ead5; }
+body:has(.reborn-dashboard) .site-header,
+body:has(.reborn-dashboard) > #root > footer { display:none !important; }
+body:has(.reborn-dashboard) main:has(.reborn-dashboard) { min-height:100vh !important; }
+.reborn-dashboard {
+  --rb-gold:#e8bd69; --rb-gold-soft:#c99a4e; --rb-cream:#f5e8cb; --rb-muted:#c5b89e;
+  --rb-panel:rgba(9,20,15,.88); --rb-line:rgba(220,177,99,.5);
+  display:grid; grid-template-columns:204px minmax(0,1fr); min-height:100vh;
+  color:var(--rb-cream); background:
+    radial-gradient(ellipse at 72% 8%,rgba(132,87,35,.17),transparent 35%),
+    linear-gradient(145deg,#08130e,#101b13 58%,#07100c);
+  font-family:"Source Sans 3",sans-serif; overflow:hidden;
+}
+.reborn-sidebar {
+  position:sticky; top:0; height:100vh; display:flex; flex-direction:column; padding:22px 13px 16px;
+  border-right:1px solid var(--rb-line); background:linear-gradient(180deg,rgba(5,13,10,.97),rgba(12,23,16,.96));
+  box-shadow:8px 0 34px rgba(0,0,0,.25); z-index:5;
+}
+.reborn-brand { display:flex; flex-direction:column; align-items:center; gap:7px; padding:3px 0 24px; text-decoration:none; border-bottom:1px solid rgba(220,177,99,.22); }
+.reborn-brand-mark { width:64px;height:54px;display:grid;place-items:center;color:var(--rb-gold);filter:drop-shadow(0 0 12px rgba(232,189,105,.35)); }
+.reborn-brand-name { color:var(--rb-gold);font-family:"Cormorant Garamond",serif;font-size:27px;font-weight:700;letter-spacing:.04em;line-height:.9;text-align:center; }
+.reborn-brand-name small { display:block;margin-top:7px;font-size:13px;letter-spacing:.22em;text-align:center; }
+.reborn-nav { display:grid;gap:5px;margin-top:18px; }
+.reborn-nav-link { min-height:43px;display:flex;align-items:center;gap:12px;padding:0 10px;color:#d5c7aa;text-decoration:none;font-size:13px;border:1px solid transparent;border-radius:7px;transition:.2s ease; }
+.reborn-nav-link:hover { color:#fff0d1;background:rgba(232,189,105,.08);border-color:rgba(232,189,105,.25); }
+.reborn-nav-link svg { flex:none;color:#d8b775; }
+.reborn-nav-link > svg:last-child { margin-left:auto; }
+.reborn-nav-active { color:#fff4d9;background:linear-gradient(90deg,rgba(205,157,77,.34),rgba(205,157,77,.06));border-color:rgba(232,189,105,.55);box-shadow:0 0 18px rgba(212,160,75,.12); }
+.reborn-quote { margin:auto 5px 18px;padding-top:17px;border-top:1px solid rgba(220,177,99,.25);color:#d7c39c;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:15px;line-height:1.35;text-align:center; }
+.reborn-quote cite { display:block;margin-top:8px;color:#e7c77f;font-size:13px; }
+.reborn-sidebar-foot { display:flex;align-items:center;justify-content:center;gap:6px;color:#c8a76a;font-size:10px;text-align:center; }
+.reborn-main { min-width:0;padding:0 22px 0 20px; }
+.reborn-topbar { height:67px;display:flex;align-items:center;justify-content:space-between;gap:20px; }
+.reborn-search { display:flex;align-items:center;gap:11px;width:min(360px,48%);padding:9px 13px;color:#d6c9ae;border:1px solid rgba(220,177,99,.28);border-radius:22px;background:rgba(0,0,0,.23);font-size:13px;text-decoration:none; }
+.reborn-search svg { color:var(--rb-gold); }
+.reborn-search kbd { margin-left:auto;color:#b7a789;font-size:10px;white-space:nowrap; }
+.reborn-user-tools { display:flex;align-items:center;gap:22px; }
+.reborn-notification { position:relative;color:var(--rb-gold); }
+.reborn-notification i { position:absolute;top:-7px;right:-8px;width:15px;height:15px;border-radius:50%;background:#b63e32;color:#fff;font:10px/15px sans-serif;text-align:center; }
+.reborn-user { display:flex;align-items:center;gap:10px;color:var(--rb-cream);text-decoration:none; }
+.reborn-user strong,.reborn-user small { display:block; }
+.reborn-user strong { max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:600 14px "Cormorant Garamond",serif; }
+.reborn-user small { margin-top:2px;color:#b9ad96;font-size:11px; }
+.reborn-hero { position:relative;min-height:315px;display:flex;align-items:center;overflow:hidden;border:1px solid rgba(220,177,99,.3);border-radius:14px;background:#111b14;box-shadow:0 18px 50px rgba(0,0,0,.3); }
+.reborn-hero-art { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;opacity:.94; }
+.reborn-hero-vignette { position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,13,9,.97) 0%,rgba(5,13,9,.84) 27%,rgba(5,13,9,.38) 57%,rgba(5,13,9,.05) 100%),linear-gradient(0deg,rgba(5,13,9,.38),transparent 55%); }
+.reborn-hero-copy { position:relative;z-index:1;padding:38px 42px;max-width:490px; }
+.reborn-kicker { margin:0 0 3px;color:#e5c88f;font-size:12px;letter-spacing:.34em;font-weight:600; }
+.reborn-hero-copy h1 { margin:0;color:#f0ca83;font:italic 700 clamp(48px,6vw,76px)/.98 "Cormorant Garamond",serif;text-shadow:0 4px 22px #000; }
+.reborn-hero-subtitle { margin:12px 0 21px;color:#f2e9d9;font:italic 19px/1.3 "Cormorant Garamond",serif; }
+.reborn-gold-button { min-height:40px;padding:0 18px;border:1px solid #f0c978 !important;border-radius:24px !important;background:linear-gradient(110deg,#f3d18d,#c48b3d) !important;color:#24190b !important;font:700 13px "Cormorant Garamond",serif !important;box-shadow:0 0 18px rgba(236,186,95,.38);gap:9px; }
+.reborn-gold-button:hover { filter:brightness(1.08);transform:translateY(-1px); }
+.reborn-hero-dots { position:absolute;bottom:15px;left:42px;display:flex;gap:8px; }
+.reborn-hero-dots span,.reborn-hero-dots i { width:8px;height:5px;border-radius:6px;background:#b6a27c; }
+.reborn-hero-dots span { width:22px;background:#f0cb83; }
+.reborn-content-grid { display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,.92fr);gap:17px;margin-top:16px; }
+.reborn-left-column,.reborn-right-column { min-width:0;display:grid;align-content:start;gap:15px; }
+.reborn-feature-panel,.reborn-progress-panel,.reborn-achievements-panel,.reborn-activity-panel {
+  min-width:0;border:1px solid var(--rb-line);border-radius:13px;background:linear-gradient(145deg,rgba(16,29,21,.94),rgba(7,16,12,.96));
+  box-shadow:inset 0 0 24px rgba(232,189,105,.035),0 10px 28px rgba(0,0,0,.2);
+}
+.reborn-feature-panel { padding:13px 15px 15px; }
+.reborn-section-heading { display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px;color:var(--rb-gold);font:600 21px "Cormorant Garamond",serif; }
+.reborn-section-heading > span { display:flex;align-items:center;gap:8px; }
+.reborn-section-heading > i { flex:1;height:1px;background:linear-gradient(90deg,rgba(220,177,99,.7),transparent); }
+.reborn-section-heading a { display:inline-flex;align-items:center;gap:5px;color:#dfcda9;text-decoration:none;font:12px "Source Sans 3",sans-serif;white-space:nowrap; }
+.reborn-feature-body { display:grid;grid-template-columns:minmax(190px,1.1fr) minmax(180px,1fr);gap:18px;align-items:center; }
+.reborn-feature-body > img { width:100%;height:176px;object-fit:cover;border:1px solid rgba(220,177,99,.48);border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.35); }
+.reborn-feature-copy { min-width:0; }
+.reborn-feature-label { margin:0 0 4px;color:#c9a969;font-size:9px;letter-spacing:.2em; }
+.reborn-feature-copy h2 { margin:0;color:#f2d69e;font:italic 700 29px/1.03 "Cormorant Garamond",serif; }
+.reborn-feature-copy > p:not(.reborn-feature-label) { margin:7px 0;color:#cfc3ad;font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+.reborn-duration { display:flex;align-items:center;gap:6px;margin:8px 0;color:#d7c39b;font-size:11px; }
+.reborn-explore { min-width:0; }
+.reborn-explore .reborn-section-heading { margin-bottom:8px;color:#f1e5ce; }
+.reborn-explore-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px; }
+.reborn-explore-card { position:relative;min-width:0;min-height:160px;overflow:hidden;padding:0 11px 11px;border:1px solid rgba(220,177,99,.4);border-radius:10px;background:linear-gradient(180deg,rgba(13,24,18,.3),#0b1510 85%);color:#f0e4cd;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s; }
+.reborn-explore-card:hover { transform:translateY(-3px);border-color:#e8bd69;box-shadow:0 8px 22px rgba(232,189,105,.12); }
+.reborn-explore-card img { width:calc(100% + 22px);height:78px;margin:0 -11px 7px;object-fit:cover;opacity:.82;mask-image:linear-gradient(#000 65%,transparent); }
+.reborn-card-icon { position:absolute;top:56px;left:12px;color:#f0c978; }
+.reborn-explore-card strong,.reborn-explore-card small { display:block; }
+.reborn-explore-card strong { margin-top:2px;font:600 16px/1.05 "Cormorant Garamond",serif; }
+.reborn-explore-card small { margin-top:4px;color:#bfb39d;font-size:10px;line-height:1.25; }
+.reborn-card-arrow { position:absolute;right:9px;bottom:9px;color:#e8bd69; }
+.reborn-progress-panel,.reborn-achievements-panel,.reborn-activity-panel { padding:14px 15px; }
+.reborn-progress-main { display:flex;align-items:center;gap:17px;padding:5px 0 15px;border-bottom:1px solid rgba(220,177,99,.2); }
+.reborn-progress-ring { width:91px;height:91px;flex:none;display:grid;place-items:center;border-radius:50%;padding:7px;box-shadow:0 0 22px rgba(232,189,105,.13); }
+.reborn-progress-ring > div { width:100%;height:100%;display:grid;place-items:center;border-radius:50%;background:#101b14;border:1px solid rgba(232,189,105,.2); }
+.reborn-progress-ring strong { color:#fff1d5;font:700 25px "Cormorant Garamond",serif; }
+.reborn-progress-main > div:last-child strong,.reborn-progress-main > div:last-child span,.reborn-progress-main > div:last-child small { display:block; }
+.reborn-progress-main > div:last-child strong { color:#f1e6d2;font:600 16px "Cormorant Garamond",serif; }
+.reborn-progress-main > div:last-child span { margin-top:5px;color:#d6c39c;font-size:12px; }
+.reborn-progress-main > div:last-child small { margin-top:5px;color:#9f967f;font-size:10px; }
+.reborn-current-lesson h3 { margin:11px 0 8px;color:#e9d9b8;font:600 16px "Cormorant Garamond",serif; }
+.reborn-current-row { display:flex;align-items:center;gap:9px; }
+.reborn-current-row img { width:76px;height:54px;flex:none;object-fit:cover;border:1px solid rgba(220,177,99,.4);border-radius:6px; }
+.reborn-current-row > div { min-width:0;flex:1; }
+.reborn-current-row strong,.reborn-current-row small { display:block; }
+.reborn-current-row strong { color:#f0e4ce;font:600 14px/1.05 "Cormorant Garamond",serif; }
+.reborn-current-row small { margin-top:5px;color:#b7aa90;font-size:10px; }
+.reborn-continue { display:flex;align-items:center;gap:4px;padding:7px 9px;border:1px solid #d5a957;border-radius:18px;color:#f0cc82;text-decoration:none;font-size:10px;white-space:nowrap; }
+.reborn-badges { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:6px 0 10px; }
+.reborn-badges > div { min-width:0;text-align:center; }
+.reborn-badges > div > span { width:53px;height:53px;display:grid;place-items:center;margin:auto;border:1px solid #b88d4a;border-radius:50%;color:#e8bd69;background:radial-gradient(circle,rgba(232,189,105,.17),rgba(7,16,12,.1));box-shadow:0 0 15px rgba(232,189,105,.1); }
+.reborn-badges small { display:block;margin-top:6px;color:#d7c9ac;font:11px/1.1 "Cormorant Garamond",serif;overflow-wrap:anywhere; }
+.reborn-empty-badges { display:flex;align-items:center;gap:10px;padding:12px 0;color:#c5b89e;font-size:12px; }
+.reborn-empty-badges svg { flex:none;color:#dcb56f; }
+.reborn-xp-line { display:flex;align-items:center;gap:6px;padding-top:9px;border-top:1px solid rgba(220,177,99,.2);color:#c8b58f;font-size:10px; }
+.reborn-xp-line svg { color:#e8bd69; }
+.reborn-activity-panel ul { list-style:none;margin:0;padding:0; }
+.reborn-activity-panel li { display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(220,177,99,.14); }
+.reborn-activity-panel li > i { width:8px;height:8px;flex:none;border-radius:50%;background:#e8bd69;box-shadow:0 0 9px rgba(232,189,105,.6); }
+.reborn-activity-panel li > div { min-width:0;flex:1; }
+.reborn-activity-panel li strong,.reborn-activity-panel li small { display:block; }
+.reborn-activity-panel li strong { overflow:hidden;color:#e6dac2;font-size:11px;font-weight:500;text-overflow:ellipsis;white-space:nowrap; }
+.reborn-activity-panel li small { margin-top:3px;color:#9e927b;font-size:10px; }
+.reborn-activity-panel li b { color:#d9b36d;font-size:10px;white-space:nowrap; }
+.reborn-empty-activity,.reborn-last-opened { color:#b9ad96;font-size:11px;line-height:1.4; }
+.reborn-last-opened { margin-top:8px;padding-top:7px;border-top:1px solid rgba(220,177,99,.15); }
+.reborn-footer { display:flex;align-items:center;gap:12px;min-height:42px;margin-top:12px;border-top:1px solid rgba(220,177,99,.28);color:#e4c47e;font:600 12px "Cormorant Garamond",serif; }
+.reborn-footer > i { width:1px;height:20px;background:#987746; }
+.reborn-footer em { color:#bdad8d;font-size:11px; }
+.reborn-footer-right { margin-left:auto;color:#9f9278;font:10px "Source Sans 3",sans-serif; }
+.reborn-loading { min-height:60vh;display:grid;place-items:center;color:#e8bd69;background:#07110d;font:20px "Cormorant Garamond",serif; }
+@media(max-width:1200px) {
+  .reborn-dashboard { grid-template-columns:184px minmax(0,1fr); }
+  .reborn-main { padding-right:14px;padding-left:14px; }
+  .reborn-content-grid { grid-template-columns:minmax(0,1.3fr) minmax(270px,.9fr);gap:12px; }
+  .reborn-explore-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:760px) {
+  .reborn-dashboard { display:block;overflow:visible; }
+  .reborn-sidebar { position:relative;width:100%;height:auto;padding:10px 12px;border-right:0;border-bottom:1px solid var(--rb-line); }
+  .reborn-brand { flex-direction:row;justify-content:flex-start;padding:0 5px 9px; }
+  .reborn-brand-mark { width:36px;height:34px; }
+  .reborn-brand-mark svg { width:26px; }
+  .reborn-brand-name { font-size:21px; }
+  .reborn-brand-name small { display:inline;margin-left:7px;font-size:10px; }
+  .reborn-nav { display:flex;gap:6px;margin-top:9px;overflow-x:auto;padding-bottom:3px; }
+  .reborn-nav-link { flex:none;min-height:36px;padding:0 10px;font-size:11px; }
+  .reborn-nav-link svg { width:15px; }
+  .reborn-nav-link > svg:last-child { display:none; }
+  .reborn-quote,.reborn-sidebar-foot { display:none; }
+  .reborn-main { padding:0 12px 12px; }
+  .reborn-topbar { height:58px; }
+  .reborn-search { width:auto;flex:1;padding:8px 10px;font-size:11px; }
+  .reborn-search kbd { display:none; }
+  .reborn-user-tools { gap:12px; }
+  .reborn-user strong { max-width:100px;font-size:12px; }
+  .reborn-user small { font-size:9px; }
+  .reborn-hero { min-height:290px; }
+  .reborn-hero-art { object-position:60% center; }
+  .reborn-hero-vignette { background:linear-gradient(90deg,rgba(5,13,9,.95),rgba(5,13,9,.7) 55%,rgba(5,13,9,.2)); }
+  .reborn-hero-copy { padding:28px 22px;max-width:80%; }
+  .reborn-hero-copy h1 { font-size:54px; }
+  .reborn-hero-subtitle { font-size:16px; }
+  .reborn-hero-dots { left:22px; }
+  .reborn-content-grid { grid-template-columns:1fr; }
+  .reborn-right-column { grid-template-columns:1fr; }
+}
+@media(max-width:480px) {
+  .reborn-user > span { display:none; }
+  .reborn-hero { min-height:270px; }
+  .reborn-hero-copy { max-width:95%;padding:24px 17px; }
+  .reborn-hero-copy h1 { font-size:47px; }
+  .reborn-kicker { font-size:10px; }
+  .reborn-feature-body { grid-template-columns:1fr;gap:10px; }
+  .reborn-feature-body > img { height:150px; }
+  .reborn-feature-copy h2 { font-size:26px; }
+  .reborn-explore-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .reborn-explore-card { min-height:152px; }
+  .reborn-progress-main { gap:12px; }
+  .reborn-progress-ring { width:78px;height:78px; }
+  .reborn-footer { flex-wrap:wrap;gap:7px;font-size:10px; }
+  .reborn-footer-right { width:100%;margin:0 0 8px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .reborn-explore-card,.reborn-gold-button { transition:none; }
+}
