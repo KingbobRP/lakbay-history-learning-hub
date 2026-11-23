@@ -173,11 +173,9 @@ function MiniAssessment({ questions, onCompletionChange }: { questions: Question
               {q.choices.map((c, ci) => {
                 const state = picked === null ? "idle" : ci === q.answer ? "correct" : picked === ci ? "wrong" : "dim";
                 return <button key={c} disabled={picked !== null} onClick={() => {
-                  setAns((a) => {
-                    const updated = a.map((v, j) => (j === i ? ci : v));
-                    onCompletionChange(updated.every((answer) => answer !== null));
-                    return updated;
-                  });
+                  const updated = ans.map((answer, j) => (j === i ? ci : answer));
+                  setAns(updated);
+                  onCompletionChange(updated.every((answer) => answer !== null));
                 }} className={`relative min-h-12 border px-4 py-3 text-left text-sm ${choiceClass(state)}`}><span className="mr-2 font-semibold">{String.fromCharCode(65 + ci)}.</span>{c}{state === "correct" && picked === ci && <Celebration />}</button>;
               })}
             </div>
