@@ -50,8 +50,8 @@ function Landing() {
             <p className="hx-competency">PAG-AARAL NG KASAYSAYAN AT LIPUNANG PILIPINO</p>
             <p className="hx-intro">Bawat kuwento ay may aral. Bawat Pilipino ay may bahagi sa kasaysayan. Simulan ang paglalakbay tungo sa mas malalim na pag-unawa sa ating bayan.</p>
             <div className="hx-actions">
-              <Button asChild size="lg" className="hx-cta"><Link to="/auth" search={{ mode: "signup" }}>Get Started <ArrowRight /></Link></Button>
-              <Button asChild size="lg" variant="outline" className="hx-login"><Link to="/auth">Log In</Link></Button>
+              <Button asChild size="lg" className="hx-cta"><Link to="/auth" search={{ mode: "signup" }}>Magsimula <ArrowRight /></Link></Button>
+              <Button asChild size="lg" variant="outline" className="hx-login"><Link to="/auth">Mag-login</Link></Button>
             </div>
             <p className="hx-note">Para sa mga mag-aaral ng Baitang 11</p>
           </div>
