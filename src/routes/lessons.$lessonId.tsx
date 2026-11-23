@@ -48,14 +48,14 @@ function LessonPage() {
 
 function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
-  const firstIncompleteIndex = lessons.findIndex((item) => !progress.completed.includes(item.id));
-  const locked = !done && firstIncompleteIndex !== -1 && idx > firstIncompleteIndex;
-  useEffect(() => { if (!locked) visitLesson(lesson.id); }, [lesson.id, locked]); // eslint-disable-line react-hooks/exhaustive-deps
   const [step, setStep] = useState(0);
   const [assessmentAnswered, setAssessmentAnswered] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
   const done = progress.completed.includes(lesson.id);
   const idx = lessons.findIndex((l) => l.id === lesson.id);
+  const firstIncompleteIndex = lessons.findIndex((item) => !progress.completed.includes(item.id));
+  const locked = !done && firstIncompleteIndex !== -1 && idx > firstIncompleteIndex;
+  useEffect(() => { if (!locked) visitLesson(lesson.id); }, [lesson.id, locked]); // eslint-disable-line react-hooks/exhaustive-deps
   const prev = lessons[idx - 1];
   const next = lessons[idx + 1];
   const term = terms.find((t) => t.id === lesson.term)!;
@@ -155,10 +155,10 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
           </button>
           <Link to="/quiz" search={{ term: lesson.term }} className="inline-flex min-h-12 items-center justify-center border border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary">Sagutan ang pagsusulit ng Termino {lesson.term}</Link>
         </div>
-        {!assessmentAnswered && <p className="mt-3 font-sans text-sm text-muted-foreground" role="status">Sagutan muna ang lahat ng tanong upang mamarkahang tapos ang aralin at makapagpatuloy sa susunod na aralin.</p>}
+        {!assessmentAnswered && <p className="mt-3 font-sans text-sm text-muted-foreground" role="status">Sagutan muna ang lahat ng tanong at markahan bilang tapos ang aralin upang makapagpatuloy sa susunod na aralin.</p>}
         <div className="mt-8 grid grid-cols-2 gap-3 font-sans text-sm">
           {prev ? <Link to="/lessons/$lessonId" params={{ lessonId: prev.id }} className="border border-border p-3 hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">← Nakaraang aralin</span><span className="block text-ink">{prev.title}</span></Link> : <span />}
-          {next && (assessmentAnswered
+          {next && (assessmentAnswered && done
             ? <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link>
             : <span aria-disabled="true" className="cursor-not-allowed border border-border p-3 text-right opacity-40"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></span>)}
         </div>
