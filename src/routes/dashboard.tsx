@@ -65,11 +65,13 @@ function Dashboard() {
       </div>
 
       <div className="dashboard-content mt-8 grid gap-10 md:grid-cols-[1fr_1.5fr]">
-        <div>
+        <div className="dashboard-term-feature">
           <img src={t.image} alt={t.title} loading="lazy" width={1600} height={1008} className="photo aspect-[4/3] w-full object-cover" />
-          <p className="eyebrow mt-5">{t.name} · {t.weeks} linggo</p>
-          <h2 className="mt-2 text-3xl">{t.title}</h2>
-          <p className="mt-3 text-muted-foreground">{t.blurb}</p>
+          <div className="p-4 sm:p-5">
+            <p className="eyebrow mt-2">{t.name} · {t.weeks} linggo</p>
+            <h2 className="mt-2 text-3xl">{t.title}</h2>
+            <p className="mt-3 text-muted-foreground">{t.blurb}</p>
+          </div>
         </div>
         <ol className="dashboard-lesson-list divide-y divide-border border-y border-border">
           {list.map((l) => {
