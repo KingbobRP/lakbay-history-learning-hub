@@ -150,15 +150,15 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
         <H2 n={8}>Maikling Pagtataya</H2>
         <MiniAssessment questions={lesson.assessment} onAnsweredChange={setAssessmentAnswered} />
         <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 font-sans sm:flex-row">
-          <button onClick={() => toggleLesson(lesson.id)} disabled={!assessmentAnswered} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90"} disabled:cursor-not-allowed disabled:opacity-40`}>
+          <button onClick={() => toggleLesson(lesson.id)} disabled={!assessmentAnswered && !done} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90"} disabled:cursor-not-allowed disabled:opacity-40`}>
             {done ? "✓ Tapos na — ibalik bilang hindi tapos" : "Markahan bilang tapos"}
           </button>
           <Link to="/quiz" search={{ term: lesson.term }} className="inline-flex min-h-12 items-center justify-center border border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary">Sagutan ang pagsusulit ng Termino {lesson.term}</Link>
         </div>
-        {!assessmentAnswered && <p className="mt-3 font-sans text-sm text-muted-foreground" role="status">Sagutan muna ang lahat ng tanong at markahan bilang tapos ang aralin upang makapagpatuloy sa susunod na aralin.</p>}
+        {!assessmentAnswered && !done && <p className="mt-3 font-sans text-sm text-muted-foreground" role="status">Sagutan muna ang lahat ng tanong at markahan bilang tapos ang aralin upang makapagpatuloy sa susunod na aralin.</p>}
         <div className="mt-8 grid grid-cols-2 gap-3 font-sans text-sm">
           {prev ? <Link to="/lessons/$lessonId" params={{ lessonId: prev.id }} className="border border-border p-3 hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">← Nakaraang aralin</span><span className="block text-ink">{prev.title}</span></Link> : <span />}
-          {next && (assessmentAnswered && done
+          {next && (assessmentAnswered || done
             ? <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link>
             : <span aria-disabled="true" className="cursor-not-allowed border border-border p-3 text-right opacity-40"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></span>)}
         </div>
