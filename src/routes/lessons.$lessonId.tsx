@@ -9,6 +9,7 @@ import { SourceSorter } from "@/components/lesson/SourceSorter";
 import { BiasHotspots } from "@/components/lesson/BiasHotspots";
 import { FlipCards } from "@/components/lesson/FlipCards";
 import { scoreQuiz, useProgress } from "@/lib/progress";
+import { useStudent } from "@/lib/student";
 
 export const Route = createFileRoute("/lessons/$lessonId")({
   staticData: { sitemap: true },
@@ -48,13 +49,17 @@ function LessonPage() {
 
 function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
+  const { session } = useStudent();
+  const learnerId = session?.user.id ?? "guest";
   useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
-  const stepStorageKey = `historia-lesson-step-v1:${lesson.id}`;
+  const stepStorageKey = `historia-lesson-step-v1:${learnerId}:${lesson.id}`;
   const [step, setStep] = useState(0);
   const [visitedSteps, setVisitedSteps] = useState<number[]>([0]);
   const [stepStateReady, setStepStateReady] = useState(false);
   const [assessmentComplete, setAssessmentComplete] = useState(false);
   useEffect(() => {
+    setStep(0);
+    setVisitedSteps([0]);
     try {
       const savedStep = Number(localStorage.getItem(stepStorageKey));
       if (Number.isInteger(savedStep) && savedStep >= 0 && savedStep < steps.length) setStep(savedStep);
@@ -172,7 +177,7 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
 
       <section hidden={step !== 5} className="step-card">
         <H2 n={8}>Maikling Pagtataya</H2>
-        <MiniAssessment lessonId={lesson.id} questions={lesson.assessment} onComplete={setAssessmentComplete} />
+        <MiniAssessment lessonId={lesson.id} learnerId={learnerId} questions={lesson.assessment} onComplete={setAssessmentComplete} />
         <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 font-sans sm:flex-row">
           <button onClick={() => toggleLesson(lesson.id)} disabled={done || visitedSteps.length !== steps.length || !assessmentComplete} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"}`}>
             {done ? "✓ Tapos na ang aralin" : visitedSteps.length !== steps.length ? "Tapusin muna ang 6 na hakbang" : !assessmentComplete ? "Sagutan muna ang lahat ng tanong" : "Markahan bilang tapos"}
@@ -193,11 +198,12 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   );
 }
 
-function MiniAssessment({ lessonId, questions, onComplete }: { lessonId: string; questions: Question[]; onComplete: (complete: boolean) => void }) {
-  const storageKey = `historia-lesson-assessment-v1:${lessonId}`;
+function MiniAssessment({ lessonId, learnerId, questions, onComplete }: { lessonId: string; learnerId: string; questions: Question[]; onComplete: (complete: boolean) => void }) {
+  const storageKey = `historia-lesson-assessment-v1:${learnerId}:${lessonId}`;
   const [ans, setAns] = useState<(number | null)[]>(() => questions.map(() => null));
   const [answersReady, setAnswersReady] = useState(false);
   useEffect(() => {
+    setAns(questions.map(() => null));
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
       if (Array.isArray(saved) && saved.length === questions.length &&
