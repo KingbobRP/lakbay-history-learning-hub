@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Award, BookOpen, Gamepad2, Lock, Medal, Settings2, Star, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -35,7 +36,7 @@ function ProfilePage() {
   const earnedGameRewards = gameRewards.filter((b) => b.earned);
 
   return (
-    <div className="civilization-shell mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12" data-era={civilization.era.id} style={eraCssVars(civilization.era)}>
+    <div className="civilization-shell mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12" data-era={civilization.era.id} style={eraCssVars(civilization.era) as CSSProperties}>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div><p className="eyebrow">Personal na talaan</p><h1 className="mt-2 text-4xl sm:text-5xl">Aking Paglalakbay</h1></div>
         <Button asChild variant="outline" className="min-h-11"><Link to="/settings"><Settings2 className="mr-2 h-4 w-4" /> Ayusin ang profile</Link></Button>
