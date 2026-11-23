@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Loader2, ShieldCheck, UserRound, KeyRound, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { normalizeName, normalizeCode, studentEmail, studentPassword, validPin, validUsername } from "@/lib/student-auth";
+import { studentPassword, validPin, validUsername } from "@/lib/student-auth";
 import { AvatarPicker } from "@/components/AvatarPicker";
 import { useStudent } from "@/lib/student";
 
