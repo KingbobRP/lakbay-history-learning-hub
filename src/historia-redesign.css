@@ -648,3 +648,226 @@ main button:focus-visible, main a:focus-visible, input:focus-visible {
   .lesson-page .stepper-bar { position: static; }
   .lesson-page .step-card { padding: 1rem; }
 }
+
+
+/* HISTORIA visual pass — high-contrast editorial layout across the actual learning screens. */
+:root {
+  --hx-navy: #10243a;
+  --hx-navy-2: #1b3853;
+  --hx-gold: #c5a35f;
+  --hx-paper: #fbf7ed;
+  --hx-line: #d8c9ad;
+}
+body {
+  background:
+    radial-gradient(ellipse at 8% 18%, rgb(197 163 95 / .10), transparent 28rem),
+    radial-gradient(ellipse at 92% 42%, rgb(16 36 58 / .055), transparent 30rem),
+    #f3efe5;
+}
+.site-header {
+  background: linear-gradient(105deg, #0d1d30, #193550 62%, #10243a) !important;
+  border-bottom: 3px solid var(--hx-gold);
+  box-shadow: 0 12px 32px rgb(16 36 58 / .2);
+}
+.site-header .logo-monogram {
+  width: 2.8rem; height: 2.8rem;
+  border: 1px solid var(--hx-gold);
+  outline: 1px solid rgb(197 163 95 / .3);
+  outline-offset: 3px;
+  background: rgb(197 163 95 / .1);
+}
+.site-header .historia-logo > span:last-child > span:first-child {
+  letter-spacing: .14em;
+  text-shadow: 0 2px 12px rgb(0 0 0 / .25);
+}
+.site-header .desktop-navigation a {
+  min-height: 2.7rem;
+  border-radius: .35rem .35rem 0 0;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+.site-header .desktop-navigation a:hover,
+.site-header .desktop-navigation a[aria-current="page"] {
+  background: rgb(255 255 255 / .075);
+}
+.dashboard-shell, .curriculum-page, .timeline-page, .lesson-page {
+  position: relative;
+}
+.dashboard-shell::after, .curriculum-page::after, .timeline-page::after, .lesson-page::after {
+  content: "HISTORIA  •  BAITANG 11";
+  display: block;
+  margin-top: 3.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(128 99 47 / .35);
+  color: #80632f;
+  font: 700 .62rem/1.4 var(--font-sans);
+  letter-spacing: .24em;
+  text-align: center;
+}
+.dashboard-shell > h1, .curriculum-page > h1, .timeline-page > h1, .lesson-page > h1 {
+  color: #10243a;
+  text-shadow: 0 2px 0 rgb(197 163 95 / .12);
+}
+.dashboard-shell > h1::after, .curriculum-page > h1::after, .timeline-page > h1::after {
+  content: "";
+  display: block;
+  width: clamp(4rem, 12vw, 7rem);
+  height: 4px;
+  margin-top: 1.15rem;
+  background: linear-gradient(90deg, #b18a43, #e1c98f, transparent);
+}
+.dashboard-nav {
+  border: 1px solid #cbb991;
+  background: linear-gradient(110deg, #fffdf7, #eee4d2);
+  box-shadow: 0 14px 30px rgb(16 36 58 / .08);
+}
+.dashboard-nav a {
+  min-height: 3rem;
+  border: 1px solid #d8c9ad;
+  background: #fffdf8;
+  color: #18334d;
+}
+.dashboard-nav a:hover {
+  background: #10243a;
+  color: #fff8e9;
+}
+.dashboard-progress {
+  min-height: 15rem;
+  border: 1px solid #b18a43;
+  background:
+    radial-gradient(circle at 90% 10%, rgb(226 201 143 / .3), transparent 20rem),
+    linear-gradient(120deg, #0e2034, #1b3b59 68%, #25435a);
+  box-shadow: 0 24px 55px rgb(16 36 58 / .24);
+}
+.dashboard-progress > div:first-child > p:nth-child(2) {
+  max-width: 40rem;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: .98;
+}
+.dashboard-terms [role="tab"] {
+  min-height: 7rem;
+  border: 1px solid #d6c6a7;
+  border-bottom: 4px solid transparent;
+  background: linear-gradient(160deg, #fffdf8, #eee5d5);
+  box-shadow: 0 8px 18px rgb(16 36 58 / .055);
+}
+.dashboard-terms [role="tab"][aria-selected="true"] {
+  border-color: #b18a43;
+  border-bottom-color: #e0bd70;
+  background: linear-gradient(145deg, #10243a, #25445f);
+  box-shadow: 0 14px 26px rgb(16 36 58 / .2);
+}
+.dashboard-content { align-items: start; }
+.dashboard-term-feature {
+  border: 1px solid #c5a35f;
+  background: #fffdf7;
+  box-shadow: 0 18px 42px rgb(16 36 58 / .13);
+}
+.dashboard-term-feature .photo {
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  filter: saturate(.92) contrast(1.06);
+}
+.dashboard-term-feature h2 {
+  color: #10243a;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+.dashboard-lesson-list {
+  border: 1px solid #cbb991;
+  background: #fffdf7;
+  box-shadow: 0 18px 42px rgb(16 36 58 / .11);
+}
+.dashboard-lesson-list li + li { border-top: 1px solid #e7ddcb; }
+.dashboard-lesson-list li > a, .dashboard-lesson-list li > div {
+  min-height: 7.5rem;
+  padding: 1.35rem;
+}
+.dashboard-lesson-list li > a:hover {
+  background: linear-gradient(90deg, #f0e5d0, #fffdf7);
+}
+.curriculum-page > section {
+  border: 1px solid #c5a35f;
+  box-shadow: 0 18px 42px rgb(16 36 58 / .10);
+}
+.curriculum-page > section > div:first-child {
+  background:
+    radial-gradient(circle at 90% 0, rgb(197 163 95 / .24), transparent 16rem),
+    linear-gradient(110deg, #10243a, #25445f);
+}
+.curriculum-page table tbody tr:nth-child(even) { background: rgb(237 228 210 / .38); }
+.curriculum-page table tbody tr:hover { background: #eee2ca; }
+.timeline-page > ol > li {
+  border: 1px solid #cbb991;
+  border-left: 5px solid #b18a43;
+  background: linear-gradient(125deg, #fffdf7, #f2eadb);
+  box-shadow: 0 14px 32px rgb(16 36 58 / .09);
+}
+.timeline-page > ol > li > p:first-of-type {
+  background: #10243a;
+  box-shadow: 0 4px 12px rgb(16 36 58 / .18);
+}
+.lesson-page .stepper-bar {
+  border: 1px solid #c5a35f;
+  background: rgb(255 253 247 / .97);
+  box-shadow: 0 12px 30px rgb(16 36 58 / .12);
+}
+.lesson-page .step-dot {
+  border: 1px solid #d4c5a8;
+  background: #f2eadb;
+  color: #4c4a43;
+}
+.lesson-page .step-dot.is-current {
+  border-color: #c5a35f;
+  background: linear-gradient(145deg, #10243a, #25445f);
+  color: #fff8e9;
+  box-shadow: 0 7px 16px rgb(16 36 58 / .2);
+}
+.lesson-page .step-card {
+  border: 1px solid #d3c3a3;
+  border-top: 5px solid #b18a43;
+  border-radius: .9rem;
+  background: linear-gradient(145deg, #fffdf8, #f5eee1);
+  box-shadow: 0 18px 42px rgb(16 36 58 / .09);
+}
+.lesson-page .activity {
+  border: 1px solid #c5a35f;
+  border-top: 5px solid #b18a43;
+  border-radius: .75rem;
+  background: linear-gradient(140deg, #f5eddd, #fffdf8);
+}
+.games-page > section:first-child {
+  border: 1px solid #c5a35f;
+  border-bottom: 5px solid #c5a35f;
+  box-shadow: 0 18px 40px rgb(16 36 58 / .18);
+}
+.game-card {
+  border: 1px solid #d0bf9e;
+  border-top: 4px solid #b18a43;
+  background: linear-gradient(145deg, #fffdf8, #f0e7d7);
+  box-shadow: 0 14px 30px rgb(16 36 58 / .09);
+}
+.game-card:hover {
+  border-color: #a57b37;
+  box-shadow: 0 20px 38px rgb(16 36 58 / .16);
+}
+main button:not(:disabled), main a.inline-flex {
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+main button:not(:disabled):hover, main a.inline-flex:hover {
+  box-shadow: 0 7px 18px rgb(16 36 58 / .12);
+}
+main button:not(:disabled):active, main a.inline-flex:active { transform: translateY(1px); }
+footer {
+  border-top: 4px solid #c5a35f;
+  background: linear-gradient(110deg, #0d1d30, #193550 62%, #10243a);
+}
+@media (max-width: 639px) {
+  .dashboard-shell::after, .curriculum-page::after, .timeline-page::after, .lesson-page::after {
+    margin-top: 2.25rem;
+  }
+  .dashboard-terms [role="tab"] { min-height: 5.8rem; }
+  .dashboard-lesson-list li > a, .dashboard-lesson-list li > div { min-height: 6rem; }
+  .timeline-page > ol > li { border-left-width: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  main button:not(:disabled), main a.inline-flex { transition: none; }
+}
