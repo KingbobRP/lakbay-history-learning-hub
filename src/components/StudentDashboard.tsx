@@ -1,94 +1,138 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, ClipboardList, Gamepad2, Landmark, Star, Award } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import type { CSSProperties } from "react";
+import {
+  ArrowRight, Archive, BookOpen, CalendarDays, ChartNoAxesColumnIncreasing,
+  ChevronRight, Clock3, Compass, Gamepad2, Home, Landmark, MapPinned,
+  Search, Settings, Sparkles, Star, Trophy, Bell, ScrollText, Flame,
+} from "lucide-react";
 import { useStudent } from "@/lib/student";
-import { lessons, terms } from "@/lib/historia-data";
-import { avatarSrc } from "@/lib/avatars";
+import { lessons, terms, images } from "@/lib/historia-data";
 import { overallPercent } from "@/lib/progress";
 import { allBadges, continueLesson, formatDate, quizzesDone } from "@/lib/achievements";
 import { AvatarImg } from "@/components/AvatarPicker";
+import { avatarSrc } from "@/lib/avatars";
+import heroFigures from "@/assets/home-hero-figures.jpg";
+
+const navigation = [
+  { label: "Home", to: "/", icon: Home },
+  { label: "Learning Modules", to: "/dashboard", icon: BookOpen },
+  { label: "Historical Timeline", to: "/timeline", icon: Clock3 },
+  { label: "Source Archives", to: "/search", icon: Archive },
+  { label: "Map Explorer", to: "/timeline", icon: MapPinned },
+  { label: "Practice Center", to: "/games", icon: Gamepad2 },
+  { label: "Achievements", to: "/achievements", icon: Trophy },
+  { label: "Study Planner", to: "/progress", icon: CalendarDays },
+  { label: "Profile & Settings", to: "/settings", icon: Settings },
+] as const;
 
 export function StudentDashboard() {
   const { profile, progress, activity, rewards, ready } = useStudent();
-  if (!ready) return <div className="mx-auto max-w-6xl px-5 py-16 font-sans text-muted-foreground" role="status">Kinukuha ang iyong talaan…</div>;
+  if (!ready) return <div className="sr-only" role="status">Kinukuha ang iyong talaan…</div>;
+
   const name = profile?.full_name || "Mag-aaral";
   const first = name.split(" ")[0] ?? name;
   const next = continueLesson(progress);
-  const recent = lessons.find((l) => l.id === progress.lastLesson);
   const pct = overallPercent(progress);
   const badges = allBadges(rewards).filter((b) => b.earned);
+  const featured = next ?? lessons[0];
+  const recentItems = activity.slice(0, 3);
+  const termDone = lessons.filter((l) => l.term === (next?.term ?? 1) && progress.completed.includes(l.id)).length;
+  const termTotal = lessons.filter((l) => l.term === (next?.term ?? 1)).length;
+
   return (
-    <div className="home-page mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-8">
-      <section className="dash-card flex flex-wrap items-center gap-4">
-        <AvatarImg src={avatarSrc(profile?.avatar)} size={72} />
-        <div className="min-w-0 flex-1">
-          <p className="eyebrow">Maligayang pagbabalik</p>
-          <h1 className="truncate text-3xl sm:text-4xl">Maligayang pagbabalik, {first}!</h1>
-          <p className="mt-1 font-sans text-sm text-muted-foreground">{name} · {profile?.age ? `${profile.age} taon · ` : ""}{profile?.gender || "—"} · {profile?.section || "Walang seksiyon"}</p>
-        </div>
-        <div className="dash-xp-summary flex items-center gap-2 border border-accent px-4 py-2"><Star className="dashboard-icon-motion h-5 w-5 fill-accent text-accent" /><span className="font-display text-3xl text-primary">{rewards.xp}</span><span className="font-sans text-xs text-muted-foreground">XP</span></div>
-        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
-          {!profile?.avatar && <Button asChild variant="outline"><Link to="/settings">Pumili ng avatar</Link></Button>}
-          <Button asChild variant="outline"><Link to="/profile">Tingnan ang buong profile</Link></Button>
-        </div>
-      </section>
+    <div className="reborn-dashboard">
+      <aside className="reborn-sidebar">
+        <Link to="/" className="reborn-brand" aria-label="HISTORIA Reborn home">
+          <span className="reborn-brand-mark"><BookOpen size={31} /><Sparkles size={13} /></span>
+          <span className="reborn-brand-name">HISTORIA<small>REBORN</small></span>
+        </Link>
+        <nav className="reborn-nav" aria-label="Dashboard navigation">
+          {navigation.map(({ label, to, icon: Icon }, index) => (
+            <Link key={label} to={to} activeOptions={{ exact: to === "/" }} activeProps={{ className: "is-active" }} className={index === 0 ? "is-active" : ""}>
+              <Icon size={19} strokeWidth={1.8} /><span>{label}</span>
+            </Link>
+          ))}
+        </nav>
+        <blockquote className="reborn-quote">
+          “A people without the knowledge of their past is a people without a future.”
+          <cite>— Dr. Jose Rizal</cite>
+        </blockquote>
+        <div className="reborn-sidebar-landmark" aria-hidden="true">✦</div>
+      </aside>
 
-
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <section className="dash-card">
-          <p className="eyebrow">📜 Ituloy ang pag-aaral</p>
-          {next ? (
-            <>
-              <h2 className="mt-2 text-2xl">{next.title}</h2>
-              <p className="mt-1 font-sans text-sm text-muted-foreground">Termino {next.term} · Linggo {next.weeks}</p>
-              <p className="mt-3 line-clamp-3 text-sm leading-relaxed">{next.intro}</p>
-              <Button asChild className="mt-4 min-h-12"><Link to="/lessons/$lessonId" params={{ lessonId: next.id }}>Ituloy ang Pag-aaral <ArrowRight /></Link></Button>
-            </>
-          ) : <p className="mt-2">Natapos mo na ang lahat ng {lessons.length} aralin! 🏆</p>}
-          {recent && recent.id !== next?.id && <p className="mt-4 font-sans text-sm text-muted-foreground">Huling binuksan: <Link to="/lessons/$lessonId" params={{ lessonId: recent.id }} className="text-primary underline">{recent.title}</Link></p>}
-          <div className="mt-5 grid grid-cols-2 gap-2 border-t border-border pt-4 font-sans text-sm sm:grid-cols-4">
-            {[{ to: "/dashboard", l: "Mga Aralin", i: BookOpen }, { to: "/quiz", l: "Pagsusulit", i: ClipboardList }, { to: "/games", l: "Mga Laro", i: Gamepad2 }, { to: "/timeline", l: "Talaang-Panahon", i: Landmark }].map(({ to, l, i: I }) => (
-              <Link key={to} to={to} className="flex min-h-11 items-center gap-2 border border-border px-3 hover:border-primary"><I className="dashboard-icon-motion h-4 w-4 text-primary" />{l}</Link>
-            ))}
+      <div className="reborn-main">
+        <header className="reborn-topbar">
+          <Link to="/search" className="reborn-search"><Search size={17} /><span>Search in HISTORIA...</span><kbd>Ctrl + K</kbd></Link>
+          <div className="reborn-user">
+            <span className="reborn-bell"><Bell size={19} /><i>3</i></span>
+            <AvatarImg src={avatarSrc(profile?.avatar)} size={40} />
+            <span className="reborn-user-copy"><strong>{name}</strong><small>Grade 11 · {profile?.section || "Student"}</small></span>
+            <Link to="/profile" aria-label="Open profile"><ChevronRight size={17} /></Link>
           </div>
+        </header>
+
+        <section className="reborn-hero" style={{ backgroundImage: `linear-gradient(90deg, rgba(5,13,10,.96) 0%, rgba(5,13,10,.78) 30%, rgba(5,13,10,.18) 67%, rgba(5,13,10,.65) 100%), url(${heroFigures})` }}>
+          <div className="reborn-hero-copy">
+            <p className="reborn-kicker">WELCOME BACK,</p>
+            <h1>{first}!</h1>
+            <p>Continue your journey through<br />the rich history of the Philippines.</p>
+            {next ? <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="reborn-gold-button"><BookOpen size={16} /> Resume Learning <ArrowRight size={17} /></Link> : <Link to="/dashboard" className="reborn-gold-button">Explore Lessons <ArrowRight size={17} /></Link>}
+          </div>
+          <div className="reborn-hero-caption"><span>✦</span> THE STORY OF OUR NATION</div>
+          <section className="reborn-progress-panel">
+            <div className="reborn-panel-heading"><h2>Your Progress</h2><ChartNoAxesColumnIncreasing size={22} /></div>
+            <div className="reborn-progress-body">
+              <div className="reborn-ring" style={{ "--progress": `${pct}%` } as CSSProperties}><span>{pct}%</span></div>
+              <div><strong>Overall Completion</strong><p>This Term</p><b>↑ {termDone}/{termTotal} lessons</b></div>
+            </div>
+            <div className="reborn-current">
+              <h3>Current Lesson</h3>
+              <div className="reborn-current-row"><img src={featured.image} alt="" /><span><strong>{featured.title}</strong><small>Term {featured.term} · Week {featured.weeks}</small></span><Link to="/lessons/$lessonId" params={{ lessonId: featured.id }}>Continue <ArrowRight size={14} /></Link></div>
+            </div>
+          </section>
         </section>
 
-        <section className="dash-card">
-          <p className="eyebrow">Pag-unlad sa pag-aaral</p>
-          <p className="mt-2 font-display text-5xl text-primary">{pct}%</p>
-          <div className="dash-bar mt-2" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Kabuuang pag-unlad"><span style={{ width: `${pct}%` }} /></div>
-          <dl className="mt-4 grid grid-cols-2 gap-3 font-sans text-sm">
-            <div><dt className="text-muted-foreground">Natapos na aralin</dt><dd className="font-display text-2xl text-ink">{progress.completed.length}/{lessons.length}</dd></div>
-            <div><dt className="text-muted-foreground">Natapos na pagsusulit</dt><dd className="font-display text-2xl text-ink">{quizzesDone(progress)}/{terms.length}</dd></div>
-          </dl>
-          <ul className="mt-3 space-y-1 font-sans text-sm">
-            {terms.map((t) => <li key={t.id} className="flex justify-between border-t border-border pt-1"><span>Termino {t.id}</span><span className="text-muted-foreground">{progress.scores[t.id] ? `Pinakamataas ${progress.scores[t.id]!.best}/10` : "Wala pang iskor"}</span></li>)}
-          </ul>
-          <Link to="/progress" className="mt-3 inline-flex min-h-11 items-center font-sans text-sm text-primary underline">Buong talaan ng pag-unlad</Link>
-        </section>
-      </div>
+        <div className="reborn-content-grid">
+          <div className="reborn-left-column">
+            <section className="reborn-featured">
+              <div className="reborn-section-title"><h2><Star size={21} fill="currentColor" /> Featured Lesson</h2><span>✧━━━━━━━━✧</span></div>
+              <div className="reborn-feature-body">
+                <img src={images.revolution} alt="Historical illustration representing the Philippine Revolution" />
+                <div className="reborn-feature-copy"><p className="reborn-kicker">CONTINUE YOUR DISCOVERY</p><h3>{featured.title}</h3><p>{featured.intro}</p><small><Clock3 size={15} /> Suggested reading · 15 min</small><Link to="/lessons/$lessonId" params={{ lessonId: featured.id }} className="reborn-gold-button">Start Lesson <ArrowRight size={16} /></Link></div>
+              </div>
+            </section>
 
-      <div className="grid min-w-0 gap-6 lg:grid-cols-2">
-        <section className="dash-card min-w-0 overflow-hidden">
-          <p className="eyebrow">Mga kamakailang gawain</p>
-          {activity.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">Wala pang gawain. Tapusin ang isang aralin o pagsusulit para magsimula!</p> : (
-            <ul className="mt-2 max-h-64 min-w-0 max-w-full overflow-y-auto overscroll-contain divide-y divide-border pr-1">
-              {activity.slice(0, 6).map((a) => (
-                <li key={a.id} className="flex min-w-0 items-center justify-between gap-3 py-2 text-sm">
-                  <span className="min-w-0 flex-1 overflow-hidden"><span className="block truncate">{a.label}{a.score != null ? ` — ${a.score}/10` : ""}</span><span className="font-sans text-xs text-muted-foreground">{formatDate(a.created_at)}</span></span>
-                  {a.points > 0 && <span className="shrink-0 font-sans text-sm font-semibold text-gold-deep">+{a.points} XP</span>}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-        <section className="dash-card min-w-0 overflow-hidden">
-          <p className="eyebrow">🏆 Mga tsapa</p>
-          {badges.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">Wala pang tsapa. Ang unang aralin ay magbubukas ng "Unang Hakbang".</p> : (
-            <ul className="mt-2 grid gap-2 sm:grid-cols-2">{badges.map((b) => <li key={b.id} className="flex items-center gap-2 text-sm"><Award className="h-5 w-5 shrink-0 text-accent" />{b.title}</li>)}</ul>
-          )}
-          <Link to="/achievements" className="mt-3 inline-flex min-h-11 items-center font-sans text-sm text-primary underline">Lahat ng gantimpala</Link>
-        </section>
+            <section className="reborn-explore">
+              <div className="reborn-section-title"><h2>Explore More</h2><span>✧━━━━━━━━✧</span></div>
+              <div className="reborn-explore-grid">
+                <Link to="/timeline" className="reborn-explore-card"><img src={images.intramuros} alt="" /><span><strong>Historical Timeline</strong><small>Relive the past, step by step.</small></span><i><Clock3 size={17} /></i></Link>
+                <Link to="/search" className="reborn-explore-card"><img src={images.precolonial} alt="" /><span><strong>Source Archives</strong><small>Discover primary sources and historical documents.</small></span><i><ScrollText size={17} /></i></Link>
+                <Link to="/timeline" className="reborn-explore-card"><img src={images.terraces} alt="" /><span><strong>Map Explorer</strong><small>Explore historical places across the Philippines.</small></span><i><Compass size={17} /></i></Link>
+                <Link to="/games" className="reborn-explore-card"><img src={images.community} alt="" /><span><strong>Practice Center</strong><small>Test your knowledge with engaging activities.</small></span><i><Gamepad2 size={17} /></i></Link>
+              </div>
+            </section>
+          </div>
+
+          <div className="reborn-right-column">
+            <section className="reborn-achievements">
+              <div className="reborn-section-title"><h2>Achievements</h2><Link to="/achievements">View All <ArrowRight size={14} /></Link></div>
+              <div className="reborn-badges">
+                {(badges.length ? badges.slice(0, 4) : [{ id: "history-beginner", title: "History Beginner" }, { id: "quiz-champion", title: "Quiz Champion" }, { id: "research-scholar", title: "Research Scholar" }, { id: "top-learner", title: "Top Learner" }]).map((b, i) => {
+                  const Icon = [BookOpen, Star, ScrollText, Trophy][i];
+                  return <div className={badges.length ? "reborn-badge earned" : "reborn-badge locked"} key={b.id}><span><Icon size={27} /></span><small>{b.title}</small></div>;
+                })}
+              </div>
+            </section>
+
+            <section className="reborn-activity">
+              <div className="reborn-section-title"><h2>Recent Activity</h2><Link to="/progress">View All <ArrowRight size={14} /></Link></div>
+              {recentItems.length ? <ol>{recentItems.map((item) => <li key={item.id}><i /><span><strong>{item.label}{item.score != null ? ` · ${item.score}/10` : ""}</strong><small>{formatDate(item.created_at)} {item.points > 0 ? `· +${item.points} XP` : ""}</small></span></li>)}</ol> : <p className="reborn-empty-activity"><Flame size={18} /> Your learning journey starts here. Complete a lesson or quiz to see your activity.</p>}
+            </section>
+
+            <section className="reborn-xp-card"><span><Sparkles size={19} /> YOUR EXPERIENCE</span><strong>{rewards.xp.toLocaleString()} <small>XP</small></strong><p>{progress.completed.length} lessons completed · {quizzesDone(progress)} quizzes taken</p></section>
+          </div>
+        </div>
+        <footer className="reborn-footer"><span>☼</span><strong>HISTORIA REBORN</strong><i>Learning Today, Leading Tomorrow.</i><span className="reborn-footer-motif">✦ ━━━━━━━━━━━━━ ✦</span><span className="reborn-footer-note">Baitang 11 · Kasaysayan at Lipunang Pilipino</span></footer>
       </div>
     </div>
   );
