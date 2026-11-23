@@ -1,6 +1,6 @@
 /**
- * Students log in with full name + class code + PIN (no email or phone).
- * These are turned into a private sign-in identity the backend understands.
+ * Student credentials are converted to private Supabase Auth identities.
+ * Legacy identity helpers remain only for the one-time account migration.
  */
 export function normalizeName(name: string) {
   return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/ñ/g, "n").replace(/[^a-z0-9]+/g, ".").replace(/^\.+|\.+$/g, "");
@@ -16,4 +16,7 @@ export function studentPassword(pin: string) {
 }
 export function validPin(pin: string) {
   return /^\d{4,6}$/.test(pin);
+}
+export function validUsername(username: string) {
+  return /^[a-z0-9_]{3,20}$/i.test(username);
 }

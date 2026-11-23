@@ -5,7 +5,7 @@ import { applyAward, XP_EVENT, XP_RULES, type Rewards } from "./rewards";
 import { emptyAdventure, type Adventure } from "./adventure";
 
 export type Progress = { completed: string[]; scores: Record<string, { best: number; last: number; attempts: number }>; mastered: string[]; lastLesson?: string | null; adventure: Adventure };
-export type Profile = { full_name: string; age: number | null; gender: string; class_code: string; section: string; avatar: string };
+export type Profile = { username?: string | null; full_name: string; age: number | null; gender: string; class_code: string; section: string; avatar: string };
 export type Activity = { id: string; kind: string; label: string; reward_id: string | null; score: number | null; points: number; created_at: string };
 
 const emptyProgress: Progress = { completed: [], scores: {}, mastered: [], lastLesson: null, adventure: emptyAdventure };
@@ -54,7 +54,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
 
   const loadRemote = useCallback(async (id: string) => {
     const [p, pr, a] = await Promise.all([
-      supabase.from("profiles").select("full_name, age, gender, class_code, section, avatar").eq("id", id).maybeSingle(),
+      supabase.from("profiles").select("username, full_name, age, gender, class_code, section, avatar").eq("id", id).maybeSingle(),
       supabase.from("student_progress").select("*").eq("user_id", id).maybeSingle(),
       supabase.from("activity_log").select("id, kind, label, reward_id, score, points, created_at").eq("user_id", id).order("created_at", { ascending: false }).limit(500),
     ]);

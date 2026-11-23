@@ -48,16 +48,30 @@ function LessonPage() {
 
 function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
-  useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const [step, setStep] = useState(0);
+  const [assessmentAnswered, setAssessmentAnswered] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
   const done = progress.completed.includes(lesson.id);
   const idx = lessons.findIndex((l) => l.id === lesson.id);
+  const firstIncompleteIndex = lessons.findIndex((item) => !progress.completed.includes(item.id));
+  const locked = !done && firstIncompleteIndex !== -1 && idx > firstIncompleteIndex;
+  useEffect(() => { if (!locked) visitLesson(lesson.id); }, [lesson.id, locked]); // eslint-disable-line react-hooks/exhaustive-deps
   const prev = lessons[idx - 1];
   const next = lessons[idx + 1];
   const term = terms.find((t) => t.id === lesson.term)!;
   const extras = lessonInteractives[lesson.id] ?? {};
   const go = (n: number) => { setStep(n); topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); };
+
+  if (locked) {
+    return (
+      <article className="lesson-page mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
+        <p className="eyebrow">Araling naka-lock</p>
+        <h1 className="mt-3 text-4xl sm:text-5xl">Unahin muna ang naunang aralin</h1>
+        <p className="mx-auto mt-4 max-w-xl font-sans leading-relaxed text-muted-foreground">Kumpletuhin muna ang lahat ng tanong sa pagtataya ng kasalukuyang aralin bago magpatuloy dito.</p>
+        <Link to="/dashboard" className="mt-8 inline-flex min-h-12 items-center justify-center bg-primary px-6 font-sans text-sm font-semibold text-primary-foreground">Bumalik sa mga aralin</Link>
+      </article>
+    );
+  }
 
   return (
     <article className="lesson-page mx-auto max-w-3xl px-4 py-10 sm:px-6">
@@ -134,16 +148,19 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
 
       <section hidden={step !== 5} className="step-card">
         <H2 n={8}>Maikling Pagtataya</H2>
-        <MiniAssessment questions={lesson.assessment} />
+        <MiniAssessment questions={lesson.assessment} onAnsweredChange={setAssessmentAnswered} />
         <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 font-sans sm:flex-row">
-          <button onClick={() => toggleLesson(lesson.id)} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}>
+          <button onClick={() => toggleLesson(lesson.id)} disabled={!assessmentAnswered && !done} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90"} disabled:cursor-not-allowed disabled:opacity-40`}>
             {done ? "✓ Tapos na — ibalik bilang hindi tapos" : "Markahan bilang tapos"}
           </button>
           <Link to="/quiz" search={{ term: lesson.term }} className="inline-flex min-h-12 items-center justify-center border border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary">Sagutan ang pagsusulit ng Termino {lesson.term}</Link>
         </div>
+        {!assessmentAnswered && !done && <p className="mt-3 font-sans text-sm text-muted-foreground" role="status">Sagutan muna ang lahat ng tanong at markahan bilang tapos ang aralin upang makapagpatuloy sa susunod na aralin.</p>}
         <div className="mt-8 grid grid-cols-2 gap-3 font-sans text-sm">
           {prev ? <Link to="/lessons/$lessonId" params={{ lessonId: prev.id }} className="border border-border p-3 hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">← Nakaraang aralin</span><span className="block text-ink">{prev.title}</span></Link> : <span />}
-          {next && <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link>}
+          {next && (assessmentAnswered || done
+            ? <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link>
+            : <span aria-disabled="true" className="cursor-not-allowed border border-border p-3 text-right opacity-40"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></span>)}
         </div>
       </section>
 
@@ -155,9 +172,10 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   );
 }
 
-function MiniAssessment({ questions }: { questions: Question[] }) {
+function MiniAssessment({ questions, onAnsweredChange }: { questions: Question[]; onAnsweredChange: (answered: boolean) => void }) {
   const [ans, setAns] = useState<(number | null)[]>(() => questions.map(() => null));
-  const answered = ans.every((a) => a !== null);
+  const answered = questions.length > 0 && ans.every((a) => a !== null);
+  useEffect(() => { onAnsweredChange(answered); }, [answered, onAnsweredChange]);
   const score = scoreQuiz(ans, questions.map((q) => q.answer));
   return (
     <div className="mt-4 font-sans">

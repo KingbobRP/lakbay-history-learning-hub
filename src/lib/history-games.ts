@@ -1,13 +1,14 @@
 import bulul from '@/assets/artifact-bulul.jpg';
 import urn from '@/assets/artifact-kulaman-urn.jpg';
 import quran from '@/assets/artifact-quran.jpg';
-import { quizzes } from './historia-data';
+import { lessons, quizzes } from './historia-data';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
-export type GameId = 'timeline' | 'who' | 'detective' | 'fact' | 'map' | 'complete' | 'artifact' | 'millionaire';
+export type GameId = 'term1' | 'timeline' | 'who' | 'detective' | 'fact' | 'map' | 'complete' | 'artifact' | 'millionaire';
 export type Question = { prompt: string; choices: string[]; answer: number; explain: string; whyNot?: string; hint?: string; clues?: string[]; accepted?: string[]; image?: string; source?: string };
 export const difficulties: { id: Difficulty; label: string }[] = [{ id: 'easy', label: 'Madali' }, { id: 'medium', label: 'Katamtaman' }, { id: 'hard', label: 'Mahirap' }];
 export const gameCatalog: { id: GameId; title: string; category: string; description: string; instructions: string; icon: string }[] = [
+  { id: 'term1', title: 'Unang Termino Quest', category: 'Term 1 · Kamalayang Pangkasaysayan', description: 'Subukin ang iyong kaalaman sa mga sanggunian, heograpiya, kultura, at paniniwala ng sinaunang pamayanan.', instructions: 'Sagutin ang mga tanong na hinango mismo sa mga aralin at pagtataya ng Unang Termino. Bawat sagot ay may paliwanag upang mas maunawaan mo ang paksa.', icon: 'term1' },
   { id: 'timeline', title: 'Hamon ng Panahon', category: 'Kronolohiya', description: 'Ayusin ang mga pangyayaring humubog sa ating bansa.', instructions: 'Gamitin ang pataas at pababang palaso upang ayusin ang mga pangyayari mula pinakamaaga hanggang pinakahuli. Bawat pangyayaring nasa tamang puwesto ay may puntos.', icon: 'timeline' },
   { id: 'who', title: 'Sino Ako?', category: 'Mga personalidad', description: 'Kilalanin ang Pilipinong nasa likod ng mga pahiwatig.', instructions: 'Basahin ang mga pahiwatig at piliin ang personalidad. Maaari kang humingi ng isang dagdag na pahiwatig bawat tanong; kalahati ang puntos kapag ginamit ito.', icon: 'who' },
   { id: 'detective', title: 'Detektib ng Kasaysayan', category: 'Ebidensiya', description: 'Suriin ang mga bakas. Tuklasin ang kasaysayan.', instructions: 'Buksan ang bawat ebidensiya bago magbigay ng konklusyon. Tatlong yugto ang bawat misyon. Piliin ang sagot na sinusuportahan ng mga dokumento at detalye.', icon: 'detective' },
@@ -111,6 +112,10 @@ export function questionsFor(id: GameId, difficulty: Difficulty): Question[] {
 }
 function rawQuestionsFor(id: GameId, difficulty: Difficulty): Question[] {
  const offset = difficulties.findIndex(d=>d.id===difficulty) * 3;
+ if (id === 'term1') {
+  const bank = lessons.filter(lesson => lesson.term === 1).flatMap(lesson => lesson.assessment.map(item => ({ prompt: item.q, choices: item.choices, answer: item.answer, explain: item.explain, ...(item.whyNot ? { whyNot: item.whyNot } : {}) })));
+  return bank.slice(offset, offset + 3);
+ }
  if (id === 'millionaire') {
   const pool = [...(quizzes[1] ?? []), ...(quizzes[2] ?? []), ...(quizzes[3] ?? [])];
   const start = difficulties.findIndex(d=>d.id===difficulty);

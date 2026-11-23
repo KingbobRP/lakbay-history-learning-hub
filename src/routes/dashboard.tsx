@@ -25,19 +25,20 @@ function Dashboard() {
   const t = terms.find((x) => x.id === term)!;
   const list = lessons.filter((l) => l.term === term);
   const next = lessons.find((l) => !progress.completed.includes(l.id));
+  const firstIncompleteIndex = lessons.findIndex((l) => !progress.completed.includes(l.id));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <div className="dashboard-shell mx-auto max-w-6xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Talaan ng Pag-aaral</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">Ang Iyong Pag-aaral</h1>
-      <nav className="mt-5 flex flex-wrap gap-2 font-sans text-sm" aria-label="Iba pang bahagi ng Aralin">
+      <nav className="dashboard-nav mt-5 flex flex-wrap gap-2 font-sans text-sm" aria-label="Iba pang bahagi ng Aralin">
         <Link to="/timeline" className="inline-flex min-h-11 items-center border border-accent px-4 text-primary hover:bg-secondary">Talaang-Panahon</Link>
         <Link to="/curriculum" className="inline-flex min-h-11 items-center border border-border px-4 text-primary hover:bg-secondary">Kurikulum</Link>
         <Link to="/games" className="inline-flex min-h-11 items-center border border-border px-4 text-primary hover:bg-secondary">Mga Laro</Link>
         <Link to="/search" className="inline-flex min-h-11 items-center border border-border px-4 text-primary hover:bg-secondary">Maghanap</Link>
       </nav>
 
-      <div className="mt-8 grid gap-6 border border-border bg-card p-6 md:grid-cols-[1fr_auto] md:items-center">
+      <div className="dashboard-progress mt-8 grid gap-6 border border-border bg-card p-6 md:grid-cols-[1fr_auto] md:items-center">
         <div>
           <p className="font-sans text-sm text-muted-foreground">Pag-usad ng pag-aaral</p>
           <p className="mt-1 font-display text-3xl text-ink">{progress.completed.length} sa {lessons.length} aralin ang natapos</p>
@@ -49,7 +50,7 @@ function Dashboard() {
         ) : <p className="font-sans text-sm text-success">Natapos mo na ang lahat ng aralin!</p>}
       </div>
 
-      <div className="mt-10 grid grid-cols-3 border-b border-border font-sans" role="tablist" aria-label="Mga termino">
+      <div className="dashboard-terms mt-10 grid grid-cols-3 border-b border-border font-sans" role="tablist" aria-label="Mga termino">
         {terms.map((x) => {
           const total = lessons.filter((l) => l.term === x.id).length;
           const done = lessons.filter((l) => l.term === x.id && progress.completed.includes(l.id)).length;
@@ -63,26 +64,36 @@ function Dashboard() {
         })}
       </div>
 
-      <div className="mt-8 grid gap-10 md:grid-cols-[1fr_1.5fr]">
-        <div>
+      <div className="dashboard-content mt-8 grid gap-10 md:grid-cols-[1fr_1.5fr]">
+        <div className="dashboard-term-feature">
           <img src={t.image} alt={t.title} loading="lazy" width={1600} height={1008} className="photo aspect-[4/3] w-full object-cover" />
-          <p className="eyebrow mt-5">{t.name} · {t.weeks} linggo</p>
-          <h2 className="mt-2 text-3xl">{t.title}</h2>
-          <p className="mt-3 text-muted-foreground">{t.blurb}</p>
+          <div className="p-4 sm:p-5">
+            <p className="eyebrow mt-2">{t.name} · {t.weeks} linggo</p>
+            <h2 className="mt-2 text-3xl">{t.title}</h2>
+            <p className="mt-3 text-muted-foreground">{t.blurb}</p>
+          </div>
         </div>
-        <ol className="divide-y divide-border border-y border-border">
+        <ol className="dashboard-lesson-list divide-y divide-border border-y border-border">
           {list.map((l) => {
             const done = progress.completed.includes(l.id);
+            const lessonIndex = lessons.findIndex((item) => item.id === l.id);
+            const locked = !done && firstIncompleteIndex !== -1 && lessonIndex > firstIncompleteIndex;
+            const content = (
+              <>
+                <span className="w-20 shrink-0 pt-1 font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground">Linggo {l.weeks}</span>
+                <span className="flex-1">
+                  <span className="block font-display text-xl text-ink">{l.title}</span>
+                  <span className="mt-1 block font-sans text-sm text-muted-foreground">{l.topic}</span>
+                  {locked && <span className="mt-1 block font-sans text-xs text-muted-foreground">Kumpletuhin muna ang naunang aralin upang mabuksan ito.</span>}
+                </span>
+                {done ? <CheckCircle2 className="h-5 w-5 shrink-0 text-success" aria-label="Tapos na" /> : locked ? <Circle className="h-5 w-5 shrink-0 text-border" aria-label="Naka-lock" /> : <Circle className="h-5 w-5 shrink-0 text-border" aria-label="Hindi pa tapos" />}
+              </>
+            );
             return (
               <li key={l.id}>
-                <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="flex items-start gap-4 px-1 py-5 hover:bg-card">
-                  <span className="w-20 shrink-0 pt-1 font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground">Linggo {l.weeks}</span>
-                  <span className="flex-1">
-                    <span className="block font-display text-xl text-ink">{l.title}</span>
-                    <span className="mt-1 block font-sans text-sm text-muted-foreground">{l.topic}</span>
-                  </span>
-                  {done ? <CheckCircle2 className="h-5 w-5 shrink-0 text-success" aria-label="Tapos na" /> : <Circle className="h-5 w-5 shrink-0 text-border" aria-label="Hindi pa tapos" />}
-                </Link>
+                {locked
+                  ? <div aria-disabled="true" className="flex cursor-not-allowed items-start gap-4 px-1 py-5 opacity-50">{content}</div>
+                  : <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="flex items-start gap-4 px-1 py-5 hover:bg-card">{content}</Link>}
               </li>
             );
           })}
