@@ -18,7 +18,7 @@ export const Route = createFileRoute("/curriculum")({
 
 function Curriculum() {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+    <div className="curriculum-page mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Balangkas ng Kurso</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">Ang Kurikulum</h1>
       <p className="mt-4 max-w-2xl text-muted-foreground">Ang mga paksa sa ibaba ay inayos ayon sa Tatlong-Terminong Badyet ng Gawain ng DepEd para sa Baitang 11. Ang nakasulat sa kolum na <strong className="text-foreground">"Paksa ayon sa Badyet ng Gawain"</strong> ay ang opisyal na lingguhang paksa; ang lahat ng paliwanag sa loob ng mga aralin ay karagdagang materyal ng HISTORIA.</p>
