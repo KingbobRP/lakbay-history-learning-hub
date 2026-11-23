@@ -111,7 +111,11 @@ export function questionsFor(id: GameId, difficulty: Difficulty): Question[] {
 }
 function rawQuestionsFor(id: GameId, difficulty: Difficulty): Question[] {
  const offset = difficulties.findIndex(d=>d.id===difficulty) * 3;
- if (id === 'term1') {\n  const bank = lessons.filter(lesson => lesson.term === 1).flatMap(lesson => lesson.assessment.map(item => ({ prompt: item.q, choices: item.choices, answer: item.answer, explain: item.explain, ...(item.whyNot ? { whyNot: item.whyNot } : {}) })));\n  return bank.slice(offset, offset + 3);\n }\n if (id === 'millionaire') {
+ if (id === 'term1') {
+  const bank = lessons.filter(lesson => lesson.term === 1).flatMap(lesson => lesson.assessment.map(item => ({ prompt: item.q, choices: item.choices, answer: item.answer, explain: item.explain, ...(item.whyNot ? { whyNot: item.whyNot } : {}) })));
+  return bank.slice(offset, offset + 3);
+ }
+ if (id === 'millionaire') {
   const pool = [...(quizzes[1] ?? []), ...(quizzes[2] ?? []), ...(quizzes[3] ?? [])];
   const start = difficulties.findIndex(d=>d.id===difficulty);
   return Array.from({length: 9}, (_, i) => {
