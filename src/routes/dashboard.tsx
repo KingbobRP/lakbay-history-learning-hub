@@ -3,6 +3,8 @@ import { useState } from "react";
 import { CheckCircle2, Circle } from "lucide-react";
 import { lessons, terms } from "@/lib/historia-data";
 import { useProgress } from "@/lib/progress";
+import { progressFor, eraCssVars } from "@/lib/civilization";
+import { useStudent } from "@/lib/student";
 
 export const Route = createFileRoute("/dashboard")({
   staticData: { sitemap: true },
@@ -21,13 +23,15 @@ export const Route = createFileRoute("/dashboard")({
 
 function Dashboard() {
   const { progress, percent } = useProgress();
+  const { rewards } = useStudent();
+  const civilization = progressFor(rewards.xp);
   const [term, setTerm] = useState(1);
   const t = terms.find((x) => x.id === term)!;
   const list = lessons.filter((l) => l.term === term);
   const next = lessons.find((l) => !progress.completed.includes(l.id));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <div className="civilization-shell mx-auto max-w-6xl px-4 py-12 sm:px-6" data-era={civilization.era.id} style={eraCssVars(civilization.era)}>
       <p className="eyebrow">Talaan ng Pag-aaral</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">Ang Iyong Pag-aaral</h1>
       <nav className="mt-5 flex flex-wrap gap-2 font-sans text-sm" aria-label="Iba pang bahagi ng Aralin">
