@@ -42,6 +42,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<Progress>(emptyProgress);
   const [activity, setActivity] = useState<Activity[]>([]);
   const [localRewards, setLocalRewards] = useState<Rewards>({ xp: 0, awarded: [] });
+  const [remoteRewards, setRemoteRewards] = useState<Rewards>({ xp: 0, awarded: [] });
   const uid = session?.user.id ?? null;
 
   useEffect(() => {
@@ -68,13 +69,34 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       await supabase.from("student_progress").insert({ user_id: id, completed: local.completed, mastered: local.mastered, scores: local.scores, last_lesson: local.lastLesson ?? null, adventure: local.adventure as never });
     }
     setActivity((a.data ?? []) as Activity[]);
+    // Load the full activity history for XP; the visible activity feed stays capped at 500 rows.
+    let xp = 0;
+    const awarded: string[] = [];
+    for (let from = 0; ; from += 1000) {
+      const { data, error } = await supabase.from("activity_log")
+        .select("points, reward_id")
+        .eq("user_id", id)
+        .order("created_at", { ascending: true })
+        .order("id", { ascending: true })
+        .range(from, from + 999);
+      if (error) {
+        console.error("Unable to load complete student XP history:", error);
+        break;
+      }
+      for (const row of data ?? []) {
+        xp += Number(row.points) || 0;
+        if (row.reward_id) awarded.push(row.reward_id);
+      }
+      if (!data || data.length < 1000) break;
+    }
+    setRemoteRewards({ xp, awarded });
     setReady(true);
   }, []);
 
   useEffect(() => {
     if (uid) { setReady(false); void loadRemote(uid); }
     else {
-      setProfile(null); setActivity([]);
+      setProfile(null); setActivity([]); setRemoteRewards({ xp: 0, awarded: [] });
       setProgress(readLocal(LOCAL_P, emptyProgress));
       const r = readLocal<Rewards>(LOCAL_R, { xp: 0, awarded: [] });
       setLocalRewards({ xp: Number(r.xp) || 0, awarded: Array.isArray(r.awarded) ? r.awarded : [] });
@@ -104,6 +126,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
         const pts = Number(data) || 0;
         if (pts > 0) {
           setActivity((list) => [{ id: crypto.randomUUID(), kind: "points", label, reward_id: rewardId, score: null, points: pts, created_at: new Date().toISOString() }, ...list]);
+          setRemoteRewards((current) => ({ xp: current.xp + pts, awarded: current.awarded.includes(rewardId) ? current.awarded : [...current.awarded, rewardId] }));
           notify(pts);
         }
 
@@ -140,9 +163,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => { await supabase.auth.signOut(); }, []);
 
-  const rewards = useMemo<Rewards>(() => uid
-    ? { xp: activity.reduce((n, a) => n + a.points, 0), awarded: activity.filter((a) => a.reward_id).map((a) => a.reward_id!) }
-    : localRewards, [uid, activity, localRewards]);
+  const rewards = useMemo<Rewards>(() => uid ? remoteRewards : localRewards, [uid, remoteRewards, localRewards]);
 
   const value = useMemo(() => ({ ready, session, profile, progress, activity, rewards, saveProgress, award, log, updateProfile, resetProgress, signOut }),
     [ready, session, profile, progress, activity, rewards, saveProgress, award, log, updateProfile, resetProgress, signOut]);

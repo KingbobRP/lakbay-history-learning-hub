@@ -1,11 +1,14 @@
+import type { CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Award, Lock, Star } from "lucide-react";
+import { Award, BookOpen, Gamepad2, Lock, Medal, Settings2, Star, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStudent } from "@/lib/student";
 import { lessons, terms } from "@/lib/historia-data";
 import { avatarSrc } from "@/lib/avatars";
 import { overallPercent } from "@/lib/progress";
 import { allBadges, formatDate } from "@/lib/achievements";
+import { adventureRewards, totalStars } from "@/lib/adventure";
+import { progressFor, unlockedCosmetics, eraCssVars } from "@/lib/civilization";
 import { AvatarImg } from "@/components/AvatarPicker";
 
 export const Route = createFileRoute("/_authenticated/profile")({
@@ -20,59 +23,111 @@ export const Route = createFileRoute("/_authenticated/profile")({
 
 function ProfilePage() {
   const { profile, progress, activity, rewards, ready } = useStudent();
-  if (!ready) return <p className="mx-auto max-w-4xl px-4 py-12 font-sans text-muted-foreground" role="status">Kinukuha ang iyong talaan…</p>;
+  if (!ready) return <p className="mx-auto max-w-5xl px-4 py-12 font-sans text-muted-foreground" role="status">Kinukuha ang iyong talaan…</p>;
   const pct = overallPercent(progress);
   const quizRows = activity.filter((a) => a.kind === "quiz");
   const lessonRows = activity.filter((a) => a.kind === "lesson");
+  const civilization = progressFor(rewards.xp);
+  const cosmetics = unlockedCosmetics(civilization.level);
+  const gameRuns = Object.values(progress.adventure.results).reduce((n, result) => n + Object.keys(result).length, 0);
+  const stars = totalStars(progress.adventure);
+  const gameRewards = adventureRewards(progress.adventure, progress.completed);
+  const earnedBadges = allBadges(rewards).filter((b) => b.earned);
+  const earnedGameRewards = gameRewards.filter((b) => b.earned);
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
-      <Link to="/" className="inline-flex min-h-11 items-center font-sans text-sm text-muted-foreground hover:text-primary">← Tahanan</Link>
-      <section className="dash-card mt-2 flex flex-wrap items-center gap-5">
-        <AvatarImg src={avatarSrc(profile?.avatar)} size={110} />
-        <div className="min-w-0 flex-1">
-          <p className="eyebrow">Profile ng mag-aaral</p>
-          <h1 className="mt-1 text-4xl">{profile?.full_name}</h1>
-          <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-1 font-sans text-sm sm:grid-cols-4">
-            {[["Edad", profile?.age ?? "—"], ["Kasarian", profile?.gender || "—"], ["Seksiyon", profile?.section || "—"], ["Class code", profile?.class_code || "—"]].map(([k, v]) => <div key={k}><dt className="text-muted-foreground">{k}</dt><dd className="font-semibold text-ink">{v}</dd></div>)}
-          </dl>
+    <div className="civilization-shell mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12" data-era={civilization.era.id} style={eraCssVars(civilization.era) as CSSProperties}>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div><p className="eyebrow">Personal na talaan</p><h1 className="mt-2 text-4xl sm:text-5xl">Aking Paglalakbay</h1></div>
+        <Button asChild variant="outline" className="min-h-11"><Link to="/settings"><Settings2 className="mr-2 h-4 w-4" /> Ayusin ang profile</Link></Button>
+      </div>
+
+      <section className="relative overflow-hidden border border-primary/20 bg-primary p-5 text-primary-foreground sm:p-8">
+        <div className="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full border border-accent/25" />
+        <div className="pointer-events-none absolute -right-2 -top-8 h-40 w-40 rounded-full border border-accent/20" />
+        <div className="relative flex flex-wrap items-center gap-5">
+          <div className="rounded-full border-2 border-accent p-1"><AvatarImg src={avatarSrc(profile?.avatar)} size={104} /></div>
+          <div className="min-w-0 flex-1">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-accent">Mag-aaral ng kasaysayan</p>
+            <h2 className="mt-1 text-3xl text-primary-foreground sm:text-4xl">{profile?.full_name || "Mag-aaral"}</h2>
+            <p className="mt-2 font-sans text-sm text-primary-foreground/70">{profile?.section || "Walang seksiyon"}{profile?.class_code ? ` · ${profile.class_code}` : ""}</p>
+            <div className="mt-4 flex flex-wrap gap-2"><span className="inline-flex items-center gap-2 border border-accent/50 px-3 py-1.5 font-sans text-sm"><Medal className="h-4 w-4 text-accent" /> Antas {civilization.level} · {civilization.era.nameFil}</span><span className="inline-flex items-center gap-2 border border-primary-foreground/20 px-3 py-1.5 font-sans text-sm"><Star className="h-4 w-4 fill-accent text-accent" /> {rewards.xp.toLocaleString()} EXP</span></div>
+          </div>
         </div>
-        <div className="text-center"><Star className="mx-auto h-6 w-6 fill-accent text-accent" /><p className="font-display text-4xl text-primary">{rewards.xp}</p><p className="font-sans text-xs text-muted-foreground">kabuuang XP</p></div>
-        <Button asChild variant="outline" className="w-full sm:w-auto"><Link to="/settings">Baguhin ang profile</Link></Button>
+        <div className="relative mt-7 border-t border-primary-foreground/15 pt-5">
+          <div className="flex items-center justify-between gap-3 font-sans text-sm"><span className="font-semibold">Pag-unlad sa susunod na antas</span><span className="text-primary-foreground/75 tabular-nums">{civilization.xpIntoLevel}/{civilization.xpToNextLevel === null ? "MAX" : civilization.xpIntoLevel + civilization.xpToNextLevel} EXP</span></div>
+          <div className="mt-2 h-2 overflow-hidden bg-primary-foreground/15" role="progressbar" aria-label="Pag-unlad sa susunod na antas" aria-valuenow={civilization.levelPercent} aria-valuemin={0} aria-valuemax={100}><div className="h-full bg-accent transition-all" style={{ width: `${civilization.levelPercent}%` }} /></div>
+          <p className="mt-2 font-sans text-xs text-primary-foreground/65">{civilization.xpToNextLevel === null ? "Naabot mo na ang pinakamataas na antas." : `${civilization.xpToNextLevel} EXP pa bago ang Antas ${civilization.level + 1}.`} {civilization.nextEra ? `${civilization.xpToNextEra} EXP pa bago ang ${civilization.nextEra.nameFil}.` : ""} Nakabatay ang EXP sa mga gantimpalang naitala sa iyong account.</p>
+        </div>
       </section>
 
-      <section className="mt-8">
-        <h2 className="text-2xl">Pag-unlad: {pct}%</h2>
-        <div className="dash-bar mt-2"><span style={{ width: `${pct}%` }} /></div>
+      <section className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4" aria-label="Mga sukatan ng pag-aaral">
+        <Metric icon={<BookOpen />} label="Natapos na aralin" value={`${progress.completed.length}/${lessons.length}`} />
+        <Metric icon={<Trophy />} label="Mga nakamit" value={String(earnedBadges.length + earnedGameRewards.length)} />
+        <Metric icon={<Gamepad2 />} label="Mga natapos na laro" value={String(gameRuns)} />
+        <Metric icon={<Star />} label="Mga bituin sa laro" value={String(stars)} />
+      </section>
+
+      <section className="mt-9">
+        <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="eyebrow">Pangkalahatang pag-unlad</p><h2 className="mt-1 text-2xl sm:text-3xl">Ang iyong pag-aaral</h2></div><span className="font-display text-4xl text-primary">{pct}%</span></div>
+        <div className="mt-3 h-2 overflow-hidden bg-muted" role="progressbar" aria-label="Kabuuang pag-unlad sa pag-aaral" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}><div className="h-full bg-primary" style={{ width: `${pct}%` }} /></div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {terms.map((t) => {
             const ids = lessons.filter((l) => l.term === t.id).map((l) => l.id);
             const done = ids.filter((id) => progress.completed.includes(id)).length;
-            return <div key={t.id} className="dash-card"><p className="eyebrow">Termino {t.id}</p><p className="mt-1 font-sans text-sm">{done}/{ids.length} aralin · {progress.scores[t.id] ? `iskor ${progress.scores[t.id]!.best}/10` : "wala pang iskor"}</p><div className="dash-bar mt-2"><span style={{ width: `${(done / ids.length) * 100}%` }} /></div></div>;
+            const score = progress.scores[t.id];
+            return <div key={t.id} className="border border-border bg-card p-4">
+              <p className="eyebrow">{t.name}</p><h3 className="mt-1 text-xl">{t.title}</h3>
+              <p className="mt-3 font-sans text-sm text-muted-foreground">{done} sa {ids.length} aralin · {score ? `Pinakamataas na iskor: ${score.best}/10` : "Wala pang iskor"}</p>
+              <div className="mt-2 h-1.5 bg-muted"><div className="h-full bg-accent" style={{ width: `${ids.length ? (done / ids.length) * 100 : 0}%` }} /></div>
+            </div>;
           })}
         </div>
       </section>
 
-      <section className="mt-8">
-        <h2 className="text-2xl">🏆 Mga nakamit</h2>
-        <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-          {allBadges(rewards).map((b) => <li key={b.id} className={`flex items-center gap-3 ${b.earned ? "" : "opacity-50"}`}>{b.earned ? <Award className="h-5 w-5 text-accent" /> : <Lock className="h-4 w-4 text-muted-foreground" />}<span><span className="block text-sm font-semibold">{b.title}</span><span className="block text-xs text-muted-foreground">{b.desc}</span></span></li>)}
-        </ul>
+      <section className="mt-9 grid gap-6 lg:grid-cols-2">
+        <div className="border border-border bg-card p-5 sm:p-6">
+          <div className="flex items-center gap-2"><Award className="h-5 w-5 text-gold-deep" /><h2 className="text-2xl">Mga tsapa</h2></div>
+          <p className="mt-1 text-sm text-muted-foreground">Mga gantimpalang nakukuha sa makabuluhang pagkatuto.</p>
+          <ul className="mt-4 space-y-3">
+            {allBadges(rewards).map((b) => <li key={b.id} className={`flex items-start gap-3 ${b.earned ? "" : "opacity-55"}`}>{b.earned ? <Award className="mt-0.5 h-5 w-5 shrink-0 text-accent" /> : <Lock className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />}<span><span className="block font-sans text-sm font-semibold">{b.title}</span><span className="block text-xs text-muted-foreground">{b.desc}</span></span></li>)}
+          </ul>
+        </div>
+        <div className="border border-border bg-card p-5 sm:p-6">
+          <div className="flex items-center gap-2"><Trophy className="h-5 w-5 text-gold-deep" /><h2 className="text-2xl">Mga hamon sa laro</h2></div>
+          <p className="mt-1 text-sm text-muted-foreground">Mga gantimpalang nakabatay sa pagganap sa mga larong pangkasaysayan.</p>
+          <ul className="mt-4 space-y-3">
+            {gameRewards.map((b) => <li key={b.id} className={`flex items-start gap-3 ${b.earned ? "" : "opacity-55"}`}>{b.earned ? <Trophy className="mt-0.5 h-5 w-5 shrink-0 text-accent" /> : <Lock className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />}<span><span className="block font-sans text-sm font-semibold">{b.title}</span><span className="block text-xs text-muted-foreground">{b.desc}</span></span></li>)}
+          </ul>
+        </div>
       </section>
 
-      <History title="Talaan ng natapos na aralin" rows={lessonRows} empty="Wala pang natapos na aralin." />
-      <History title="Mga iskor sa pagsusulit" rows={quizRows} empty="Wala pang nasagutang pagsusulit." />
+      <section className="mt-9 border border-border bg-card p-5 sm:p-6">
+        <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="eyebrow">Mga gantimpalang kosmetiko</p><h2 className="mt-1 text-2xl">Mga nabuksang palamuti</h2></div><span className="font-sans text-sm text-muted-foreground">{cosmetics.length}/36 nabuksan</span></div>
+        <p className="mt-2 text-sm text-muted-foreground">Nabubuksan ang mga balangkas, titulo, at likuran habang tumataas ang antas. Read-only muna ang koleksiyong ito; ihahanda ang pag-equip kapag nailapat na ang ligtas na database migration.</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{cosmetics.map((item) => <div key={item.id} className="border border-border p-3"><span className="font-sans text-[0.68rem] uppercase tracking-wider text-gold-deep">{item.kind === "frame" ? "Balangkas" : item.kind === "background" ? "Likuran" : "Titulo"} · Antas {item.unlockLevel}</span><p className="mt-1 font-semibold">{item.name}</p><p className="text-xs text-muted-foreground">{civilization.era.id === item.eraId ? "Kaugnay ng kasalukuyang panahon" : "Nabuksang gantimpala"}</p></div>)}</div>
+      </section>
+
+      <div className="mt-9 grid gap-6 lg:grid-cols-2">
+        <History title="Talaan ng natapos na aralin" rows={lessonRows} empty="Wala pang natapos na aralin." />
+        <History title="Mga iskor sa pagsusulit" rows={quizRows} empty="Wala pang nasagutang pagsusulit." />
+      </div>
       <History title="Kasaysayan ng gawain at puntos" rows={activity} empty="Wala pang gawain." />
     </div>
   );
 }
 
+function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+  return <div className="border border-border bg-card p-4"><div className="flex items-center gap-2 text-muted-foreground">{icon}<span className="font-sans text-xs">{label}</span></div><p className="mt-2 font-display text-3xl text-primary">{value}</p></div>;
+}
+
 function History({ title, rows, empty }: { title: string; rows: ReturnType<typeof useStudent>["activity"]; empty: string }) {
   return (
-    <section className="mt-8">
+    <section className="mt-8 min-w-0">
       <h2 className="text-2xl">{title}</h2>
       {rows.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">{empty}</p> : (
         <ul className="mt-2 divide-y divide-border border-y border-border">
-          {rows.map((a) => <li key={a.id} className="flex justify-between gap-3 py-2 text-sm"><span className="min-w-0">{a.label}{a.score != null ? ` — ${a.score}/10` : ""}<span className="block font-sans text-xs text-muted-foreground">{formatDate(a.created_at)}</span></span>{a.points > 0 && <span className="shrink-0 font-sans font-semibold text-gold-deep">+{a.points} XP</span>}</li>)}
+          {rows.map((a) => <li key={a.id} className="flex min-w-0 justify-between gap-3 py-3 text-sm"><span className="min-w-0 flex-1 break-words">{a.label}{a.score != null ? ` — ${a.score}/10` : ""}<span className="block font-sans text-xs text-muted-foreground">{formatDate(a.created_at)}</span></span>{a.points > 0 && <span className="shrink-0 font-sans font-semibold text-gold-deep">+{a.points} XP</span>}</li>)}
         </ul>
       )}
     </section>

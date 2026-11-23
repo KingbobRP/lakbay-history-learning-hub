@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, UserRound, Home, BookOpen, ClipboardList, Trophy, ChartNoAxesCombined, Settings, LogIn } from "lucide-react";
+import { Menu, X, UserRound, Home, BookOpen, ClipboardList, Trophy, ChartNoAxesCombined, Settings, LogIn, CalendarDays, Gamepad2, Search, Library } from "lucide-react";
 import { useStudent } from "@/lib/student";
 import { avatarSrc } from "@/lib/avatars";
 import { AvatarImg } from "@/components/AvatarPicker";
@@ -8,13 +8,15 @@ import { Button } from "@/components/ui/button";
 import { XpBadge } from "@/components/XpBadge";
 
 const nav = [
-  { to: "/", label: "Tahanan", icon: Home },
-  { to: "/dashboard", label: "Aralin", icon: BookOpen },
-  { to: "/quiz", label: "Pagsusulit", icon: ClipboardList },
-  { to: "/achievements", label: "Gantimpala", icon: Trophy },
-  { to: "/progress", label: "Pag-unlad", icon: ChartNoAxesCombined },
+  { to: "/dashboard", label: "Dashboard", icon: Home },
+  { to: "/progress", label: "Paglalakbay", icon: ChartNoAxesCombined },
+  { to: "/curriculum", label: "Kurikulum", icon: Library },
+  { to: "/timeline", label: "Timeline", icon: CalendarDays },
+  { to: "/games", label: "Game Center", icon: Gamepad2 },
+  { to: "/search", label: "Paghahanap", icon: Search },
+  { to: "/achievements", label: "Mga Nakamit", icon: Trophy },
   { to: "/profile", label: "Profile", icon: UserRound },
-  { to: "/settings", label: "Mga Setting", icon: Settings },
+  { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
 export function Logo() {
@@ -53,7 +55,7 @@ export function SiteHeader() {
       </div>
       <div className="h-px bg-accent/60" />
       {open && (
-        <nav className="bg-primary font-sans lg:hidden" aria-label="Nabigasyon sa telepono">
+        <nav className="max-h-[calc(100dvh-5rem)] overflow-y-auto bg-primary font-sans lg:hidden" aria-label="Nabigasyon sa telepono">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} onClick={() => setOpen(false)} className="flex items-center gap-3 border-b border-primary-foreground/10 px-6 py-4 text-base text-primary-foreground/85" activeProps={{ className: "!text-accent font-semibold" }}><n.icon className="nav-icon-motion h-5 w-5" />{n.label}</Link>
           ))}
