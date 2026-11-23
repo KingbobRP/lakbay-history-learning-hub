@@ -209,3 +209,91 @@ main button:focus-visible, main a:focus-visible, input:focus-visible {
   .game-card, .game-progress-fill { transition: none; }
   .game-card:hover { transform: none; }
 }
+
+
+/* Richer learning workspace — same HISTORIA navy, parchment and antique-gold identity. */
+.dashboard-shell { position: relative; isolation: isolate; }
+.dashboard-shell::before {
+  content: ""; position: absolute; z-index: -1; top: 0; left: 50%;
+  width: 100vw; height: 24rem; transform: translateX(-50%);
+  background: radial-gradient(ellipse at 82% 12%, rgb(185 151 85 / .16), transparent 38%),
+    linear-gradient(180deg, #E9E0CF 0%, rgb(243 239 229 / .72) 72%, transparent 100%);
+}
+.dashboard-shell > .eyebrow { color: var(--gold-deep); font-weight: 800; }
+.dashboard-shell > h1 { max-width: 46rem; font-size: clamp(2.5rem, 6vw, 4.2rem); line-height: 1.04; letter-spacing: -.035em; }
+.dashboard-nav a {
+  border-radius: 999px; background: rgb(251 248 240 / .78); padding-inline: 1.1rem;
+  box-shadow: 0 3px 12px rgb(20 40 63 / .045); transition: background 160ms ease, transform 160ms ease;
+}
+.dashboard-nav a:hover { background: #FBF8F0; transform: translateY(-2px); }
+.dashboard-progress {
+  position: relative; overflow: hidden; border: 1px solid #C8B78F;
+  border-radius: 1rem; background:
+    radial-gradient(circle at 95% 0%, rgb(185 151 85 / .22), transparent 35%),
+    linear-gradient(120deg, #FBF8F0, #F1E8D7);
+  box-shadow: 0 16px 38px rgb(20 40 63 / .09);
+}
+.dashboard-progress > div:first-child > p:nth-child(2) { font-size: clamp(1.6rem, 4vw, 2.35rem); line-height: 1.15; }
+.dashboard-progress [role="progressbar"] { height: .7rem; overflow: hidden; border-radius: 999px; background: #DED3BF; }
+.dashboard-progress [role="progressbar"] > div { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #14283F, #B99755); box-shadow: 0 0 14px rgb(185 151 85 / .3); }
+.dashboard-progress > a { border: 1px solid #B99755; border-radius: .35rem; box-shadow: 0 8px 18px rgb(20 40 63 / .16); transition: transform 160ms ease, box-shadow 160ms ease; }
+.dashboard-progress > a:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgb(20 40 63 / .2); }
+.dashboard-terms { gap: .55rem; border: 0; }
+.dashboard-terms [role="tab"] {
+  border: 1px solid var(--border); border-bottom: 3px solid transparent; border-radius: .7rem;
+  background: rgb(251 248 240 / .8); padding: 1rem; transition: border-color 160ms ease, background 160ms ease;
+}
+.dashboard-terms [role="tab"][aria-selected="true"] {
+  border-color: #C8B78F; border-bottom-color: var(--accent); background: #14283F; color: #F7F2E7;
+  box-shadow: 0 8px 20px rgb(20 40 63 / .14);
+}
+.dashboard-terms [role="tab"][aria-selected="true"] span { color: #F7F2E7; }
+.dashboard-terms [role="tab"][aria-selected="true"] span:last-child { color: #D6B875; }
+.dashboard-term-feature {
+  position: relative; overflow: hidden; align-self: start; border: 1px solid var(--border);
+  border-radius: .85rem; background: #FBF8F0; padding: .7rem;
+  box-shadow: 0 12px 30px rgb(20 40 63 / .09);
+}
+.dashboard-term-feature .photo { border: 0; border-radius: .45rem; box-shadow: none; }
+.dashboard-term-feature .eyebrow { color: var(--gold-deep); }
+.dashboard-term-feature h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); line-height: 1.12; }
+.dashboard-lesson-list { overflow: hidden; border: 1px solid var(--border); border-radius: .85rem; background: rgb(251 248 240 / .88); }
+.dashboard-lesson-list li > a, .dashboard-lesson-list li > div {
+  min-height: 6rem; padding: 1.15rem; transition: background 160ms ease, padding 160ms ease;
+}
+.dashboard-lesson-list li > a:hover { background: #F1E8D7; padding-left: 1.45rem; }
+.dashboard-lesson-list li + li { border-color: #E5DCCB; }
+.dashboard-lesson-list li > a > span:first-child,
+.dashboard-lesson-list li > div > span:first-child { color: var(--gold-deep); }
+.dashboard-lesson-list li > a > span:nth-child(2) > span:first-child,
+.dashboard-lesson-list li > div > span:nth-child(2) > span:first-child { line-height: 1.2; }
+.lesson-page { max-width: 54rem; }
+.lesson-page > h1 { font-size: clamp(2.3rem, 5vw, 3.7rem); line-height: 1.08; letter-spacing: -.025em; }
+.lesson-page .stepper-bar {
+  position: sticky; top: .5rem; z-index: 5; margin: 1.5rem 0 2rem; border: 1px solid var(--border);
+  border-radius: .7rem; background: rgb(251 248 240 / .94); padding: 1rem 1.15rem;
+  box-shadow: 0 8px 24px rgb(20 40 63 / .08); backdrop-filter: blur(12px);
+}
+.lesson-page .stepper-bar [role="progressbar"] { overflow: hidden; border-radius: 999px; }
+.lesson-page .stepper-bar [role="progressbar"] > div { border-radius: inherit; background: linear-gradient(90deg, #14283F, #B99755); }
+.lesson-page .lesson-h2 { margin-top: 2rem; color: var(--ink); }
+.lesson-page .photo, .lesson-page figure { border-radius: .75rem; box-shadow: 0 12px 30px rgb(20 40 63 / .09); }
+.games-page { background-image: radial-gradient(ellipse at 10% 38%, rgb(185 151 85 / .11), transparent 34%); }
+.games-page > section:first-child { border-bottom: 3px solid var(--accent); }
+.game-card { position: relative; overflow: hidden; border-radius: .8rem; transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease; }
+.game-card::after { content: ""; position: absolute; top: 0; right: 0; width: 5rem; height: 5rem; border-top: 1px solid rgb(185 151 85 / .38); border-right: 1px solid rgb(185 151 85 / .38); border-radius: 0 .8rem 0 0; pointer-events: none; }
+.game-card .game-icon { border-radius: .45rem; box-shadow: 0 5px 14px rgb(20 40 63 / .1); }
+.game-card h3 { line-height: 1.12; }
+.game-question-panel { border-radius: .85rem; }
+@media (max-width: 639px) {
+  .dashboard-shell { padding-top: 2rem; }
+  .dashboard-progress { padding: 1.15rem; border-radius: .8rem; }
+  .dashboard-terms { gap: .35rem; }
+  .dashboard-terms [role="tab"] { padding: .75rem .55rem; }
+  .dashboard-lesson-list li > a, .dashboard-lesson-list li > div { gap: .7rem; padding: .9rem .7rem; }
+  .lesson-page .stepper-bar { top: .25rem; padding: .8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-nav a, .dashboard-progress > a, .dashboard-terms [role="tab"],
+  .dashboard-lesson-list li > a, .game-card { transition: none; }
+}
