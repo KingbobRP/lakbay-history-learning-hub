@@ -174,3 +174,38 @@ main button:focus-visible, main a:focus-visible, input:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .hx-value-card { transition: none; }
 }
+
+
+/* HISTORIA game room — calm editorial cards, clear progress, and accessible feedback. */
+.games-page { background: linear-gradient(180deg, color-mix(in srgb, var(--secondary) 34%, var(--background)), var(--background) 28rem); }
+.games-page > section:first-child { isolation: isolate; }
+.games-page > section:first-child::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgb(10 24 20 / .94), rgb(10 24 20 / .76) 54%, rgb(10 24 20 / .35));
+}
+.games-page > section:first-child > div { z-index: 1; }
+.games-page > section:first-child h1 { color: var(--primary-foreground); }
+.game-card { min-height: 19rem; box-shadow: 0 5px 20px rgb(20 40 63 / .035); }
+.game-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 12px 28px rgb(20 40 63 / .09); }
+.game-card-featured { background: linear-gradient(145deg, #FBF8F0, #F1E8D7); box-shadow: inset 0 3px 0 var(--accent), 0 8px 24px rgb(20 40 63 / .06); }
+.game-card h3 { font-size: 1.65rem; }
+.game-icon { flex: 0 0 auto; }
+.game-intro-panel { box-shadow: 0 8px 26px rgb(20 40 63 / .045); }
+.game-intro-aside { border-color: var(--accent); }
+.game-progress-track { height: .45rem; overflow: hidden; background: var(--secondary); }
+.game-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 260ms ease; }
+.game-streak { display: inline-flex; align-items: center; border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent); background: color-mix(in srgb, var(--accent) 13%, transparent); padding: .25rem .55rem; color: var(--gold-deep); font-size: .75rem; font-weight: 700; }
+.game-question-panel { border: 1px solid var(--border); background: var(--card); padding: clamp(1rem, 3vw, 1.75rem); box-shadow: 0 8px 26px rgb(20 40 63 / .04); }
+.answer-feedback { line-height: 1.7; }
+@media (max-width: 639px) {
+  .game-card { min-height: 16rem; padding: 1.1rem; }
+  .game-question-panel { padding: 1rem; }
+  .game-intro-aside { border-left: 0; border-top: 2px solid var(--accent); padding: 1.25rem 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-card, .game-progress-fill { transition: none; }
+  .game-card:hover { transform: none; }
+}
