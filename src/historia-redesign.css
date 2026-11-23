@@ -481,3 +481,170 @@ main button:focus-visible, main a:focus-visible, input:focus-visible {
   .dashboard-lesson-list li > a > span:first-child,
   .dashboard-lesson-list li > div > span:first-child { min-width: 4.2rem; font-size: .58rem; }
 }
+
+
+/* Consistent visual treatment across the inner learning pages. */
+.curriculum-page,
+.timeline-page { padding-top: clamp(2.5rem, 6vw, 4.5rem); padding-bottom: 4rem; }
+.curriculum-page > .eyebrow,
+.timeline-page > .eyebrow,
+.lesson-page > .eyebrow {
+  display: inline-flex;
+  border: 1px solid rgb(185 151 85 / .45);
+  border-radius: 999px;
+  background: #F1E8D7;
+  padding: .4rem .75rem;
+  font-weight: 800;
+}
+.curriculum-page > h1,
+.timeline-page > h1 {
+  margin-top: 1rem;
+  font-size: clamp(2.8rem, 7vw, 4.8rem);
+  line-height: .98;
+  letter-spacing: -.04em;
+}
+.curriculum-page > p:not(.eyebrow),
+.timeline-page > p:not(.eyebrow) {
+  max-width: 48rem;
+  margin-top: 1.2rem;
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+.curriculum-page > section {
+  position: relative;
+  margin-top: 3.5rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: #FBF8F0;
+  padding: clamp(1rem, 3vw, 2rem);
+  box-shadow: 0 14px 34px rgb(20 40 63 / .07);
+}
+.curriculum-page > section > div:first-child {
+  position: relative;
+  margin: calc(clamp(1rem, 3vw, 2rem) * -1);
+  margin-bottom: 1rem;
+  border: 0;
+  background: linear-gradient(115deg, #14283F, #203B56);
+  padding: 1.5rem clamp(1rem, 3vw, 2rem);
+}
+.curriculum-page > section > div:first-child .eyebrow { color: #D6B875; }
+.curriculum-page > section > div:first-child h2 {
+  margin-top: .35rem;
+  color: #FBF8F0;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+.curriculum-page table { border-collapse: separate; border-spacing: 0; }
+.curriculum-page table thead tr { background: #EDE4D2; }
+.curriculum-page table th { padding: .85rem 1rem; color: #80632F; }
+.curriculum-page table td { padding: 1rem; vertical-align: top; }
+.curriculum-page table tbody tr { transition: background 160ms ease; }
+.curriculum-page table tbody tr:hover { background: #F1E8D7; }
+.curriculum-page table tbody tr td:first-child {
+  color: #80632F;
+  font-weight: 800;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.curriculum-page table tbody tr td:last-child a {
+  border: 1px solid #C8B78F;
+  border-radius: .45rem;
+  padding: .45rem .75rem;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
+}
+.curriculum-page table tbody tr td:last-child a:hover { background: #14283F; color: #FBF8F0; }
+.timeline-page > ol {
+  margin-top: 3rem;
+  margin-left: .4rem;
+  border-left: 2px solid #B99755;
+}
+.timeline-page > ol > li {
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+  border-radius: .9rem;
+  background: #FBF8F0;
+  padding: 1.35rem 1.5rem;
+  box-shadow: 0 10px 26px rgb(20 40 63 / .055);
+}
+.timeline-page > ol > li > span:first-child {
+  left: -2.15rem;
+  top: 1.55rem;
+  width: .85rem;
+  height: .85rem;
+  border: 3px solid #FBF8F0;
+  outline: 2px solid #B99755;
+  background: #14283F;
+}
+.timeline-page > ol > li > p:first-of-type {
+  display: inline-flex;
+  border-radius: 999px;
+  background: #14283F;
+  padding: .25rem .8rem;
+  color: #F7F2E7;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.timeline-page > ol > li > h2 {
+  margin-top: .8rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+.timeline-page > ol > li > figure img { border-radius: .65rem; }
+.lesson-page { padding-top: clamp(2rem, 5vw, 4rem); padding-bottom: 4rem; }
+.lesson-page > nav { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; background: #FBF8F0; padding: .5rem .9rem; }
+.lesson-page > h1 { margin-top: 1rem; font-size: clamp(2.6rem, 6vw, 4.5rem); }
+.lesson-page .stepper-bar {
+  border: 1px solid var(--border);
+  border-radius: .9rem;
+  background: rgb(251 248 240 / .96);
+  padding: 1rem;
+  box-shadow: 0 10px 28px rgb(20 40 63 / .09);
+}
+.lesson-page .step-dot {
+  min-height: 3.3rem;
+  border-radius: .55rem;
+  background: #F1E8D7;
+  font-weight: 700;
+}
+.lesson-page .step-dot.is-current { background: #14283F; color: #FBF8F0; }
+.lesson-page .step-card {
+  margin-top: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: #FBF8F0;
+  padding: clamp(1rem, 3vw, 2rem);
+  box-shadow: 0 14px 34px rgb(20 40 63 / .06);
+}
+.lesson-page .step-card > .lesson-h2:first-child { margin-top: .25rem; }
+.lesson-page .activity {
+  margin-top: 1.5rem;
+  border: 1px solid #C8B78F;
+  border-top: 4px solid #B99755;
+  border-radius: .75rem;
+  background: linear-gradient(145deg, #FBF8F0, #F1E8D7);
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+.lesson-page .example-card,
+.lesson-page figure {
+  overflow: hidden;
+  border-radius: .75rem;
+  background: #F1E8D7;
+}
+.lesson-page .word-tile,
+.lesson-page .sort-card {
+  border-radius: .45rem;
+  background: #FBF8F0;
+}
+.lesson-page button:not(:disabled):hover { filter: brightness(.97); }
+@media (max-width: 639px) {
+  .curriculum-page > section { margin-top: 2rem; padding: .8rem; }
+  .curriculum-page > section > div:first-child { margin: -.8rem -.8rem .75rem; padding: 1.1rem .9rem; }
+  .curriculum-page table td { padding: .65rem .35rem; }
+  .curriculum-page table tbody tr { gap: .25rem; }
+  .curriculum-page table tbody tr td:last-child { padding-top: .4rem; }
+  .timeline-page > ol > li { padding: 1rem; }
+  .timeline-page > ol > li > span:first-child { left: -1.85rem; }
+  .lesson-page .stepper-bar { position: static; }
+  .lesson-page .step-card { padding: 1rem; }
+}
