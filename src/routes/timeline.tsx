@@ -18,7 +18,7 @@ export const Route = createFileRoute("/timeline")({
 
 function Timeline() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+    <div className="timeline-page mx-auto max-w-4xl px-4 py-12 sm:px-6">
       <p className="eyebrow">Talaan ng Panahon</p>
       <h1 className="mt-3 text-4xl text-ink sm:text-5xl">Talaang-Panahon ng Kasaysayan</h1>
       <p className="mt-3 max-w-2xl text-muted-foreground">Mahahalagang yugto sa pagbuo ng kamalayan at lipunang Pilipino — bawat isa ay nakaugnay sa isang aralin.</p>
