@@ -25,6 +25,7 @@ function Dashboard() {
   const t = terms.find((x) => x.id === term)!;
   const list = lessons.filter((l) => l.term === term);
   const next = lessons.find((l) => !progress.completed.includes(l.id));
+  const firstIncompleteIndex = lessons.findIndex((l) => !progress.completed.includes(l.id));
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
@@ -73,16 +74,24 @@ function Dashboard() {
         <ol className="divide-y divide-border border-y border-border">
           {list.map((l) => {
             const done = progress.completed.includes(l.id);
+            const lessonIndex = lessons.findIndex((item) => item.id === l.id);
+            const locked = !done && firstIncompleteIndex !== -1 && lessonIndex > firstIncompleteIndex;
+            const content = (
+              <>
+                <span className="w-20 shrink-0 pt-1 font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground">Linggo {l.weeks}</span>
+                <span className="flex-1">
+                  <span className="block font-display text-xl text-ink">{l.title}</span>
+                  <span className="mt-1 block font-sans text-sm text-muted-foreground">{l.topic}</span>
+                  {locked && <span className="mt-1 block font-sans text-xs text-muted-foreground">Kumpletuhin muna ang naunang aralin upang mabuksan ito.</span>}
+                </span>
+                {done ? <CheckCircle2 className="h-5 w-5 shrink-0 text-success" aria-label="Tapos na" /> : locked ? <Circle className="h-5 w-5 shrink-0 text-border" aria-label="Naka-lock" /> : <Circle className="h-5 w-5 shrink-0 text-border" aria-label="Hindi pa tapos" />}
+              </>
+            );
             return (
               <li key={l.id}>
-                <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="flex items-start gap-4 px-1 py-5 hover:bg-card">
-                  <span className="w-20 shrink-0 pt-1 font-sans text-xs font-semibold uppercase tracking-widest text-muted-foreground">Linggo {l.weeks}</span>
-                  <span className="flex-1">
-                    <span className="block font-display text-xl text-ink">{l.title}</span>
-                    <span className="mt-1 block font-sans text-sm text-muted-foreground">{l.topic}</span>
-                  </span>
-                  {done ? <CheckCircle2 className="h-5 w-5 shrink-0 text-success" aria-label="Tapos na" /> : <Circle className="h-5 w-5 shrink-0 text-border" aria-label="Hindi pa tapos" />}
-                </Link>
+                {locked
+                  ? <div aria-disabled="true" className="flex cursor-not-allowed items-start gap-4 px-1 py-5 opacity-50">{content}</div>
+                  : <Link to="/lessons/$lessonId" params={{ lessonId: l.id }} className="flex items-start gap-4 px-1 py-5 hover:bg-card">{content}</Link>}
               </li>
             );
           })}
