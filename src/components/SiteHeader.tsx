@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, UserRound, Home, BookOpen, ClipboardList, Trophy, ChartNoAxesCombined, Settings, LogIn } from "lucide-react";
+import { Menu, X, UserRound, Home, BookOpen, ClipboardList, Trophy, ChartNoAxesCombined, Settings } from "lucide-react";
 import { useStudent } from "@/lib/student";
 import { avatarSrc } from "@/lib/avatars";
 import { AvatarImg } from "@/components/AvatarPicker";
@@ -57,7 +57,6 @@ export function SiteHeader() {
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} onClick={() => setOpen(false)} className="flex items-center gap-3 border-b border-primary-foreground/10 px-6 py-4 text-base text-primary-foreground/85" activeProps={{ className: "!text-accent font-semibold" }}><n.icon className="nav-icon-motion h-5 w-5" />{n.label}</Link>
           ))}
-          {!session && <Link to="/auth" onClick={() => setOpen(false)} className="flex items-center gap-3 px-6 py-4 text-base text-accent"><LogIn className="h-5 w-5" />Mag-log in</Link>}
         </nav>
       )}
     </header>
