@@ -26,10 +26,18 @@ const periods = [
   { id: "makabago", label: "Makabagong Pilipinas" },
 ] as const;
 
-function periodFor(index: number) {
-  if (index <= 2) return "sinauna";
-  if (index <= 6) return "kolonyal";
-  if (index <= 9) return "rebolusyon";
+function yearValue(year: string) {
+  if (year.includes("67,000")) return -67000;
+  if (year.includes("2,000")) return -2000;
+  if (year.includes("890")) return -800;
+  return Number(year.match(/\\d{3,4}/)?.[0] ?? 0);
+}
+
+function periodFor(year: string) {
+  const value = yearValue(year);
+  if (value < 1521) return "sinauna";
+  if (value < 1892) return "kolonyal";
+  if (value < 1946) return "rebolusyon";
   return "makabago";
 }
 
@@ -37,8 +45,9 @@ function Timeline() {
   const [period, setPeriod] = useState<(typeof periods)[number]["id"]>("all");
   const [query, setQuery] = useState("");
   const events = useMemo(() => {
-    return timeline
-      .map((event, index) => ({ ...event, originalIndex: index, period: periodFor(index) }))
+    return [...timeline]
+      .sort((a, b) => yearValue(a.year) - yearValue(b.year))
+      .map((event) => ({ ...event, period: periodFor(event.year) }))
       .filter((event) => period === "all" || event.period === period)
       .filter((event) => !query.trim() || `${event.year} ${event.title} ${event.text}`.toLocaleLowerCase("fil").includes(query.trim().toLocaleLowerCase("fil")));
   }, [period, query]);
