@@ -375,3 +375,78 @@ a:hover .dashboard-icon-motion {
   .xp-star-motion { animation: none !important; }
   .xp-pill, .dashboard-icon-motion, .dash-xp-summary { transition: none !important; }
 }
+
+
+/* Civilization-era visual language: derived from XP; no persistent student data is changed. */
+.civilization-shell {
+  --background: var(--era-bg);
+  --foreground: var(--era-ink);
+  --card: var(--era-surface);
+  --card-foreground: var(--era-ink);
+  --ink: var(--era-ink);
+  --primary: var(--era-ink);
+  --primary-foreground: var(--era-bg);
+  --accent: var(--era-accent);
+  --accent-foreground: var(--era-bg);
+  --ring: var(--era-accent);
+  --border: color-mix(in srgb, var(--era-ink) 22%, var(--era-bg));
+  --muted: color-mix(in srgb, var(--era-ink) 8%, var(--era-bg));
+  --muted-foreground: color-mix(in srgb, var(--era-ink) 68%, var(--era-bg));
+  position: relative;
+  isolation: isolate;
+  background-color: var(--era-bg);
+  color: var(--era-ink);
+  transition: background-color 240ms ease, color 240ms ease;
+}
+.civilization-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: radial-gradient(color-mix(in srgb, var(--era-accent) 30%, transparent) 0.7px, transparent 0.7px);
+  background-size: 16px 16px;
+}
+.civilization-shell[data-era="bato"]::before {
+  opacity: 0.18;
+  background-image: radial-gradient(ellipse at 15% 12%, color-mix(in srgb, var(--era-accent) 18%, transparent), transparent 45%), repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--era-ink) 4%, transparent) 19px 20px);
+}
+.civilization-shell[data-era="tribo"]::before {
+  opacity: 0.2;
+  background-image: repeating-linear-gradient(45deg, transparent 0 22px, color-mix(in srgb, var(--era-accent) 10%, transparent) 23px 24px), repeating-linear-gradient(-45deg, transparent 0 22px, color-mix(in srgb, var(--era-accent-2) 8%, transparent) 23px 24px);
+}
+.civilization-shell[data-era="sinaunang"]::before,
+.civilization-shell[data-era="klasikal"]::before,
+.civilization-shell[data-era="medyebal"]::before,
+.civilization-shell[data-era="renaissance"]::before {
+  opacity: 0.16;
+  background-image: radial-gradient(ellipse at 85% 5%, color-mix(in srgb, var(--era-accent) 22%, transparent), transparent 38%), linear-gradient(90deg, transparent 49.8%, color-mix(in srgb, var(--era-accent) 8%, transparent) 50%, transparent 50.2%);
+  background-size: auto, 44px 44px;
+}
+.civilization-shell[data-era="industriyal"]::before,
+.civilization-shell[data-era="makabago"]::before {
+  opacity: 0.12;
+  background-image: linear-gradient(color-mix(in srgb, var(--era-ink) 10%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--era-ink) 10%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.civilization-shell[data-era="digital"]::before,
+.civilization-shell[data-era="futuristiko"]::before,
+.civilization-shell[data-era="abante"]::before {
+  opacity: 0.22;
+  background-image: linear-gradient(color-mix(in srgb, var(--era-accent) 15%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--era-accent) 15%, transparent) 1px, transparent 1px), radial-gradient(ellipse at 80% 0%, color-mix(in srgb, var(--era-accent-2) 18%, transparent), transparent 45%);
+  background-size: 36px 36px, 36px 36px, auto;
+}
+.civilization-shell[data-era="kosmiko"]::before {
+  opacity: 0.3;
+  background-image: radial-gradient(circle at 18% 24%, var(--era-accent) 0 1px, transparent 1.5px), radial-gradient(circle at 76% 68%, var(--era-accent-2) 0 1px, transparent 1.5px), radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--era-accent-2) 20%, transparent), transparent 55%);
+  background-size: 52px 52px, 67px 67px, auto;
+}
+.civilization-shell .dash-card,
+.civilization-shell [data-era-card] {
+  background-color: var(--era-surface);
+  border-color: var(--border);
+}
+@media (prefers-reduced-motion: reduce) {
+  .civilization-shell { transition: none; }
+}
