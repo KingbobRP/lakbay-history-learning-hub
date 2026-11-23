@@ -45,7 +45,7 @@ export function SiteHeader() {
           {session && <XpBadge />}
           {session
             ? <Link to="/profile" aria-label="Profile ng mag-aaral" className="hidden lg:flex"><AvatarImg src={avatarSrc(profile?.avatar)} size={40} /></Link>
-            : <div className="flex items-center gap-2"><Link to="/auth" className="min-h-9 flex items-center border border-accent/70 px-2.5 font-sans text-xs text-accent transition-colors hover:bg-accent/15 sm:px-3 sm:text-sm">Log In</Link><Link to="/auth" search={{ mode: "signup" }} className="min-h-9 flex items-center bg-accent px-2.5 font-sans text-xs font-semibold text-primary transition-colors hover:bg-accent/85 sm:px-3 sm:text-sm">Get Started</Link></div>}
+            : <div className="flex items-center gap-2"><Link to="/auth" className="min-h-9 flex items-center border border-accent/70 px-2.5 font-sans text-xs text-accent transition-colors hover:bg-accent/15 sm:px-3 sm:text-sm">Mag-login</Link><Link to="/auth" search={{ mode: "signup" }} className="min-h-9 flex items-center bg-accent px-2.5 font-sans text-xs font-semibold text-primary transition-colors hover:bg-accent/85 sm:px-3 sm:text-sm">Magsimula</Link></div>}
           {session && <Button variant="ghost" size="icon" className="h-11 w-11 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground lg:hidden" aria-label={open ? "Isara ang nabigasyon" : "Buksan ang nabigasyon"} aria-expanded={open} onClick={() => setOpen(!open)}>
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>}
