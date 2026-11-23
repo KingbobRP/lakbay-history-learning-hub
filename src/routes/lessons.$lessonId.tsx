@@ -50,27 +50,28 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
   useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
   const stepStorageKey = `historia-lesson-step-v1:${lesson.id}`;
-  const [step, setStep] = useState(() => {
-    try {
-      const saved = Number(localStorage.getItem(stepStorageKey));
-      return Number.isInteger(saved) && saved >= 0 && saved < steps.length ? saved : 0;
-    } catch { return 0; }
-  });
-  const [visitedSteps, setVisitedSteps] = useState<number[]>(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(`${stepStorageKey}:visited`) || "[0]");
-      return Array.isArray(saved)
-        ? [...new Set([0, ...saved.filter((n): n is number => Number.isInteger(n) && n >= 0 && n < steps.length)])]
-        : [0];
-    } catch { return [0]; }
-  });
+  const [step, setStep] = useState(0);
+  const [visitedSteps, setVisitedSteps] = useState<number[]>([0]);
+  const [stepStateReady, setStepStateReady] = useState(false);
   const [assessmentComplete, setAssessmentComplete] = useState(false);
   useEffect(() => {
+    try {
+      const savedStep = Number(localStorage.getItem(stepStorageKey));
+      if (Number.isInteger(savedStep) && savedStep >= 0 && savedStep < steps.length) setStep(savedStep);
+      const savedVisited = JSON.parse(localStorage.getItem(`${stepStorageKey}:visited`) || "[0]");
+      if (Array.isArray(savedVisited)) {
+        setVisitedSteps([...new Set([0, ...savedVisited.filter((n): n is number => Number.isInteger(n) && n >= 0 && n < steps.length)])]);
+      }
+    } catch { /* start at the first step when storage is unavailable */ }
+    setStepStateReady(true);
+  }, [stepStorageKey]);
+  useEffect(() => {
+    if (!stepStateReady) return;
     try {
       localStorage.setItem(stepStorageKey, String(step));
       localStorage.setItem(`${stepStorageKey}:visited`, JSON.stringify(visitedSteps));
     } catch { /* progress remains usable when storage is unavailable */ }
-  }, [stepStorageKey, step, visitedSteps]);
+  }, [stepStorageKey, step, visitedSteps, stepStateReady]);
   const topRef = useRef<HTMLDivElement>(null);
   const done = progress.completed.includes(lesson.id);
   const idx = lessons.findIndex((l) => l.id === lesson.id);
@@ -194,21 +195,28 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
 
 function MiniAssessment({ lessonId, questions, onComplete }: { lessonId: string; questions: Question[]; onComplete: (complete: boolean) => void }) {
   const storageKey = `historia-lesson-assessment-v1:${lessonId}`;
-  const [ans, setAns] = useState<(number | null)[]>(() => {
+  const [ans, setAns] = useState<(number | null)[]>(() => questions.map(() => null));
+  const [answersReady, setAnswersReady] = useState(false);
+  useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
       if (Array.isArray(saved) && saved.length === questions.length &&
           saved.every((value, index) => value === null || (Number.isInteger(value) && value >= 0 && value < questions[index]!.choices.length))) {
-        return saved as (number | null)[];
+        setAns(saved as (number | null)[]);
       }
     } catch { /* start with a fresh assessment when saved data is unavailable */ }
-    return questions.map(() => null);
-  });
+    setAnswersReady(true);
+  }, [storageKey, questions]);
   const answered = ans.every((a) => a !== null);
   useEffect(() => {
     try { localStorage.setItem(storageKey, JSON.stringify(ans)); }
     catch { /* assessment remains usable when storage is unavailable */ }
   }, [storageKey, ans]);
+  useEffect(() => {
+    if (!answersReady) return;
+    try { localStorage.setItem(storageKey, JSON.stringify(ans)); }
+    catch { /* assessment remains usable when storage is unavailable */ }
+  }, [storageKey, ans, answersReady]);
   useEffect(() => { onComplete(answered); }, [answered, onComplete]);
   const score = scoreQuiz(ans, questions.map((q) => q.answer));
   return (
