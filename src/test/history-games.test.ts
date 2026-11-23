@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import { gameCatalog, difficulties, questionsFor, timelineRounds, pointsFor, validatesText, correctPositions } from "@/lib/history-games";
 
 describe("History games rules", () => {
-  it("offers nine games including the curriculum-aligned Term 1 quest", () => {\n    expect(gameCatalog).toHaveLength(9);\n    expect(gameCatalog[0]?.id).toBe("term1");\n  });
+  it("offers nine games including the curriculum-aligned Term 1 quest", () => {
+    expect(gameCatalog).toHaveLength(9);
+    expect(gameCatalog[0]?.id).toBe("term1");
+  });
   it("every game and difficulty has playable questions with a valid answer", () => {
     for (const g of gameCatalog.filter((g) => g.id !== "timeline")) {
       for (const d of difficulties) {
@@ -12,7 +15,14 @@ describe("History games rules", () => {
       }
     }
   });
-  it("builds the Term 1 quest from lesson assessment questions", () => {\n    for (const difficulty of difficulties) {\n      const qs = questionsFor("term1", difficulty.id);\n      expect(qs).toHaveLength(3);\n      expect(qs.every((q) => q.prompt.length > 0 && q.explain.length > 0)).toBe(true);\n    }\n  });\n  it("does not always place the correct answer first", () => {
+  it("builds the Term 1 quest from lesson assessment questions", () => {
+    for (const difficulty of difficulties) {
+      const qs = questionsFor("term1", difficulty.id);
+      expect(qs).toHaveLength(3);
+      expect(qs.every((q) => q.prompt.length > 0 && q.explain.length > 0)).toBe(true);
+    }
+  });
+  it("does not always place the correct answer first", () => {
     const answers = [...questionsFor("detective", "easy"), ...questionsFor("detective", "medium"), ...questionsFor("detective", "hard")].map((q) => q.answer);
     expect(new Set(answers).size).toBeGreaterThan(1);
   });
