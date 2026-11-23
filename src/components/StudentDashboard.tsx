@@ -8,6 +8,7 @@ import { overallPercent } from "@/lib/progress";
 import { allBadges, continueLesson, formatDate, quizzesDone } from "@/lib/achievements";
 import { AvatarImg } from "@/components/AvatarPicker";
 import heroFigures from "@/assets/home-hero-figures.jpg";
+import { progressFor } from "@/lib/civilization";
 
 export function StudentDashboard() {
   const { profile, progress, activity, rewards, ready } = useStudent();
@@ -17,6 +18,7 @@ export function StudentDashboard() {
   const next = continueLesson(progress);
   const recent = lessons.find((l) => l.id === progress.lastLesson);
   const pct = overallPercent(progress);
+  const civilization = progressFor(rewards.xp);
   const badges = allBadges(rewards).filter((b) => b.earned);
   const shortcuts = [
     { to: "/dashboard", label: "Mga Aralin", desc: "Tuklasin ang bawat kabanata", icon: BookOpen },
@@ -55,6 +57,14 @@ export function StudentDashboard() {
           {recent && <p className="hd-last-opened">Huling binuksan: {recent.title}</p>}
         </section>
       </div>
+
+      <section className="hd-panel mx-4 mt-6 sm:mx-8">
+        <div className="hd-panel-heading"><div><p className="hd-eyebrow">YUGTO NG KABIHASNAN · ANTAS {civilization.level}</p><h2>{civilization.era.nameFil}</h2></div><Trophy className="hd-gold-icon" /></div>
+        <p className="mt-2 text-sm text-muted-foreground">{civilization.era.tagline}</p>
+        <div className="mt-4 h-2 overflow-hidden bg-muted" role="progressbar" aria-label="Pag-unlad sa susunod na antas" aria-valuenow={civilization.levelPercent} aria-valuemin={0} aria-valuemax={100}><div className="h-full bg-accent" style={{ width: `${civilization.levelPercent}%` }} /></div>
+        <p className="mt-2 font-sans text-xs text-muted-foreground">{civilization.xpToNextLevel === null ? "Pinakamataas na antas" : `${civilization.xpToNextLevel} EXP bago ang susunod na antas`}{civilization.nextEra ? ` · ${civilization.xpToNextEra} EXP bago ang ${civilization.nextEra.nameFil}` : ""}</p>
+        <Link to="/profile" className="hd-text-link mt-3">Tingnan ang profile rewards <ArrowRight size={15} /></Link>
+      </section>
 
       <section className="hd-featured">
         <div className="hd-featured-image"><img src={heroFigures} alt="Mga bayani at tagpo sa kasaysayan ng Pilipinas" /></div>
