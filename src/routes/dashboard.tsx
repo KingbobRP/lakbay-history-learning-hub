@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CheckCircle2, Circle } from "lucide-react";
@@ -31,7 +32,7 @@ function Dashboard() {
   const next = lessons.find((l) => !progress.completed.includes(l.id));
 
   return (
-    <div className="civilization-shell mx-auto max-w-6xl px-4 py-12 sm:px-6" data-era={civilization.era.id} style={eraCssVars(civilization.era)}>
+    <div className="civilization-shell mx-auto max-w-6xl px-4 py-12 sm:px-6" data-era={civilization.era.id} style={eraCssVars(civilization.era) as CSSProperties}>
       <p className="eyebrow">Talaan ng Pag-aaral</p>
       <h1 className="mt-3 text-4xl sm:text-5xl">Ang Iyong Pag-aaral</h1>
       <nav className="mt-5 flex flex-wrap gap-2 font-sans text-sm" aria-label="Iba pang bahagi ng Aralin">
