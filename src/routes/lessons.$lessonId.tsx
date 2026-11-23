@@ -48,7 +48,9 @@ function LessonPage() {
 
 function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
-  useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  const firstIncompleteIndex = lessons.findIndex((item) => !progress.completed.includes(item.id));
+  const locked = !done && firstIncompleteIndex !== -1 && idx > firstIncompleteIndex;
+  useEffect(() => { if (!locked) visitLesson(lesson.id); }, [lesson.id, locked]); // eslint-disable-line react-hooks/exhaustive-deps
   const [step, setStep] = useState(0);
   const [assessmentAnswered, setAssessmentAnswered] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
@@ -59,6 +61,17 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   const term = terms.find((t) => t.id === lesson.term)!;
   const extras = lessonInteractives[lesson.id] ?? {};
   const go = (n: number) => { setStep(n); topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); };
+
+  if (locked) {
+    return (
+      <article className="lesson-page mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
+        <p className="eyebrow">Araling naka-lock</p>
+        <h1 className="mt-3 text-4xl sm:text-5xl">Unahin muna ang naunang aralin</h1>
+        <p className="mx-auto mt-4 max-w-xl font-sans leading-relaxed text-muted-foreground">Kumpletuhin muna ang lahat ng tanong sa pagtataya ng kasalukuyang aralin bago magpatuloy dito.</p>
+        <Link to="/dashboard" className="mt-8 inline-flex min-h-12 items-center justify-center bg-primary px-6 font-sans text-sm font-semibold text-primary-foreground">Bumalik sa mga aralin</Link>
+      </article>
+    );
+  }
 
   return (
     <article className="lesson-page mx-auto max-w-3xl px-4 py-10 sm:px-6">
