@@ -42,7 +42,7 @@ function SearchPage() {
     const term = value.trim();
     if (!term) return;
     setRecent((items) => {
-      const next = [term, ...items.filter((item) => item.toLocaleLowerCase("fil") !== term.toLocaleLowerCase("fil")].slice(0, 5);
+      const next = [term, ...items.filter((item) => item.toLocaleLowerCase("fil") !== term.toLocaleLowerCase("fil"))].slice(0, 5);
       try { localStorage.setItem(recentKey, JSON.stringify(next)); } catch { /* local history is optional */ }
       return next;
     });
