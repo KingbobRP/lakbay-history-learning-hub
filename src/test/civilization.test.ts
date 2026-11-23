@@ -40,3 +40,26 @@ describe("derived progress and celebrations",()=>{
  it("does not report XP regressions",()=>{const d=diffProgress(500,100);expect(d.gained).toBe(0);expect(d.newLevel).toBe(levelFromXp(500));});
  it("calculates progress percentages within bounds",()=>{const p=progressFor(100);expect(p.levelPercent).toBeGreaterThanOrEqual(0);expect(p.levelPercent).toBeLessThanOrEqual(100);expect(p.eraPercent).toBeGreaterThanOrEqual(0);expect(p.eraPercent).toBeLessThanOrEqual(100);});
 });
+
+const luminance=(hex:string)=>{
+ const channels=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255);
+ const linear=channels.map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4));
+ return 0.2126*linear[0]!+0.7152*linear[1]!+0.0722*linear[2]!;
+};
+const contrast=(a:string,b:string)=>{const values=[luminance(a),luminance(b)].sort((x,y)=>y-x);return (values[0]!+0.05)/(values[1]!+0.05);};
+describe("era accessibility and tokens",()=>{
+ it("maintains WCAG AA text contrast across every era",()=>{
+  ERAS.forEach(era=>{expect(contrast(era.theme.ink,era.theme.bg)).toBeGreaterThanOrEqual(4.5);expect(contrast(era.theme.ink,era.theme.surface)).toBeGreaterThanOrEqual(4.5);});
+ });
+ it("keeps era accents distinguishable on their surfaces",()=>{
+  ERAS.forEach(era=>{expect(contrast(era.theme.accent,era.theme.surface)).toBeGreaterThanOrEqual(3);expect(contrast(era.theme.accent2,era.theme.surface)).toBeGreaterThanOrEqual(3);});
+ });
+ it("keeps early eras restrained and future eras dark",()=>{
+  expect(ERAS.slice(0,2).every(era=>era.effects==="none")).toBe(true);
+  ERAS.forEach(era=>expect(era.theme.mode).toBe(era.order>=9?"dark":"light"));
+  expect(ERAS[11]?.effects).toBe("cosmic");
+ });
+ it("exports all CSS variables needed by the era shell",()=>{
+  const vars=eraCssVars(ERAS[0]!);expect(vars["--era-bg"]).toBe(ERAS[0]!.theme.bg);expect(Object.keys(vars)).toHaveLength(5);
+ });
+});
