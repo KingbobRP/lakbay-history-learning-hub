@@ -596,3 +596,28 @@ a:hover .dashboard-icon-motion {
 .historia-dashboard .hd-footer { color:#bda77d; border-color:rgb(198 157 83 / .4); }
 @media(max-width:1023px) { .historia-dashboard { padding-top:1rem; } }
 @media(max-width:520px) { .historia-mobile-header .historia-logo .logo-monogram { width:2rem;height:2rem;font-size:1.25rem; } .historia-mobile-header .historia-logo span:nth-child(2) span:first-child { font-size:1.3rem; } }
+
+
+/* Give the Jose Rizal hero artwork more presence */
+.historia-dashboard .hd-hero { min-height: clamp(27rem, 43vw, 36rem); }
+.historia-dashboard .hd-hero-image {
+  object-position: 68% 38%;
+  transform: scale(1.13);
+  transform-origin: 68% 42%;
+}
+.historia-dashboard .hd-hero-shade {
+  background:
+    linear-gradient(90deg, rgba(7,15,11,.96) 0%, rgba(7,15,11,.82) 32%, rgba(7,15,11,.40) 58%, rgba(7,15,11,.08) 100%),
+    linear-gradient(0deg, rgba(7,15,11,.42), transparent 48%);
+}
+@media(max-width:1023px) {
+  .historia-dashboard .hd-hero { min-height: 31rem; }
+  .historia-dashboard .hd-hero-image { object-position: 64% center; transform: scale(1.1); }
+}
+@media(max-width:520px) {
+  .historia-dashboard .hd-hero { min-height: 29rem; }
+  .historia-dashboard .hd-hero-image { object-position: 65% center; transform: scale(1.08); }
+  .historia-dashboard .hd-hero-shade {
+    background: linear-gradient(0deg, rgba(7,15,11,.97) 0%, rgba(7,15,11,.76) 48%, rgba(7,15,11,.16) 100%);
+  }
+}
