@@ -7,6 +7,7 @@ import { avatarSrc } from "@/lib/avatars";
 import { overallPercent } from "@/lib/progress";
 import { allBadges, continueLesson, formatDate, quizzesDone } from "@/lib/achievements";
 import { AvatarImg } from "@/components/AvatarPicker";
+import { progressFor, eraCssVars } from "@/lib/civilization";
 
 export function StudentDashboard() {
   const { profile, progress, activity, rewards, ready } = useStudent();
@@ -16,9 +17,10 @@ export function StudentDashboard() {
   const next = continueLesson(progress);
   const recent = lessons.find((l) => l.id === progress.lastLesson);
   const pct = overallPercent(progress);
+  const civilization = progressFor(rewards.xp);
   const badges = allBadges(rewards).filter((b) => b.earned);
   return (
-    <div className="home-page mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-8">
+    <div className="home-page civilization-shell mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-8" data-era={civilization.era.id} style={eraCssVars(civilization.era)}>
       <section className="dash-card flex flex-wrap items-center gap-4">
         <AvatarImg src={avatarSrc(profile?.avatar)} size={72} />
         <div className="min-w-0 flex-1">
@@ -26,13 +28,18 @@ export function StudentDashboard() {
           <h1 className="truncate text-3xl sm:text-4xl">Maligayang pagbabalik, {first}!</h1>
           <p className="mt-1 font-sans text-sm text-muted-foreground">{name} · {profile?.age ? `${profile.age} taon · ` : ""}{profile?.gender || "—"} · {profile?.section || "Walang seksiyon"}</p>
         </div>
-        <div className="dash-xp-summary flex items-center gap-2 border border-accent px-4 py-2"><Star className="dashboard-icon-motion h-5 w-5 fill-accent text-accent" /><span className="font-display text-3xl text-primary">{rewards.xp}</span><span className="font-sans text-xs text-muted-foreground">XP</span></div>
+        <div className="dash-xp-summary flex items-center gap-3 border border-accent px-4 py-2"><span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-accent font-display text-xl text-primary">{civilization.level}</span><span><span className="block font-sans text-xs font-semibold text-primary">{civilization.era.nameFil}</span><span className="block font-display text-2xl text-primary">{rewards.xp.toLocaleString()} EXP</span></span></div>
         <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           {!profile?.avatar && <Button asChild variant="outline"><Link to="/settings">Pumili ng avatar</Link></Button>}
           <Button asChild variant="outline"><Link to="/profile">Tingnan ang buong profile</Link></Button>
         </div>
       </section>
 
+
+      <section className="grid gap-4 border border-border bg-card p-5 sm:grid-cols-[1fr_auto] sm:items-center sm:p-6">
+        <div><p className="eyebrow">Yugto ng kabihasnan · Antas {civilization.level}</p><h2 className="mt-1 text-2xl">{civilization.era.title}</h2><p className="mt-1 text-sm text-muted-foreground">{civilization.era.tagline}</p><div className="mt-3 h-2 max-w-xl overflow-hidden bg-muted"><div className="h-full bg-accent" style={{ width: civilization.levelPercent + "%" }} /></div><p className="mt-1 font-sans text-xs text-muted-foreground">{civilization.xpToNextLevel === null ? "Pinakamataas na antas" : civilization.xpToNextLevel + " EXP bago ang susunod na antas"}{civilization.nextEra ? " · " + civilization.xpToNextEra + " EXP bago ang " + civilization.nextEra.nameFil : ""}</p></div>
+        <Link to="/profile" className="inline-flex min-h-11 items-center justify-center gap-2 border border-primary px-4 font-sans text-sm font-semibold text-primary hover:bg-secondary">Tingnan ang paglalakbay <ArrowRight className="h-4 w-4" /></Link>
+      </section>
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section className="dash-card">
