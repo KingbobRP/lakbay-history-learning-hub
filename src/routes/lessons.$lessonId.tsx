@@ -209,10 +209,6 @@ function MiniAssessment({ lessonId, questions, onComplete }: { lessonId: string;
   }, [storageKey, questions]);
   const answered = ans.every((a) => a !== null);
   useEffect(() => {
-    try { localStorage.setItem(storageKey, JSON.stringify(ans)); }
-    catch { /* assessment remains usable when storage is unavailable */ }
-  }, [storageKey, ans]);
-  useEffect(() => {
     if (!answersReady) return;
     try { localStorage.setItem(storageKey, JSON.stringify(ans)); }
     catch { /* assessment remains usable when storage is unavailable */ }
