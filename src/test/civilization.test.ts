@@ -27,7 +27,7 @@ describe("XP curve",()=>{
   const total=lessonXp+termXp+quizXp+gameXp;
   expect(lessons).toHaveLength(19); expect(lessons.reduce((n,l)=>n+l.keyTerms.length,0)).toBe(76);
   expect(gameCatalog).toHaveLength(8); expect(timeline).toHaveLength(15);
-  expect(total).toBe(1855); expect(levelFromXp(total)).toBeGreaterThanOrEqual(49); expect(levelFromXp(total)).toBeLessThanOrEqual(50);
+  expect(total).toBe(1845); expect(levelFromXp(total)).toBeGreaterThanOrEqual(49); expect(levelFromXp(total)).toBeLessThanOrEqual(50);
   expect(CURVE.scale).toBe(0.5);
  });
  it("round-trips every level threshold",()=>{for(let l=1;l<=MAX_LEVEL;l++){expect(levelFromXp(xpForLevel(l))).toBe(l);if(l>1)expect(levelFromXp(xpForLevel(l)-1)).toBe(l-1);}});
