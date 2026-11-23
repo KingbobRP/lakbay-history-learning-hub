@@ -30,7 +30,7 @@ function yearValue(year: string) {
   if (year.includes("67,000")) return -67000;
   if (year.includes("2,000")) return -2000;
   if (year.includes("890")) return -800;
-  return Number(year.match(/\\d{3,4}/)?.[0] ?? 0);
+  return Number(year.match(/\d{3,4}/)?.[0] ?? 0);
 }
 
 function periodFor(year: string) {
