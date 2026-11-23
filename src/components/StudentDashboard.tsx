@@ -84,7 +84,7 @@ export function StudentDashboard() {
             <p className="reborn-kicker">WELCOME BACK,</p>
             <h1>{first}!</h1>
             <p className="reborn-hero-subtitle">Continue your journey through<br/>the rich history of the Philippines.</p>
-            <Button asChild className="reborn-gold-button"><Link to={next ? "/lessons/$lessonId" : "/dashboard"} params={next ? { lessonId: next.id } : undefined}><Play size={15} fill="currentColor"/> Resume Learning <ArrowRight size={17}/></Link></Button>
+            <Button asChild className="reborn-gold-button">{next ? <Link to="/lessons/$lessonId" params={{ lessonId: next.id }}><Play size={15} fill="currentColor"/> Resume Learning <ArrowRight size={17}/></Link> : <Link to="/dashboard"><Play size={15} fill="currentColor"/> Review Lessons <ArrowRight size={17}/></Link>}</Button>
           </div>
           <div className="reborn-hero-dots"><span/><i/><i/></div>
         </section>
@@ -100,7 +100,7 @@ export function StudentDashboard() {
                   <h2>{featured?.title ?? "The Philippine Revolution"}</h2>
                   <p>{featured?.intro ?? "Explore the events, key figures, and significance of the Philippine Revolution."}</p>
                   <span className="reborn-duration"><Clock3 size={15}/> Approx. 15 min · {currentTermLabel}</span>
-                  <Button asChild className="reborn-gold-button"><Link to={featured ? "/lessons/$lessonId" : "/dashboard"} params={featured ? { lessonId: featured.id } : undefined}>Start Lesson <ArrowRight size={16}/></Link></Button>
+                  <Button asChild className="reborn-gold-button">{featured ? <Link to="/lessons/$lessonId" params={{ lessonId: featured.id }}>Start Lesson <ArrowRight size={16}/></Link> : <Link to="/dashboard">Browse Lessons <ArrowRight size={16}/></Link>}</Button>
                 </div>
               </div>
             </section>
