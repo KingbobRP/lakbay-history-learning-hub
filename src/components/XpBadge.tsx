@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Award, Lock, Star, Sparkles, ArrowUpRight } from "lucide-react";
+import { Award, Lock, Sparkles, ArrowUpRight } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { useCivilization } from "@/lib/useCivilization";
 const byTerm = terms.map((t) => lessons.filter((l) => l.term === t.id).map((l) => l.id));
 
 export function XpBadge() {
-  const { progress, cosmetics, celebration, dismiss } = useCivilization();
+  const { progress, rewards: earnedRewards, cosmetics, celebration, dismiss } = useCivilization();
   const [pop, setPop] = useState<{ n: number; key: number } | null>(null);
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -24,7 +24,7 @@ export function XpBadge() {
     window.addEventListener(XP_EVENT, on);
     return () => { window.removeEventListener(XP_EVENT, on); clearTimeout(timer); };
   }, []);
-  const badges = badgesFor({ xp: progress.xp, awarded: [] }, byTerm);
+  const badges = badgesFor(earnedRewards, byTerm);
   const rewards = [
     ["Aralin", XP_RULES.lesson, "Sa unang pagtatapos ng bawat aralin"],
     ["Kabisadong termino", XP_RULES.term, "Sa bawat susing terminong mamamaster"],
@@ -58,7 +58,7 @@ export function XpBadge() {
             <div className="max-h-[55vh] overflow-y-auto p-4">
               <p className="eyebrow">Paano kumita ng EXP</p>
               <ul className="mt-2 space-y-2">{rewards.map(([label, points, note]) => <li key={label} className="flex items-start justify-between gap-3 border-b border-border pb-2 text-sm last:border-0"><span><span className="block font-semibold text-foreground">{label}</span><span className="block text-xs text-muted-foreground">{note}</span></span><span className="shrink-0 font-sans font-semibold text-gold-deep">+{points}</span></li>)}</ul>
-              <div className="mt-3 border-t border-border pt-3"><p className="eyebrow">Mga tsapa</p><ul className="mt-2 space-y-2">{badges.map((b) => <li key={b.id} className="flex items-center gap-3 opacity-70"><Lock className="h-4 w-4 shrink-0 text-muted-foreground" /><span className="text-sm">{b.title}</span></li>)}</ul></div>
+              <div className="mt-3 border-t border-border pt-3"><p className="eyebrow">Mga tsapa</p><ul className="mt-2 space-y-2">{badges.map((b) => <li key={b.id} className="flex items-center gap-3 opacity-70">{b.earned ? <Award className="h-4 w-4 shrink-0 text-accent" /> : <Lock className="h-4 w-4 shrink-0 text-muted-foreground" />}<span className="text-sm">{b.title}</span></li>)}</ul></div>
               <p className="mt-3 text-xs leading-relaxed text-muted-foreground">Isang beses lamang makukuha ang bawat gantimpala. Ang iyong antas at panahon ay awtomatikong nakabatay sa kabuuang EXP na naitala sa account.</p>
             </div>
           </PopoverContent>
