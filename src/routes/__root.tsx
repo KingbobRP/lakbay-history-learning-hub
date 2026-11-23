@@ -127,16 +127,17 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { session } = useStudent();
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <StudentProvider>
         <SiteHeader />
-        <main className="min-h-[60vh]">
+        <main className={session ? "min-h-[60vh] lg:ml-[13rem]" : "min-h-[60vh]"}>
           <Outlet />
         </main>
-        <SiteFooter />
+        {!session && <SiteFooter />}
         <Toaster position="top-center" />
       </StudentProvider>
     </QueryClientProvider>

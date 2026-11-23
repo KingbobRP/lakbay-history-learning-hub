@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpenCheck, Compass, Landmark, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStudent } from "@/lib/student";
 import { StudentDashboard } from "@/components/StudentDashboard";
 import heroFigures from "@/assets/home-hero-figures.jpg";
-import mascot from "@/assets/home-mascot.png";
 import decoBook from "@/assets/deco-book.png";
 import decoQuill from "@/assets/deco-quill.png";
 
@@ -12,10 +11,10 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Pag-aaral ng Kasaysayan at Lipunang Pilipino — HISTORIA" },
-      { name: "description", content: "Digital na plataporma ng pagkatuto para sa Baitang 11 Pag-aaral ng Kasaysayan at Lipunang Pilipino, batay sa tatlong termino ng DepEd." },
-      { property: "og:title", content: "Pag-aaral ng Kasaysayan at Lipunang Pilipino — HISTORIA" },
-      { property: "og:description", content: "Tuklasin ang mayamang kasaysayan ng Pilipinas: mga aralin, pagsusulit, at laro para sa Baitang 11." },
+      { title: "HISTORIA — Tuklasin ang Nakaraan, Hubugin ang Kinabukasan" },
+      { name: "description", content: "Isang makabuluhan at makabagong paglalakbay sa kasaysayan at lipunang Pilipino para sa Baitang 11." },
+      { property: "og:title", content: "HISTORIA — Tuklasin ang Nakaraan, Hubugin ang Kinabukasan" },
+      { property: "og:description", content: "Unawain ang ating kasaysayan. Kilalanin ang ating pagkakakilanlan. Hubugin ang kinabukasan." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -44,28 +43,52 @@ function Landing() {
         <div className="hx-grid mx-auto max-w-6xl px-5 sm:px-8">
           <div className="hx-copy">
             <div className="hx-sun" aria-hidden><span /><Sparkles className="h-5 w-5" /><span /></div>
+            <p className="hx-kicker">ANG NAKARAAN AY ATING GABAY</p>
             <h1 className="hx-title">HISTORIA</h1>
-            <p className="hx-subtitle">Pag-aaral ng Kasaysayan at Lipunang Pilipino</p>
+            <p className="hx-subtitle">Tuklasin ang Nakaraan.<br />Hubugin ang Kinabukasan.</p>
             <div className="hx-divider" aria-hidden><span />◆<span /></div>
-            <p className="hx-competency">Nasusuri ang mga sanggunian ng kasaysayan at nailalapat ang kritikal na pananaw sa pag-unawa ng nakaraan</p>
-            <p className="hx-intro">Tuklasin ang mayamang kasaysayan ng Pilipinas at alamin ang ating kultura, bayan, at pagkakakilanlan.</p>
-            <Button asChild size="lg" className="hx-cta"><Link to="/dashboard">Simulan ang Pag-aaral <ArrowRight /></Link></Button>
+            <div className="hx-competency">
+              <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-accent">Pangunahing Kasanayan</p>
+              <p>Nasusuri ang mga pangunahing yugto, pamana, at pagbabago sa kasaysayan at lipunang Pilipino mula sa sinaunang pamayanan hanggang sa kontemporaryong panahon upang mahubog ang mapanuring kamalayang pangkasaysayan.</p>
+            </div>
+            <p className="hx-intro">Bawat kuwento ay may aral. Bawat Pilipino ay may bahagi sa kasaysayan. Simulan ang paglalakbay tungo sa mas malalim na pag-unawa sa ating bayan.</p>
+            <div className="hx-actions">
+              <Button asChild size="lg" className="hx-cta"><Link to="/auth" search={{ mode: "signup" }}>Magsimula <ArrowRight /></Link></Button>
+              <Button asChild size="lg" variant="outline" className="hx-login"><Link to="/auth">Mag-login</Link></Button>
+            </div>
+            <p className="hx-note">Para sa mga mag-aaral ng Baitang 11</p>
           </div>
           <figure className="hx-art">
             <img src={heroFigures} alt="Ilustrasyon ng mga Pilipinong bayani sa harap ng watawat ng Pilipinas at isang lumang simbahan, may kompas, orasang buhangin, at sampaguita" width={1280} height={1024} fetchPriority="high" />
+            <figcaption className="hx-art-caption">Kilalanin ang mga kuwento. Unawain ang ating pinagmulan.</figcaption>
           </figure>
         </div>
       </section>
 
-      <section className="hx-panel-wrap mx-auto max-w-6xl px-4 sm:px-8">
-        <div className="hx-panel">
-          <img src={mascot} alt="Masayahing mag-aaral na may hawak na aklat" width={816} height={816} className="hx-mascot" />
-          <div className="hx-welcome"><span>Maligayang pagdating,</span><strong>Mag-aaral!</strong></div>
-          <div className="hx-empty">
-            <p>Mag-log in gamit ang iyong buong pangalan, class code, at PIN upang makita ang iyong profile, puntos, at pag-unlad.</p>
-            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90"><Link to="/auth">Mag-log in</Link></Button>
-          </div>
+      <section className="hx-values mx-auto max-w-6xl px-5 py-12 sm:px-8">
+        <div className="hx-values-heading">
+          <p className="eyebrow">HIGIT PA SA PAG-AARAL</p>
+          <h2>Ang kasaysayan ay buhay sa bawat isa sa atin.</h2>
+          <p>Hindi lang natin inaalala ang nakaraan—natututo tayong mag-isip nang mapanuri, magpahalaga sa ating kultura, at maging bahagi ng mas magandang bukas.</p>
         </div>
+        <div className="hx-value-grid">
+          <article className="hx-value-card">
+            <span className="hx-value-icon"><BookOpenCheck aria-hidden /></span>
+            <h3>Matuto nang may saysay</h3>
+            <p>Unawain ang mahahalagang pangyayari, tao, at ideyang humubog sa Pilipinas.</p>
+          </article>
+          <article className="hx-value-card">
+            <span className="hx-value-icon"><Compass aria-hidden /></span>
+            <h3>Mag-isip nang mapanuri</h3>
+            <p>Suriin ang mga sanggunian at tuklasin ang iba't ibang pananaw sa kasaysayan.</p>
+          </article>
+          <article className="hx-value-card">
+            <span className="hx-value-icon"><Landmark aria-hidden /></span>
+            <h3>Pahalagahan ang pagka-Pilipino</h3>
+            <p>Kilalanin ang ating kultura, pamana, at kolektibong pagkakakilanlan.</p>
+          </article>
+        </div>
+        <p className="hx-mantra">“Ang pag-unawa sa ating pinagmulan ay simula ng paghubog sa ating patutunguhan.”</p>
       </section>
     </div>
   );

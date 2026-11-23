@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, ClipboardList, Gamepad2, Landmark, Star, Award } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardList, Gamepad2, Landmark, Star, Award, Clock3, Compass, Trophy, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStudent } from "@/lib/student";
 import { lessons, terms } from "@/lib/historia-data";
@@ -7,6 +7,7 @@ import { avatarSrc } from "@/lib/avatars";
 import { overallPercent } from "@/lib/progress";
 import { allBadges, continueLesson, formatDate, quizzesDone } from "@/lib/achievements";
 import { AvatarImg } from "@/components/AvatarPicker";
+import heroFigures from "@/assets/home-hero-figures.jpg";
 
 export function StudentDashboard() {
   const { profile, progress, activity, rewards, ready } = useStudent();
@@ -17,79 +18,56 @@ export function StudentDashboard() {
   const recent = lessons.find((l) => l.id === progress.lastLesson);
   const pct = overallPercent(progress);
   const badges = allBadges(rewards).filter((b) => b.earned);
+  const shortcuts = [
+    { to: "/dashboard", label: "Mga Aralin", desc: "Tuklasin ang bawat kabanata", icon: BookOpen },
+    { to: "/timeline", label: "Talaang-Panahon", desc: "Balikan ang mahahalagang yugto", icon: Clock3 },
+    { to: "/quiz", label: "Pagsusulit", desc: "Subukan ang iyong kaalaman", icon: ClipboardList },
+    { to: "/games", label: "Mga Laro", desc: "Matuto habang naglalaro", icon: Gamepad2 },
+  ];
   return (
-    <div className="home-page mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-8">
-      <section className="dash-card flex flex-wrap items-center gap-4">
-        <AvatarImg src={avatarSrc(profile?.avatar)} size={72} />
-        <div className="min-w-0 flex-1">
-          <p className="eyebrow">Maligayang pagbabalik</p>
-          <h1 className="truncate text-3xl sm:text-4xl">Maligayang pagbabalik, {first}!</h1>
-          <p className="mt-1 font-sans text-sm text-muted-foreground">{name} · {profile?.age ? `${profile.age} taon · ` : ""}{profile?.gender || "—"} · {profile?.section || "Walang seksiyon"}</p>
+    <div className="home-page historia-dashboard">
+      <section className="hd-hero">
+        <img className="hd-hero-image" src={heroFigures} alt="" aria-hidden="true" />
+        <div className="hd-hero-shade" />
+        <div className="hd-hero-content">
+          <p className="hd-eyebrow"><Sparkles size={14} /> MALIGAYANG PAGBABALIK</p>
+          <div className="hd-profile-line">
+            <AvatarImg src={avatarSrc(profile?.avatar)} size={58} />
+            <div><h1>Kumusta, <em>{first}!</em></h1><p>{profile?.section || "Mag-aaral ng Baitang 11"} · Ipagpatuloy ang iyong paglalakbay sa kasaysayan.</p></div>
+          </div>
+          {next ? <Button asChild className="hd-primary-cta"><Link to="/lessons/$lessonId" params={{ lessonId: next.id }}> <BookOpen size={17} /> Ipagpatuloy ang Pag-aaral <ArrowRight size={17} /></Link></Button> : <p className="hd-finished">Natapos mo na ang lahat ng {lessons.length} aralin! <Trophy size={18} /></p>}
         </div>
-        <div className="dash-xp-summary flex items-center gap-2 border border-accent px-4 py-2"><Star className="dashboard-icon-motion h-5 w-5 fill-accent text-accent" /><span className="font-display text-3xl text-primary">{rewards.xp}</span><span className="font-sans text-xs text-muted-foreground">XP</span></div>
-        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
-          {!profile?.avatar && <Button asChild variant="outline"><Link to="/settings">Pumili ng avatar</Link></Button>}
-          <Button asChild variant="outline"><Link to="/profile">Tingnan ang buong profile</Link></Button>
-        </div>
+        <div className="hd-hero-mark">HISTORIA <span>•</span> KASAYSAYANG PILIPINO</div>
       </section>
 
-
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <section className="dash-card">
-          <p className="eyebrow">📜 Ituloy ang pag-aaral</p>
-          {next ? (
-            <>
-              <h2 className="mt-2 text-2xl">{next.title}</h2>
-              <p className="mt-1 font-sans text-sm text-muted-foreground">Termino {next.term} · Linggo {next.weeks}</p>
-              <p className="mt-3 line-clamp-3 text-sm leading-relaxed">{next.intro}</p>
-              <Button asChild className="mt-4 min-h-12"><Link to="/lessons/$lessonId" params={{ lessonId: next.id }}>Ituloy ang Pag-aaral <ArrowRight /></Link></Button>
-            </>
-          ) : <p className="mt-2">Natapos mo na ang lahat ng {lessons.length} aralin! 🏆</p>}
-          {recent && recent.id !== next?.id && <p className="mt-4 font-sans text-sm text-muted-foreground">Huling binuksan: <Link to="/lessons/$lessonId" params={{ lessonId: recent.id }} className="text-primary underline">{recent.title}</Link></p>}
-          <div className="mt-5 grid grid-cols-2 gap-2 border-t border-border pt-4 font-sans text-sm sm:grid-cols-4">
-            {[{ to: "/dashboard", l: "Mga Aralin", i: BookOpen }, { to: "/quiz", l: "Pagsusulit", i: ClipboardList }, { to: "/games", l: "Mga Laro", i: Gamepad2 }, { to: "/timeline", l: "Talaang-Panahon", i: Landmark }].map(({ to, l, i: I }) => (
-              <Link key={to} to={to} className="flex min-h-11 items-center gap-2 border border-border px-3 hover:border-primary"><I className="dashboard-icon-motion h-4 w-4 text-primary" />{l}</Link>
-            ))}
+      <div className="hd-top-grid">
+        <section className="hd-panel hd-progress-panel">
+          <div className="hd-panel-heading"><div><p className="hd-eyebrow">ANG IYONG PAG-UNLAD</p><h2>Learning progress</h2></div><Star className="hd-gold-icon" /></div>
+          <div className="hd-progress-main">
+            <div className="hd-ring" style={{ background: `conic-gradient(var(--accent) ${pct * 3.6}deg, rgba(255,255,255,.10) 0deg)` }}><div><strong>{pct}%</strong><span>NAKUMPLETO</span></div></div>
+            <div className="hd-progress-stats"><div><strong>{progress.completed.length}<small>/{lessons.length}</small></strong><span>Mga aralin</span></div><div><strong>{quizzesDone(progress)}<small>/{terms.length}</small></strong><span>Mga pagsusulit</span></div><div><strong>{rewards.xp}</strong><span>Experience points</span></div></div>
           </div>
+          <Link to="/progress" className="hd-text-link">Tingnan ang buong progreso <ArrowRight size={15} /></Link>
         </section>
-
-        <section className="dash-card">
-          <p className="eyebrow">Pag-unlad sa pag-aaral</p>
-          <p className="mt-2 font-display text-5xl text-primary">{pct}%</p>
-          <div className="dash-bar mt-2" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Kabuuang pag-unlad"><span style={{ width: `${pct}%` }} /></div>
-          <dl className="mt-4 grid grid-cols-2 gap-3 font-sans text-sm">
-            <div><dt className="text-muted-foreground">Natapos na aralin</dt><dd className="font-display text-2xl text-ink">{progress.completed.length}/{lessons.length}</dd></div>
-            <div><dt className="text-muted-foreground">Natapos na pagsusulit</dt><dd className="font-display text-2xl text-ink">{quizzesDone(progress)}/{terms.length}</dd></div>
-          </dl>
-          <ul className="mt-3 space-y-1 font-sans text-sm">
-            {terms.map((t) => <li key={t.id} className="flex justify-between border-t border-border pt-1"><span>Termino {t.id}</span><span className="text-muted-foreground">{progress.scores[t.id] ? `Pinakamataas ${progress.scores[t.id]!.best}/10` : "Wala pang iskor"}</span></li>)}
-          </ul>
-          <Link to="/progress" className="mt-3 inline-flex min-h-11 items-center font-sans text-sm text-primary underline">Buong talaan ng pag-unlad</Link>
+        <section className="hd-panel hd-current-panel">
+          <p className="hd-eyebrow">IPAGPATULOY KUNG SAAN KA NATAPOS</p><h2>Kasalukuyang Aralin</h2>
+          {next ? <><div className="hd-current-art"><img src={heroFigures} alt="" /><span>TERM {next.term} · LINGGO {next.weeks}</span></div><h3>{next.title}</h3><p>{next.intro}</p><Link className="hd-gold-link" to="/lessons/$lessonId" params={{ lessonId: next.id }}>Buksan ang aralin <ArrowRight size={16} /></Link></> : <p>Mahusay! Natapos mo na ang lahat ng aralin.</p>}
+          {recent && <p className="hd-last-opened">Huling binuksan: {recent.title}</p>}
         </section>
       </div>
 
-      <div className="grid min-w-0 gap-6 lg:grid-cols-2">
-        <section className="dash-card min-w-0 overflow-hidden">
-          <p className="eyebrow">Mga kamakailang gawain</p>
-          {activity.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">Wala pang gawain. Tapusin ang isang aralin o pagsusulit para magsimula!</p> : (
-            <ul className="mt-2 max-h-64 min-w-0 max-w-full overflow-y-auto overscroll-contain divide-y divide-border pr-1">
-              {activity.slice(0, 6).map((a) => (
-                <li key={a.id} className="flex min-w-0 items-center justify-between gap-3 py-2 text-sm">
-                  <span className="min-w-0 flex-1 overflow-hidden"><span className="block truncate">{a.label}{a.score != null ? ` — ${a.score}/10` : ""}</span><span className="font-sans text-xs text-muted-foreground">{formatDate(a.created_at)}</span></span>
-                  {a.points > 0 && <span className="shrink-0 font-sans text-sm font-semibold text-gold-deep">+{a.points} XP</span>}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-        <section className="dash-card min-w-0 overflow-hidden">
-          <p className="eyebrow">🏆 Mga tsapa</p>
-          {badges.length === 0 ? <p className="mt-2 text-sm text-muted-foreground">Wala pang tsapa. Ang unang aralin ay magbubukas ng "Unang Hakbang".</p> : (
-            <ul className="mt-2 grid gap-2 sm:grid-cols-2">{badges.map((b) => <li key={b.id} className="flex items-center gap-2 text-sm"><Award className="h-5 w-5 shrink-0 text-accent" />{b.title}</li>)}</ul>
-          )}
-          <Link to="/achievements" className="mt-3 inline-flex min-h-11 items-center font-sans text-sm text-primary underline">Lahat ng gantimpala</Link>
-        </section>
+      <section className="hd-featured">
+        <div className="hd-featured-image"><img src={heroFigures} alt="Mga bayani at tagpo sa kasaysayan ng Pilipinas" /></div>
+        <div className="hd-featured-copy"><p className="hd-eyebrow"><Star size={14} /> ITAMPOK NA PAGKATUTO</p><h2>Ang kasaysayan ay hindi lamang inaalala—ito ay inuunawa.</h2><p>Palalimin ang iyong pag-unawa sa mga pangyayari, pamana, at pagbabagong humubog sa lipunang Pilipino.</p><Link to="/dashboard" className="hd-gold-link">Tuklasin ang mga aralin <ArrowRight size={16} /></Link></div>
+      </section>
+
+      <section className="hd-explore"><div className="hd-section-heading"><div><p className="hd-eyebrow">IPAGPATULOY ANG PAGTUKLAS</p><h2>Explore HISTORIA</h2></div><span>04 LEARNING SPACES</span></div><div className="hd-shortcuts">{shortcuts.map(({to,label,desc,icon:Icon}) => <Link to={to} key={to} className="hd-shortcut"><span className="hd-shortcut-icon"><Icon /></span><strong>{label}</strong><p>{desc}</p><ArrowRight className="hd-shortcut-arrow" size={17} /></Link>)}</div></section>
+
+      <div className="hd-bottom-grid">
+        <section className="hd-panel"><div className="hd-panel-heading"><div><p className="hd-eyebrow">MGA NAKAMIT</p><h2>Achievements</h2></div><Award className="hd-gold-icon" /></div>{badges.length === 0 ? <p className="hd-empty">Wala pang tsapa. Tapusin ang iyong unang aralin upang makakuha ng gantimpala.</p> : <ul className="hd-badges">{badges.slice(0,4).map((b) => <li key={b.id}><span><Award /></span><strong>{b.title}</strong></li>)}</ul>}<Link to="/achievements" className="hd-text-link">Lahat ng gantimpala <ArrowRight size={15} /></Link></section>
+        <section className="hd-panel"><div className="hd-panel-heading"><div><p className="hd-eyebrow">IYONG MGA HAKBANG</p><h2>Recent activity</h2></div><Clock3 className="hd-gold-icon" /></div>{activity.length === 0 ? <p className="hd-empty">Wala pang gawain. Simulan ang isang aralin o pagsusulit!</p> : <ul className="hd-activity">{activity.slice(0,5).map((a) => <li key={a.id}><span className="hd-activity-dot" /><div><strong>{a.label}{a.score != null ? ` — ${a.score}/10` : ""}</strong><small>{formatDate(a.created_at)}</small></div>{a.points > 0 && <b>+{a.points} XP</b>}</li>)}</ul>}</section>
       </div>
+      <footer className="hd-footer">✦ <span>HISTORIA</span> · Learning Today, Leading Tomorrow.</footer>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { SourceSorter } from "@/components/lesson/SourceSorter";
 import { BiasHotspots } from "@/components/lesson/BiasHotspots";
 import { FlipCards } from "@/components/lesson/FlipCards";
 import { scoreQuiz, useProgress } from "@/lib/progress";
+import { useStudent } from "@/lib/student";
 
 export const Route = createFileRoute("/lessons/$lessonId")({
   staticData: { sitemap: true },
@@ -48,16 +49,58 @@ function LessonPage() {
 
 function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
+  const { session } = useStudent();
+  const learnerId = session?.user.id ?? "guest";
   useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  const stepStorageKey = `historia-lesson-step-v1:${learnerId}:${lesson.id}`;
   const [step, setStep] = useState(0);
+  const [visitedSteps, setVisitedSteps] = useState<number[]>([0]);
+  const [stepStateReady, setStepStateReady] = useState(false);
+  const [assessmentComplete, setAssessmentComplete] = useState(false);
+  useEffect(() => {
+    setStep(0);
+    setVisitedSteps([0]);
+    try {
+      const savedStep = Number(localStorage.getItem(stepStorageKey));
+      if (Number.isInteger(savedStep) && savedStep >= 0 && savedStep < steps.length) setStep(savedStep);
+      const savedVisited = JSON.parse(localStorage.getItem(`${stepStorageKey}:visited`) || "[0]");
+      if (Array.isArray(savedVisited)) {
+        setVisitedSteps([...new Set([0, ...savedVisited.filter((n): n is number => Number.isInteger(n) && n >= 0 && n < steps.length)])]);
+      }
+    } catch { /* start at the first step when storage is unavailable */ }
+    setStepStateReady(true);
+  }, [stepStorageKey]);
+  useEffect(() => {
+    if (!stepStateReady) return;
+    try {
+      localStorage.setItem(stepStorageKey, String(step));
+      localStorage.setItem(`${stepStorageKey}:visited`, JSON.stringify(visitedSteps));
+    } catch { /* progress remains usable when storage is unavailable */ }
+  }, [stepStorageKey, step, visitedSteps, stepStateReady]);
   const topRef = useRef<HTMLDivElement>(null);
   const done = progress.completed.includes(lesson.id);
   const idx = lessons.findIndex((l) => l.id === lesson.id);
   const prev = lessons[idx - 1];
   const next = lessons[idx + 1];
+  const locked = Boolean(prev && !progress.completed.includes(prev.id));
   const term = terms.find((t) => t.id === lesson.term)!;
   const extras = lessonInteractives[lesson.id] ?? {};
-  const go = (n: number) => { setStep(n); topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); };
+  const maxVisitedStep = Math.max(...visitedSteps);
+  const go = (n: number) => {
+    if (n < 0 || n > maxVisitedStep + 1 || n >= steps.length) return;
+    setStep(n);
+    setVisitedSteps((visited) => visited.includes(n) ? visited : [...visited, n]);
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  if (locked) return (
+    <article className="mx-auto max-w-2xl px-4 py-20 text-center">
+      <p className="eyebrow">Aralin na naka-lock</p>
+      <h1 className="mt-3 text-3xl">Tapusin muna ang naunang aralin</h1>
+      <p className="mt-3 text-muted-foreground">Kumpletuhin ang “{prev?.title}” bago magpatuloy rito. Nakaayos ang mga aralin upang matulungan kang matutuhan ang bawat paksa nang sunod-sunod.</p>
+      {prev && <Link to="/lessons/$lessonId" params={{ lessonId: prev.id }} className="mt-6 inline-flex min-h-12 items-center bg-primary px-5 font-sans text-sm font-semibold text-primary-foreground">Bumalik sa naunang aralin</Link>}
+      <div><Link to="/dashboard" className="mt-4 inline-block font-sans text-sm text-primary underline">Tingnan ang lahat ng aralin</Link></div>
+    </article>
+  );
 
   return (
     <article className="lesson-page mx-auto max-w-3xl px-4 py-10 sm:px-6">
@@ -73,7 +116,7 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
         <div className="mt-2 h-1.5 bg-muted" role="progressbar" aria-valuemin={1} aria-valuemax={steps.length} aria-valuenow={step + 1} aria-label="Pag-usad sa aralin"><div className="h-full bg-primary transition-all duration-300" style={{ width: `${((step + 1) / steps.length) * 100}%` }} /></div>
         <ol className="mt-3 grid grid-cols-6 gap-1">
           {steps.map((label, i) => (
-            <li key={label}><button onClick={() => go(i)} aria-current={i === step ? "step" : undefined} aria-label={`Hakbang ${i + 1}: ${label}`} className={`step-dot ${i === step ? "is-current" : i < step ? "is-done" : ""}`}><span>{i + 1}</span><span className="hidden sm:block">{label}</span></button></li>
+            <li key={label}><button onClick={() => go(i)} disabled={i > maxVisitedStep} aria-current={i === step ? "step" : undefined} aria-label={`Hakbang ${i + 1}: ${label}`} className={`step-dot ${i === step ? "is-current" : i < step ? "is-done" : ""} disabled:cursor-not-allowed disabled:opacity-40`}><span>{i + 1}</span><span className="hidden sm:block">{label}</span></button></li>
           ))}
         </ol>
       </div>
@@ -134,16 +177,16 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
 
       <section hidden={step !== 5} className="step-card">
         <H2 n={8}>Maikling Pagtataya</H2>
-        <MiniAssessment questions={lesson.assessment} />
+        <MiniAssessment lessonId={lesson.id} learnerId={learnerId} questions={lesson.assessment} onComplete={setAssessmentComplete} />
         <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 font-sans sm:flex-row">
-          <button onClick={() => toggleLesson(lesson.id)} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90"}`}>
-            {done ? "✓ Tapos na — ibalik bilang hindi tapos" : "Markahan bilang tapos"}
+          <button onClick={() => toggleLesson(lesson.id)} disabled={done || visitedSteps.length !== steps.length || !assessmentComplete} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"}`}>
+            {done ? "✓ Tapos na ang aralin" : visitedSteps.length !== steps.length ? "Tapusin muna ang 6 na hakbang" : !assessmentComplete ? "Sagutan muna ang lahat ng tanong" : "Markahan bilang tapos"}
           </button>
           <Link to="/quiz" search={{ term: lesson.term }} className="inline-flex min-h-12 items-center justify-center border border-primary px-5 text-sm font-semibold text-primary hover:bg-secondary">Sagutan ang pagsusulit ng Termino {lesson.term}</Link>
         </div>
         <div className="mt-8 grid grid-cols-2 gap-3 font-sans text-sm">
           {prev ? <Link to="/lessons/$lessonId" params={{ lessonId: prev.id }} className="border border-border p-3 hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">← Nakaraang aralin</span><span className="block text-ink">{prev.title}</span></Link> : <span />}
-          {next && <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link>}
+          {next && (done ? <Link to="/lessons/$lessonId" params={{ lessonId: next.id }} className="border border-border p-3 text-right hover:border-primary hover:bg-card"><span className="text-xs text-muted-foreground">Susunod na aralin →</span><span className="block text-ink">{next.title}</span></Link> : <span className="border border-border p-3 text-right text-muted-foreground"><span className="block text-xs">Naka-lock muna</span><span className="block text-sm">{next.title}</span></span>)}
         </div>
       </section>
 
@@ -155,9 +198,28 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   );
 }
 
-function MiniAssessment({ questions }: { questions: Question[] }) {
+function MiniAssessment({ lessonId, learnerId, questions, onComplete }: { lessonId: string; learnerId: string; questions: Question[]; onComplete: (complete: boolean) => void }) {
+  const storageKey = `historia-lesson-assessment-v1:${learnerId}:${lessonId}`;
   const [ans, setAns] = useState<(number | null)[]>(() => questions.map(() => null));
+  const [answersReady, setAnswersReady] = useState(false);
+  useEffect(() => {
+    setAns(questions.map(() => null));
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (Array.isArray(saved) && saved.length === questions.length &&
+          saved.every((value, index) => value === null || (Number.isInteger(value) && value >= 0 && value < questions[index]!.choices.length))) {
+        setAns(saved as (number | null)[]);
+      }
+    } catch { /* start with a fresh assessment when saved data is unavailable */ }
+    setAnswersReady(true);
+  }, [storageKey, questions]);
   const answered = ans.every((a) => a !== null);
+  useEffect(() => {
+    if (!answersReady) return;
+    try { localStorage.setItem(storageKey, JSON.stringify(ans)); }
+    catch { /* assessment remains usable when storage is unavailable */ }
+  }, [storageKey, ans, answersReady]);
+  useEffect(() => { onComplete(answered); }, [answered, onComplete]);
   const score = scoreQuiz(ans, questions.map((q) => q.answer));
   return (
     <div className="mt-4 font-sans">
