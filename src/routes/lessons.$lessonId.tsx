@@ -49,9 +49,28 @@ function LessonPage() {
 function LessonStepper({ lesson }: { lesson: Lesson }) {
   const { progress, toggleLesson, visitLesson } = useProgress();
   useEffect(() => { visitLesson(lesson.id); }, [lesson.id]); // eslint-disable-line react-hooks/exhaustive-deps
-  const [step, setStep] = useState(0);
-  const [visitedSteps, setVisitedSteps] = useState<number[]>([0]);
+  const stepStorageKey = `historia-lesson-step-v1:${lesson.id}`;
+  const [step, setStep] = useState(() => {
+    try {
+      const saved = Number(localStorage.getItem(stepStorageKey));
+      return Number.isInteger(saved) && saved >= 0 && saved < steps.length ? saved : 0;
+    } catch { return 0; }
+  });
+  const [visitedSteps, setVisitedSteps] = useState<number[]>(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(`${stepStorageKey}:visited`) || "[0]");
+      return Array.isArray(saved)
+        ? [...new Set([0, ...saved.filter((n): n is number => Number.isInteger(n) && n >= 0 && n < steps.length)])]
+        : [0];
+    } catch { return [0]; }
+  });
   const [assessmentComplete, setAssessmentComplete] = useState(false);
+  useEffect(() => {
+    try {
+      localStorage.setItem(stepStorageKey, String(step));
+      localStorage.setItem(`${stepStorageKey}:visited`, JSON.stringify(visitedSteps));
+    } catch { /* progress remains usable when storage is unavailable */ }
+  }, [stepStorageKey, step, visitedSteps]);
   const topRef = useRef<HTMLDivElement>(null);
   const done = progress.completed.includes(lesson.id);
   const idx = lessons.findIndex((l) => l.id === lesson.id);
@@ -152,7 +171,7 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
 
       <section hidden={step !== 5} className="step-card">
         <H2 n={8}>Maikling Pagtataya</H2>
-        <MiniAssessment questions={lesson.assessment} onComplete={setAssessmentComplete} />
+        <MiniAssessment lessonId={lesson.id} questions={lesson.assessment} onComplete={setAssessmentComplete} />
         <div className="mt-10 flex flex-col gap-3 border-t border-border pt-6 font-sans sm:flex-row">
           <button onClick={() => toggleLesson(lesson.id)} disabled={done || visitedSteps.length !== steps.length || !assessmentComplete} className={`min-h-12 px-5 text-sm font-semibold ${done ? "border border-success text-success" : "bg-primary text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"}`}>
             {done ? "✓ Tapos na ang aralin" : visitedSteps.length !== steps.length ? "Tapusin muna ang 6 na hakbang" : !assessmentComplete ? "Sagutan muna ang lahat ng tanong" : "Markahan bilang tapos"}
@@ -173,9 +192,23 @@ function LessonStepper({ lesson }: { lesson: Lesson }) {
   );
 }
 
-function MiniAssessment({ questions, onComplete }: { questions: Question[]; onComplete: (complete: boolean) => void }) {
-  const [ans, setAns] = useState<(number | null)[]>(() => questions.map(() => null));
+function MiniAssessment({ lessonId, questions, onComplete }: { lessonId: string; questions: Question[]; onComplete: (complete: boolean) => void }) {
+  const storageKey = `historia-lesson-assessment-v1:${lessonId}`;
+  const [ans, setAns] = useState<(number | null)[]>(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+      if (Array.isArray(saved) && saved.length === questions.length &&
+          saved.every((value, index) => value === null || (Number.isInteger(value) && value >= 0 && value < questions[index]!.choices.length))) {
+        return saved as (number | null)[];
+      }
+    } catch { /* start with a fresh assessment when saved data is unavailable */ }
+    return questions.map(() => null);
+  });
   const answered = ans.every((a) => a !== null);
+  useEffect(() => {
+    try { localStorage.setItem(storageKey, JSON.stringify(ans)); }
+    catch { /* assessment remains usable when storage is unavailable */ }
+  }, [storageKey, ans]);
   useEffect(() => { onComplete(answered); }, [answered, onComplete]);
   const score = scoreQuiz(ans, questions.map((q) => q.answer));
   return (
