@@ -1,10 +1,10 @@
 import bulul from '@/assets/artifact-bulul.jpg';
 import urn from '@/assets/artifact-kulaman-urn.jpg';
 import quran from '@/assets/artifact-quran.jpg';
-import { quizzes } from './historia-data';
+import { lessons, quizzes } from './historia-data';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
-export type GameId = 'timeline' | 'who' | 'detective' | 'fact' | 'map' | 'complete' | 'artifact' | 'millionaire';
+export type GameId = 'term1' | 'timeline' | 'who' | 'detective' | 'fact' | 'map' | 'complete' | 'artifact' | 'millionaire';
 export type Question = { prompt: string; choices: string[]; answer: number; explain: string; whyNot?: string; hint?: string; clues?: string[]; accepted?: string[]; image?: string; source?: string };
 export const difficulties: { id: Difficulty; label: string }[] = [{ id: 'easy', label: 'Madali' }, { id: 'medium', label: 'Katamtaman' }, { id: 'hard', label: 'Mahirap' }];
 export const gameCatalog: { id: GameId; title: string; category: string; description: string; instructions: string; icon: string }[] = [
@@ -111,7 +111,7 @@ export function questionsFor(id: GameId, difficulty: Difficulty): Question[] {
 }
 function rawQuestionsFor(id: GameId, difficulty: Difficulty): Question[] {
  const offset = difficulties.findIndex(d=>d.id===difficulty) * 3;
- if (id === 'millionaire') {
+ if (id === 'term1') {\n  const bank = lessons.filter(lesson => lesson.term === 1).flatMap(lesson => lesson.assessment.map(item => ({ prompt: item.q, choices: item.choices, answer: item.answer, explain: item.explain, ...(item.whyNot ? { whyNot: item.whyNot } : {}) })));\n  return bank.slice(offset, offset + 3);\n }\n if (id === 'millionaire') {
   const pool = [...(quizzes[1] ?? []), ...(quizzes[2] ?? []), ...(quizzes[3] ?? [])];
   const start = difficulties.findIndex(d=>d.id===difficulty);
   return Array.from({length: 9}, (_, i) => {
