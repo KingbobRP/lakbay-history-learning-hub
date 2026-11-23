@@ -36,23 +36,23 @@ export function SiteHeader() {
     <header className="site-header sticky top-0 z-40 bg-primary">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-8">
         <Link to="/" aria-label="HISTORIA — Tahanan" onClick={() => setOpen(false)}><Logo /></Link>
-        <nav className="desktop-navigation hidden items-center font-sans text-sm lg:flex" aria-label="Pangunahing nabigasyon">
+        {session && <nav className="desktop-navigation hidden items-center font-sans text-sm lg:flex" aria-label="Pangunahing nabigasyon">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} title={n.label} className="flex items-center gap-1.5 border-b-2 border-transparent !px-2 py-2 text-primary-foreground/75 transition-colors hover:text-primary-foreground" activeProps={{ className: "!border-accent !text-accent" }}><n.icon className="nav-icon-motion h-4 w-4" /><span className="hidden xl:inline">{n.label}</span></Link>
           ))}
-        </nav>
+        </nav>}
         <div className="flex items-center gap-2">
-          <XpBadge />
+          {session && <XpBadge />}
           {session
             ? <Link to="/profile" aria-label="Profile ng mag-aaral" className="hidden lg:flex"><AvatarImg src={avatarSrc(profile?.avatar)} size={40} /></Link>
-            : <Link to="/auth" className="hidden min-h-10 items-center gap-1.5 border border-accent px-3 font-sans text-sm text-accent hover:bg-accent/15 lg:flex"><LogIn className="h-4 w-4" />Mag-log in</Link>}
-          <Button variant="ghost" size="icon" className="h-11 w-11 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground lg:hidden" aria-label={open ? "Isara ang nabigasyon" : "Buksan ang nabigasyon"} aria-expanded={open} onClick={() => setOpen(!open)}>
+            : <div className="flex items-center gap-2"><Link to="/auth" className="min-h-9 flex items-center border border-accent/70 px-2.5 font-sans text-xs text-accent transition-colors hover:bg-accent/15 sm:px-3 sm:text-sm">Log In</Link><Link to="/auth" search={{ mode: "signup" }} className="min-h-9 flex items-center bg-accent px-2.5 font-sans text-xs font-semibold text-primary transition-colors hover:bg-accent/85 sm:px-3 sm:text-sm">Get Started</Link></div>}
+          {session && <Button variant="ghost" size="icon" className="h-11 w-11 border border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground lg:hidden" aria-label={open ? "Isara ang nabigasyon" : "Buksan ang nabigasyon"} aria-expanded={open} onClick={() => setOpen(!open)}>
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          </Button>}
         </div>
       </div>
       <div className="h-px bg-accent/60" />
-      {open && (
+      {session && open && (
         <nav className="bg-primary font-sans lg:hidden" aria-label="Nabigasyon sa telepono">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} onClick={() => setOpen(false)} className="flex items-center gap-3 border-b border-primary-foreground/10 px-6 py-4 text-base text-primary-foreground/85" activeProps={{ className: "!text-accent font-semibold" }}><n.icon className="nav-icon-motion h-5 w-5" />{n.label}</Link>
