@@ -55,7 +55,7 @@ export function SiteHeader() {
       </div>
       <div className="h-px bg-accent/60" />
       {open && (
-        <nav className="bg-primary font-sans lg:hidden" aria-label="Nabigasyon sa telepono">
+        <nav className="max-h-[calc(100dvh-5rem)] overflow-y-auto bg-primary font-sans lg:hidden" aria-label="Nabigasyon sa telepono">
           {nav.map((n) => (
             <Link key={n.to} to={n.to} activeOptions={{ exact: n.to === "/" }} onClick={() => setOpen(false)} className="flex items-center gap-3 border-b border-primary-foreground/10 px-6 py-4 text-base text-primary-foreground/85" activeProps={{ className: "!text-accent font-semibold" }}><n.icon className="nav-icon-motion h-5 w-5" />{n.label}</Link>
           ))}
