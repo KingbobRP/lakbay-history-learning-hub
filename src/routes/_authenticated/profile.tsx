@@ -7,6 +7,7 @@ import { avatarSrc } from "@/lib/avatars";
 import { overallPercent } from "@/lib/progress";
 import { allBadges, formatDate } from "@/lib/achievements";
 import { adventureRewards, totalStars } from "@/lib/adventure";
+import { progressFor, unlockedCosmetics, eraCssVars } from "@/lib/civilization";
 import { AvatarImg } from "@/components/AvatarPicker";
 
 export const Route = createFileRoute("/_authenticated/profile")({
@@ -25,8 +26,8 @@ function ProfilePage() {
   const pct = overallPercent(progress);
   const quizRows = activity.filter((a) => a.kind === "quiz");
   const lessonRows = activity.filter((a) => a.kind === "lesson");
-  const level = Math.floor(rewards.xp / 100) + 1;
-  const xpIntoLevel = rewards.xp % 100;
+  const civilization = progressFor(rewards.xp);
+  const cosmetics = unlockedCosmetics(civilization.level);
   const gameRuns = Object.values(progress.adventure.results).reduce((n, result) => n + Object.keys(result).length, 0);
   const stars = totalStars(progress.adventure);
   const gameRewards = adventureRewards(progress.adventure, progress.completed);
@@ -34,7 +35,7 @@ function ProfilePage() {
   const earnedGameRewards = gameRewards.filter((b) => b.earned);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
+    <div className="civilization-shell mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12" data-era={civilization.era.id} style={eraCssVars(civilization.era)}>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div><p className="eyebrow">Personal na talaan</p><h1 className="mt-2 text-4xl sm:text-5xl">Aking Paglalakbay</h1></div>
         <Button asChild variant="outline" className="min-h-11"><Link to="/settings"><Settings2 className="mr-2 h-4 w-4" /> Ayusin ang profile</Link></Button>
@@ -49,13 +50,13 @@ function ProfilePage() {
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-accent">Mag-aaral ng kasaysayan</p>
             <h2 className="mt-1 text-3xl text-primary-foreground sm:text-4xl">{profile?.full_name || "Mag-aaral"}</h2>
             <p className="mt-2 font-sans text-sm text-primary-foreground/70">{profile?.section || "Walang seksiyon"}{profile?.class_code ? ` · ${profile.class_code}` : ""}</p>
-            <div className="mt-4 flex flex-wrap gap-2"><span className="inline-flex items-center gap-2 border border-accent/50 px-3 py-1.5 font-sans text-sm"><Medal className="h-4 w-4 text-accent" /> Antas {level} · Historyador</span><span className="inline-flex items-center gap-2 border border-primary-foreground/20 px-3 py-1.5 font-sans text-sm"><Star className="h-4 w-4 fill-accent text-accent" /> {rewards.xp.toLocaleString()} EXP</span></div>
+            <div className="mt-4 flex flex-wrap gap-2"><span className="inline-flex items-center gap-2 border border-accent/50 px-3 py-1.5 font-sans text-sm"><Medal className="h-4 w-4 text-accent" /> Antas {civilization.level} · {civilization.era.nameFil}</span><span className="inline-flex items-center gap-2 border border-primary-foreground/20 px-3 py-1.5 font-sans text-sm"><Star className="h-4 w-4 fill-accent text-accent" /> {rewards.xp.toLocaleString()} EXP</span></div>
           </div>
         </div>
         <div className="relative mt-7 border-t border-primary-foreground/15 pt-5">
-          <div className="flex items-center justify-between gap-3 font-sans text-sm"><span className="font-semibold">Pag-unlad sa susunod na antas</span><span className="text-primary-foreground/75 tabular-nums">{xpIntoLevel}/100 EXP</span></div>
-          <div className="mt-2 h-2 overflow-hidden bg-primary-foreground/15" role="progressbar" aria-label="Pag-unlad sa susunod na antas" aria-valuenow={xpIntoLevel} aria-valuemin={0} aria-valuemax={100}><div className="h-full bg-accent transition-all" style={{ width: `${xpIntoLevel}%` }} /></div>
-          <p className="mt-2 font-sans text-xs text-primary-foreground/65">{100 - xpIntoLevel} EXP pa bago ang Antas {level + 1}. Nakabatay ang EXP sa mga gantimpalang naitala sa iyong account.</p>
+          <div className="flex items-center justify-between gap-3 font-sans text-sm"><span className="font-semibold">Pag-unlad sa susunod na antas</span><span className="text-primary-foreground/75 tabular-nums">{civilization.xpIntoLevel}/{civilization.xpToNextLevel === null ? "MAX" : civilization.xpIntoLevel + civilization.xpToNextLevel} EXP</span></div>
+          <div className="mt-2 h-2 overflow-hidden bg-primary-foreground/15" role="progressbar" aria-label="Pag-unlad sa susunod na antas" aria-valuenow={civilization.levelPercent} aria-valuemin={0} aria-valuemax={100}><div className="h-full bg-accent transition-all" style={{ width: `${civilization.levelPercent}%` }} /></div>
+          <p className="mt-2 font-sans text-xs text-primary-foreground/65">{civilization.xpToNextLevel === null ? "Naabot mo na ang pinakamataas na antas." : `${civilization.xpToNextLevel} EXP pa bago ang Antas ${civilization.level + 1}.`} {civilization.nextEra ? `${civilization.xpToNextEra} EXP pa bago ang ${civilization.nextEra.nameFil}.` : ""} Nakabatay ang EXP sa mga gantimpalang naitala sa iyong account.</p>
         </div>
       </section>
 
@@ -98,6 +99,12 @@ function ProfilePage() {
             {gameRewards.map((b) => <li key={b.id} className={`flex items-start gap-3 ${b.earned ? "" : "opacity-55"}`}>{b.earned ? <Trophy className="mt-0.5 h-5 w-5 shrink-0 text-accent" /> : <Lock className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />}<span><span className="block font-sans text-sm font-semibold">{b.title}</span><span className="block text-xs text-muted-foreground">{b.desc}</span></span></li>)}
           </ul>
         </div>
+      </section>
+
+      <section className="mt-9 border border-border bg-card p-5 sm:p-6">
+        <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="eyebrow">Mga gantimpalang kosmetiko</p><h2 className="mt-1 text-2xl">Mga nabuksang palamuti</h2></div><span className="font-sans text-sm text-muted-foreground">{cosmetics.length}/36 nabuksan</span></div>
+        <p className="mt-2 text-sm text-muted-foreground">Nabubuksan ang mga balangkas, titulo, at likuran habang tumataas ang antas. Read-only muna ang koleksiyong ito; ihahanda ang pag-equip kapag nailapat na ang ligtas na database migration.</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{cosmetics.map((item) => <div key={item.id} className="border border-border p-3"><span className="font-sans text-[0.68rem] uppercase tracking-wider text-gold-deep">{item.kind === "frame" ? "Balangkas" : item.kind === "background" ? "Likuran" : "Titulo"} · Antas {item.unlockLevel}</span><p className="mt-1 font-semibold">{item.name}</p><p className="text-xs text-muted-foreground">{civilization.era.id === item.eraId ? "Kaugnay ng kasalukuyang panahon" : "Nabuksang gantimpala"}</p></div>)}</div>
       </section>
 
       <div className="mt-9 grid gap-6 lg:grid-cols-2">
