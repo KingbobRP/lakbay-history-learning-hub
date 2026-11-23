@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import redesignCss from "../historia-redesign.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter } from "../components/SiteHeader";
 import { StudentProvider } from "../lib/student";
@@ -21,7 +22,9 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Hindi mahanap ang pahina</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">
+          Hindi mahanap ang pahina
+        </h2>
         <p className="mt-2 text-sm text-muted-foreground">
           Ang pahinang hinahanap mo ay wala o inilipat na.
         </p>
@@ -94,6 +97,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      {
+        rel: "stylesheet",
+        href: redesignCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
