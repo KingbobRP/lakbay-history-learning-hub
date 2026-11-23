@@ -47,7 +47,10 @@ function Landing() {
             <h1 className="hx-title">HISTORIA</h1>
             <p className="hx-subtitle">Tuklasin ang Nakaraan.<br />Hubugin ang Kinabukasan.</p>
             <div className="hx-divider" aria-hidden><span />◆<span /></div>
-            <p className="hx-competency">PAG-AARAL NG KASAYSAYAN AT LIPUNANG PILIPINO</p>
+            <div className="hx-competency">
+              <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-[0.16em] text-accent">Pangunahing Kasanayan</p>
+              <p>Nasusuri ang mga pangunahing yugto, pamana, at pagbabago sa kasaysayan at lipunang Pilipino mula sa sinaunang pamayanan hanggang sa kontemporaryong panahon upang mahubog ang mapanuring kamalayang pangkasaysayan.</p>
+            </div>
             <p className="hx-intro">Bawat kuwento ay may aral. Bawat Pilipino ay may bahagi sa kasaysayan. Simulan ang paglalakbay tungo sa mas malalim na pag-unawa sa ating bayan.</p>
             <div className="hx-actions">
               <Button asChild size="lg" className="hx-cta"><Link to="/auth" search={{ mode: "signup" }}>Magsimula <ArrowRight /></Link></Button>
