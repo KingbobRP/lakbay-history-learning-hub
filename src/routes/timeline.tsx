@@ -18,6 +18,16 @@ export const Route = createFileRoute("/timeline")({
   component: Timeline,
 });
 
+const categories = [
+  { id: "all", label: "Lahat ng kategorya" },
+  { id: "arkeolohiya", label: "Arkeolohiya" },
+  { id: "kultura", label: "Kultura at kabuhayan" },
+  { id: "paglaban", label: "Paglaban at pag-aalsa" },
+  { id: "kalayaan", label: "Kalayaan at republika" },
+  { id: "pamamahala", label: "Pamamahala at karapatan" },
+  { id: "kaunlaran", label: "Kaunlaran" },
+] as const;
+
 const periods = [
   { id: "all", label: "Lahat ng panahon" },
   { id: "sinauna", label: "Sinaunang Pilipinas" },
@@ -41,16 +51,27 @@ function periodFor(year: string) {
   return "makabago";
 }
 
+function categoryFor(title: string) {
+  if (title.includes("Callao") || title.includes("Manunggul")) return "arkeolohiya";
+  if (title.includes("palayan")) return "kultura";
+  if (title.includes("Mactan") || title.includes("Dagohoy") || title.includes("GomBurZa")) return "paglaban";
+  if (title.includes("Katipunan") || title.includes("Kalayaan") || title.includes("Republika")) return "kalayaan";
+  if (title.includes("Batas Militar") || title.includes("EDSA") || title.includes("Saligang Batas") || title.includes("kabisera")) return "pamamahala";
+  return "kaunlaran";
+}
+
 function Timeline() {
   const [period, setPeriod] = useState<(typeof periods)[number]["id"]>("all");
+  const [category, setCategory] = useState<(typeof categories)[number]["id"]>("all");
   const [query, setQuery] = useState("");
   const events = useMemo(() => {
     return [...timeline]
       .sort((a, b) => yearValue(a.year) - yearValue(b.year))
-      .map((event) => ({ ...event, period: periodFor(event.year) }))
+      .map((event) => ({ ...event, period: periodFor(event.year), category: categoryFor(event.title) }))
       .filter((event) => period === "all" || event.period === period)
+      .filter((event) => category === "all" || event.category === category)
       .filter((event) => !query.trim() || `${event.year} ${event.title} ${event.text}`.toLocaleLowerCase("fil").includes(query.trim().toLocaleLowerCase("fil")));
-  }, [period, query]);
+  }, [period, category, query]);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
@@ -72,6 +93,13 @@ function Timeline() {
             </button>
           ))}
         </div>
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-2" aria-label="Salain ayon sa kategorya">
+          {categories.map((item) => (
+            <button key={item.id} type="button" onClick={() => setCategory(item.id)} aria-pressed={category === item.id} className={`min-h-10 shrink-0 border px-3 font-sans text-xs transition-colors ${category === item.id ? "border-accent bg-secondary text-primary" : "border-border bg-card text-foreground hover:bg-secondary"}`}>
+              {item.label}
+            </button>
+          ))}
+        </div>
       </header>
 
       {events.length ? (
@@ -87,7 +115,7 @@ function Timeline() {
                     </figure>
                   )}
                   <div className="p-5 sm:p-6">
-                    <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-gold-deep">{periods.find((p) => p.id === event.period)?.label}</p>
+                    <p className="font-sans text-xs font-semibold uppercase tracking-[0.16em] text-gold-deep">{categories.find((c) => c.id === event.category)?.label} · {periods.find((p) => p.id === event.period)?.label}</p>
                     <p className="mt-2 font-display text-2xl text-primary">{event.year}</p>
                     <h2 className="mt-1 text-2xl text-ink">{event.title}</h2>
                     <p className="mt-3 leading-relaxed text-muted-foreground">{event.text}</p>
@@ -107,7 +135,7 @@ function Timeline() {
           <Search className="mx-auto h-8 w-8 text-muted-foreground" />
           <h2 className="mt-3 text-xl">Walang nahanap na pangyayari</h2>
           <p className="mt-2 text-sm text-muted-foreground">Subukan ang ibang salita o piliin ang lahat ng panahon.</p>
-          <button type="button" onClick={() => { setQuery(""); setPeriod("all"); }} className="mt-4 min-h-11 bg-primary px-5 font-sans text-sm font-semibold text-primary-foreground">I-reset ang paghahanap</button>
+          <button type="button" onClick={() => { setQuery(""); setPeriod("all"); setCategory("all"); }} className="mt-4 min-h-11 bg-primary px-5 font-sans text-sm font-semibold text-primary-foreground">I-reset ang paghahanap</button>
         </div>
       )}
     </div>
